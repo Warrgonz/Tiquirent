@@ -1,0 +1,11 @@
+# Ignorar directorios de compilación de Python
+__pycache__/
+*/__pycache__/
+
+# Ignorar entornos virtuales
+env/
+venv/
+.env
+
+# Migraciones
+/migrations
