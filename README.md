@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://root-projects.s3.us-east-1.amazonaws.com/Tiquirent.png" width="500" alt="Tiquirent" />
+  <img src="https://root-projects.s3.us-east-1.amazonaws.com/Tiquirentlogo-01.png" width="500" alt="Tiquirent" />
 </p>
 
 Description will be added soon...
