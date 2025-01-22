@@ -3,16 +3,20 @@
 from flask import Flask
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-from config.sqlserver import db
+from config.database import db
 from dotenv import load_dotenv
 from sqlalchemy import text 
 import os
 from app.api import init_app as init_blueprints
 from app.utils.error_handlers import register_error_handlers
+from app.utils.db_monitor import DBMonitor
 
 load_dotenv()
 
 def create_app():
+
+    if not DBMonitor.check_aws_credentials():
+        print("AWS credentials not found or invalid")
 
     # Inicializar Sentry antes de crear la app
     try:
@@ -37,7 +41,8 @@ def create_app():
 
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-    db.init_app(app)
+    
+    app = db.init_app(app)
 
     init_blueprints(app)
 
