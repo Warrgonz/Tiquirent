@@ -1,76 +1,33 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base
-import os
+from flask_sqlalchemy import SQLAlchemy
 from app.services.aws_service import AWSService
+import os
 
-Base = declarative_base()
+db = SQLAlchemy()
 
-class DatabaseConnection:
-    _instance = None
-    
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(DatabaseConnection, cls).__new__(cls)
-            cls._instance._initialized = False
-        return cls._instance
+def init_db(app):
+    try:
+        # Get credentials from AWS Secrets Manager
+        db_credentials = AWSService.get_secret()
+        
+        # Build connection string
+        DATABASE_URL = (
+            f"mysql+pymysql://{db_credentials.get('username')}:{db_credentials.get('password')}"
+            f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT', 3306)}/{os.getenv('DB_NAME')}"
+        )
 
-    def __init__(self):
-        if self._initialized:
-            return
-            
-        self._initialized = True
-        self.engine = None
-        self.session = None
+        # Configure SQLAlchemy
+        app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        app.config['SQLALCHEMY_POOL_SIZE'] = int(os.getenv('SQLALCHEMY_POOL_SIZE', 10))
+        app.config['SQLALCHEMY_MAX_OVERFLOW'] = int(os.getenv('SQLALCHEMY_MAX_OVERFLOW', 20))
+        
+        # Initialize database
+        db.init_app(app)
 
-    def init_app(self, app):
-        try:
-            # Get credentials from AWS Secrets Manager
-            db_credentials = AWSService.get_secret()
-            
-            # Combine AWS secrets with environment variables
-            db_config = {
-                'username': db_credentials.get('username'),
-                'password': db_credentials.get('password'),
-                'host': os.getenv('DB_HOST'),
-                'port': os.getenv('DB_PORT', 3306),
-                'dbname': os.getenv('DB_NAME')
-            }
+        # Create tables
+        with app.app_context():
+            db.create_all()
 
-            # Build connection string
-            DATABASE_URL = (
-                f"mysql+pymysql://{db_config['username']}:{db_config['password']}"
-                f"@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
-            )
-
-            # Create engine
-            self.engine = create_engine(
-                DATABASE_URL,
-                pool_size=int(os.getenv('SQLALCHEMY_POOL_SIZE', 10)),
-                max_overflow=int(os.getenv('SQLALCHEMY_MAX_OVERFLOW', 20)),
-                pool_timeout=int(os.getenv('SQLALCHEMY_POOL_TIMEOUT', 30)),
-                pool_recycle=int(os.getenv('SQLALCHEMY_POOL_RECYCLE', 1800))
-            )
-
-            # Create session factory
-            session_factory = sessionmaker(bind=self.engine)
-            self.session = scoped_session(session_factory)
-
-            # Crear tablas
-            with app.app_context():
-                Base.metadata.create_all(bind=self.engine)
-                print("✅ Database initialized successfully!")
-
-            return app
-
-        except Exception as e:
-            print(f"❌ Error initializing database: {str(e)}")
-            raise
-
-    def get_session(self):
-        """Obtener una sesión de base de datos"""
-        if not self.session:
-            raise RuntimeError("Database not initialized")
-        return self.session
-
-# Crear instancia que será importada
-db = DatabaseConnection()
+    except Exception as e:
+        print(f"❌ Error initializing database: {str(e)}")
+        raise
