@@ -1,16 +1,18 @@
-# __init__.py
-
+from app.models.users import Users
+from app.models.roles import Role
 from flask import Flask
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from config.database import db, init_db
 from dotenv import load_dotenv
-from sqlalchemy import text, inspect
 import os
 from app.api import init_app as init_blueprints
-from app.utils.error_handlers import register_error_handlers
+from app.utils.errors.error_handlers import register_error_handlers
 from app.utils.db_monitor import DBMonitor
-from app.models.users import Users  # Importar el modelo Users
+from flask_migrate import Migrate  
+from flask_seeder import FlaskSeeder
+from database.seeds.roles_seeder import RolesSeeder
+from app.utils.prompts import init_prompts  # Importa la función init_prompts
 
 load_dotenv()
 
@@ -32,7 +34,7 @@ def create_app():
             integrations=[FlaskIntegration()],
             traces_sample_rate=1.0,
             environment=os.getenv('FLASK_ENV', 'development'),
-            debug=True  # Para ver más información de debug
+            debug=False
         )
         print("Sentry configurado exitosamente")
         
@@ -41,54 +43,23 @@ def create_app():
 
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-    
+
     # Inicializar DB con Flask-SQLAlchemy
     init_db(app)
+
+    # Inicializar Flask-Migrate
+    Migrate(app, db, directory="./database/migrations") 
 
     # Registrar blueprints y error handlers
     init_blueprints(app)
     register_error_handlers(app)
 
-    @app.cli.command("test-db")
-    def test_db():
-        """Probar la conexión a la base de datos"""
-        try:
-            # Usando Flask-SQLAlchemy
-            result = db.session.execute(text("SELECT @@VERSION")).scalar()
-            print("✅ Conexión exitosa!")
-            print(f"Versión de SQL Server: {result}")
-        except Exception as e:
-            print("❌ Error de conexión!")
-            print(f"Error: {str(e)}")
-        finally:
-            db.session.close()
+    # Inicializar Flask-Seeder
+    seeder = FlaskSeeder()
+    seeder.init_app(app, db)
 
-    @app.cli.command("show-tables")
-    def show_tables():
-        """Mostrar todas las tablas en la base de datos"""
-        try:
-            inspector = inspect(db.engine)
-            tables = inspector.get_table_names()
-            
-            if tables:
-                print("\nTablas en la base de datos:")
-                for table in tables:
-                    print(f"\n📋 Tabla: {table}")
-                    columns = inspector.get_columns(table)
-                    for column in columns:
-                        print(f"  ├── {column['name']}")
-                        print(f"  │   └── Tipo: {column['type']}")
-            else:
-                print("\n⚠️ No se encontraron tablas en la base de datos.")
-                
-        except Exception as e:
-            print(f"\n❌ Error: {str(e)}")
-
-    @app.cli.command("list-models")
-    def list_models():
-        """Listar todos los modelos registrados en SQLAlchemy"""
-        print("\nModelos registrados en SQLAlchemy:")
-        for model in db.Model.__subclasses__():
-            print(f"- {model.__name__}")
+    # Aquí se inicializan los comandos CLI dentro del contexto de la aplicación
+    with app.app_context():  # Abrir contexto de la app
+        init_prompts()  # Llamar a esta función para registrar los comandos
 
     return app
