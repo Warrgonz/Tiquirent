@@ -23,5 +23,3 @@ class Users(db.Model):
 
     # Relación: Usar back_populates para sincronización bidireccional
     role = db.relationship("Role", back_populates="users", lazy=True)
-
-    
