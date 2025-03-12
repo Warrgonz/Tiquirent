@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --font-family: "Montserrat", sans-serif;
+  --font-optical-sizing: auto;
+  --line-height: 1.5;
+  color-scheme: light dark;
+
+  /*background-color: #242424;*/
+
+  font-synthesis: none;
+  --text-rendering: optimizeLegibility;
+  --webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  font-optical-sizing: var(--font-optical-sizing);
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  text-rendering: var(--text-rendering);
+  -webkit-font-smoothing: var(--webkit-font-smoothing);
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  font-size: 18px;
+  font-family: var(--font-family);
+}
+
+/* == Sticky Navbar == */
+
+.navbar {
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar.fixed-top {
+  transform: translateY(0);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+
+.navbar-nav li {
+  margin: 10px;
+  font-size: 18px;
+}
+
+/* == Estilos para botones == */
+
+.btn-default {
+  background-color: #008d84;
+  border-radius: 10px;
+  padding: 5px;
+  color: white;
+  font-weight: bolder;
+}
+
+/* == Media Queries == */
+
+/* == Media Queries Mejoradas == */
+
+/* 📱 Móviles pequeños (320px - 480px) */
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    padding: 5px;
+  }
+
+  .navbar-toggler {
+    order: -1;
+  }
+
+  .navbar-brand {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .navbar-nav {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
+  /* Centrar botón en el menú */
+  .navbar-nav .nav-item .btn {
+    width: 80%;
+    max-width: 250px;
+  }
+
+  /* Espaciado entre el idioma y el logo */
+  .language-dropdown {
+    margin-right: auto;
+  }
+}
+
+/* 📱 Móviles estándar (481px - 768px) */
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .navbar-nav {
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
+  /* Centrar botón dentro del menú */
+  .navbar-nav .nav-item .btn {
+    width: 80%;
+    max-width: 250px;
+  }
+
+  .language-dropdown {
+    margin-right: auto;
+  }
+}
+
+/* 📲 Tablets (769px - 1024px) */
+@media screen and (max-width: 1024px) {
+  .container {
+    max-width: 90%;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
