@@ -9,8 +9,11 @@ import {
 } from "lucide-react";
 
 import { Images } from "../../constants/Images";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-dark text-white py-5">
       <div className="container">
@@ -21,10 +24,7 @@ export default function Footer() {
               <img src={Images.FAVICON} width={200} alt="Tiquirent logo" />
             </div>
             <p className="text-white-50">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae
-              atque a vel cumque aliquam hic magni, eos reprehenderit voluptatum
-              assumenda dignissimos nostrum perspiciatis ab ullam doloremque,
-              ducimus, et cum accusamus.
+            {t("footer.description")}
             </p>
             <div className="d-flex mt-4 gap-2">
               <a href="#" className="me-3">
@@ -68,26 +68,26 @@ export default function Footer() {
 
           {/* Information */}
           <div className="col-md-4">
-            <h5 className="mb-4 text-white">Information</h5>
+            <h5 className="mb-4 text-white">{t("footer.information")}</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
-                <a href="#" className="text-decoration-none text-white-50">
-                  Inicio
+                <a href="/" className="text-decoration-none text-white-50">
+                {t("navbar.home")}
                 </a>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-decoration-none text-white-50">
-                  Servicios
+                <a href="/services" className="text-decoration-none text-white-50">
+                {t("navbar.services")}
                 </a>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-decoration-none text-white-50">
-                  Mis reservas
+                <a href="/reservations" className="text-decoration-none text-white-50">
+                {t("navbar.reservations")}
                 </a>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-decoration-none text-white-50">
-                  Contáctanos
+                <a href="/contact" className="text-decoration-none text-white-50">
+                {t("navbar.contact")}
                 </a>
               </li>
             </ul>
@@ -95,7 +95,7 @@ export default function Footer() {
 
           {/* Contact Information */}
           <div className="col-md-4">
-            <h5 className="mb-4 text-white">Have a Questions?</h5>
+            <h5 className="mb-4 text-white">{t("footer.questions")}</h5>
             <ul className="list-unstyled">
               <li className="d-flex mb-3">
                 <MapPin
@@ -103,16 +103,16 @@ export default function Footer() {
                   size={20}
                 />
                 <span className="text-white-50">
-                  XQXW+739, San José, Aeropuerto
+                {t("footer.address")}
                 </span>
               </li>
               <li className="d-flex mb-3">
                 <Phone className="me-3 flex-shrink-0 text-white-50" size={20} />
-                <span className="text-white-50">+506 72924188</span>
+                <span className="text-white-50">{t("footer.phone")}</span>
               </li>
               <li className="d-flex mb-3">
                 <Mail className="me-3 flex-shrink-0 text-white-50" size={20} />
-                <span className="text-white-50">Warren0419@outoook.com</span>
+                <span className="text-white-50">{t("footer.email")}</span>
               </li>
             </ul>
           </div>
@@ -122,10 +122,9 @@ export default function Footer() {
         <div className="row mt-4 mt-md-5 pt-4 border-top border-secondary">
           <div className="col-12 text-center">
             <p className="small text-white-50">
-              Copyright ©{new Date().getFullYear()} Derechos reservados | Sitio
-              hecho con el{" "}
+            {t("footer.copyright", { year: new Date().getFullYear() })}{" "}
               <Heart size={14} className="text-danger" fill="currentColor" /> by
-              Grupo #8
+              
             </p>
           </div>
         </div>

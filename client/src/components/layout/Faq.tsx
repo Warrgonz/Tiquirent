@@ -1,29 +1,31 @@
 import { useState } from "react";
 import AccordionItem from "../common/AccordionItem";
+import { useTranslation } from "react-i18next";
 
 export const Faq = () => {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const items = [
     {
-      title: "Question #1",
-      description: "This is the first item's accordion body.",
+      title: t("faq.questions.q1"),
+      description: t("faq.answers.a1"),
     },
     {
-      title: "Question #2",
-      description: "This is the second item's accordion body.",
+      title: t("faq.questions.q2"),
+      description: t("faq.answers.a2"),
     },
     {
-      title: "Question #3",
-      description: "This is the third item's accordion body.",
+      title: t("faq.questions.q3"),
+      description: t("faq.answers.a3"),
     },
     {
-      title: "Question #4",
-      description: "This is the fourth item's accordion body.",
+      title: t("faq.questions.q4"),
+      description: t("faq.answers.a4"),
     },
     {
-      title: "Question #5",
-      description: "This is the fifth item's accordion body.",
+      title: t("faq.questions.q5"),
+      description: t("faq.answers.a5"),
     },
   ];
 
@@ -34,8 +36,8 @@ export const Faq = () => {
   return (
     <section className="container pt-5 pb-5">
       <div>
-        <h2>Frequently Asked Questions</h2>
-        <p>Aquí puedes encontrar respuestas a las preguntas más comunes.</p>
+        <h2>{t("faq.title")}</h2>
+        <p>{t("faq.description")}</p>
       </div>
       <div className="accordion w-100">
         {items.map((item, index) => (

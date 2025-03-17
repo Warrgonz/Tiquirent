@@ -11,20 +11,20 @@ export const BookMenu = () => {
           {/* Left Side - Booking Form */}
           <div className="col-md-6 col-lg-4 bg-primary text-white p-4">
             <div className="py-3">
-              <h2 className="mb-4">Make your trip</h2>
+              <h2 className="mb-4">{t("bookMenu.title")}</h2>
 
               <div className="mb-3">
                 <label
                   htmlFor="pickupLocation"
                   className="form-label text-uppercase fw-bold small"
                 >
-                  Pick-up location
+                {t("bookMenu.pickupLocation")}
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   id="pickupLocation"
-                  placeholder="City, Airport, Station, etc."
+                  placeholder={t("bookMenu.pickupPlaceholder")}
                 />
               </div>
 
@@ -33,13 +33,13 @@ export const BookMenu = () => {
                   htmlFor="dropoffLocation"
                   className="form-label text-uppercase fw-bold small"
                 >
-                  Drop-off location
+                  {t("bookMenu.dropoffLocation")}
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   id="dropoffLocation"
-                  placeholder="City, Airport, Station, etc."
+                  placeholder={t("bookMenu.dropoffPlaceholder")}
                 />
               </div>
 
@@ -49,7 +49,7 @@ export const BookMenu = () => {
                     htmlFor="pickupDate"
                     className="form-label text-uppercase fw-bold small"
                   >
-                    Pick-up date
+                    {t("bookMenu.pickupDate")}
                   </label>
                   <input type="date" className="form-control" id="pickupDate" />
                 </div>
@@ -58,7 +58,7 @@ export const BookMenu = () => {
                     htmlFor="dropoffDate"
                     className="form-label text-uppercase fw-bold small"
                   >
-                    Drop-off date
+                    {t("bookMenu.dropoffDate")}
                   </label>
                   <input
                     type="date"
@@ -69,7 +69,7 @@ export const BookMenu = () => {
               </div>
 
               <button className="btn btn-success w-100 py-3">
-                Rent A Car Now
+              {t("bookMenu.rentNow")}
               </button>
             </div>
           </div>
@@ -78,7 +78,7 @@ export const BookMenu = () => {
           <div className="col-md-6 col-lg-8 p-5">
             <div className="container py-4">
               <h1 className="text-center mb-5">
-                Better Way to Rent Your Perfect Cars
+              {t("bookMenu.title")}
               </h1>
 
               <div className="row text-center g-4 mb-5">
@@ -88,7 +88,7 @@ export const BookMenu = () => {
                       <MapPin size={32} className="text-primary" />
                     </div>
                   </div>
-                  <h5>Choose Your Pickup Location</h5>
+                  <h5>{t("bookMenu.pickupStep")}</h5>
                 </div>
 
                 <div className="col-md-4">
@@ -112,7 +112,7 @@ export const BookMenu = () => {
                       </svg>
                     </div>
                   </div>
-                  <h5>Select the Best Deal</h5>
+                  <h5>{t("bookMenu.selectStep")}</h5>
                 </div>
 
                 <div className="col-md-4">
@@ -121,13 +121,13 @@ export const BookMenu = () => {
                       <Car size={32} className="text-primary" />
                     </div>
                   </div>
-                  <h5>Reserve Your Rental Car</h5>
+                  <h5>{t("bookMenu.reserveStep")}</h5>
                 </div>
               </div>
 
               <div className="text-center">
                 <button className="btn btn-primary px-5 py-3">
-                  Reserve Your Perfect Car
+                {t("bookMenu.reserveButton")}
                 </button>
               </div>
             </div>
