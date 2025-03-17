@@ -15,6 +15,12 @@ const resources = {
       header: {
         freeCall: "doll free",
       },
+      hero: {
+        threatment: "Car Rent Service In Costa Rica",
+        extraText:
+          "Discover the best car rental experience with a modern fleet, affordable prices, and exceptional customer service.",
+        moreInfo: "Know More",
+      },
     },
   },
   "es-ES": {
@@ -29,6 +35,12 @@ const resources = {
       },
       header: {
         freeCall: "llama gratis",
+      },
+      hero: {
+        threatment: "Servicio de Alquiler de Autos en Costa Rica",
+        extraText:
+          "Descubre la mejor experiencia en alquiler de autos con una flota moderna, precios accesibles y un servicio al cliente excepcional.",
+        moreInfo: "Conoce más",
       },
     },
   },

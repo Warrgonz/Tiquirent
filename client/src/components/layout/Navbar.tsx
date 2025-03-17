@@ -50,27 +50,22 @@ export const Navbar = () => {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/">
                   {t("navbar.home")}
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  {t("navbar.about")}
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/services">
                   {t("navbar.services")}
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/reservations">
                   {t("navbar.reservations")}
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/contact">
                   {t("navbar.contact")}
                 </a>
               </li>
@@ -84,7 +79,9 @@ export const Navbar = () => {
 
           {/* Botón a la derecha en pantallas grandes */}
           <div className="d-none d-lg-block">
-            <Button label={t("navbar.book")} size="large" />
+            <a href="/book">
+              <Button label={t("navbar.book")} size="large" />
+            </a>
           </div>
         </div>
       </nav>

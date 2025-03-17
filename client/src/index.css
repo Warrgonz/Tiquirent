@@ -8,6 +8,7 @@
 
   /*background-color: #242424;*/
 
+  --primary-color: #008d84;
   font-synthesis: none;
   --text-rendering: optimizeLegibility;
   --webkit-font-smoothing: antialiased;
@@ -64,11 +65,81 @@ ul li a {
   padding: 5px;
   color: white;
   font-weight: bolder;
+  border-color: transparent;
 }
 
-/* == Media Queries == */
+/* == Hero == */
 
-/* == Media Queries Mejoradas == */
+.hero-image {
+  height: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.hero-text {
+  text-align: left; /* Alinea el texto a la izquierda */
+  position: absolute;
+  top: 50%;
+  left: 10%; /* Ajusta según tu preferencia */
+  transform: translateY(-50%); /* Solo centra verticalmente */
+  color: white;
+  max-width: 40%; /* Para evitar que el texto se extienda demasiado */
+}
+
+.hero-text h1 {
+  font-weight: 900;
+  font-size: 70px;
+}
+
+.hero-text p {
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.hero-text span {
+  color: var(--primary-color);
+  font-weight: bolder;
+}
+
+/*= Book Menu positioning = */
+
+.book-overlay {
+  position: absolute;
+  /* Mover hacia arriba (ajusta según necesites) */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/*= CTA Tour=*/
+
+.tour-text h2 {
+  font-size: 60px;
+  color: #20a358;
+  background-color: white;
+  width: 30%;
+  margin: 0 auto;
+  font-weight: 900;
+  border-radius: 20px;
+}
+
+.tour-text p {
+  width: 50%;
+  margin: 0 auto;
+  font-size: 25px;
+  color: white;
+}
+
+/*= HERO CTA TITLE = */
+
+.hero-title {
+  font-size: 200px !important;
+  color: white;
+}
+/* == Media Queries  == */
 
 /* 📱 Móviles pequeños (320px - 480px) */
 @media screen and (max-width: 480px) {
@@ -101,15 +172,58 @@ ul li a {
     width: 100%;
   }
 
-  /* Centrar botón en el menú */
   .navbar-nav .nav-item .btn {
     width: 80%;
     max-width: 250px;
   }
 
-  /* Espaciado entre el idioma y el logo */
   .language-dropdown {
     margin-right: auto;
+  }
+
+  /* 🎯 Ajustes específicos del Hero para móviles */
+  .hero-text {
+    text-align: center; /* Centramos el texto en móviles */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%; /* Ajuste para mejorar legibilidad */
+  }
+
+  .hero-text h1 {
+    font-size: 24px;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+  }
+
+  .hero-text button {
+    margin: 9px;
+  }
+
+  .book-overlay {
+    position: relative;
+    left: auto;
+    transform: none;
+    box-shadow: none;
+    width: 100% !important;
+  }
+
+  .rentUs {
+    padding-top: 0px !important;
+  }
+  .tour-text h2 {
+    font-size: 40px;
+    padding: 10px;
+    margin: 40px;
+  }
+
+  .tour-text p {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 25px;
+    color: white;
   }
 }
 
@@ -129,7 +243,6 @@ ul li a {
     width: 100%;
   }
 
-  /* Centrar botón dentro del menú */
   .navbar-nav .nav-item .btn {
     width: 80%;
     max-width: 250px;
@@ -137,6 +250,29 @@ ul li a {
 
   .language-dropdown {
     margin-right: auto;
+  }
+
+  /* Ajustes del Hero */
+  .hero-image {
+    background-position: 75% center;
+  }
+
+  .hero-text {
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+  }
+  .book-overlay {
+    position: relative;
+    left: auto;
+    transform: none;
+    box-shadow: none;
+    width: 100% !important;
+  }
+
+  .rentUs {
+    padding-top: 0px !important;
   }
 }
 
@@ -148,5 +284,53 @@ ul li a {
 
   .sidebar {
     display: none;
+  }
+
+  /* Ajustes específicos del Hero */
+  .hero-image {
+    background-position: 80% center; /* Mueve la imagen más hacia la derecha */
+  }
+
+  .hero-text {
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 40px;
+    color: black;
+  }
+
+  .hero-text p {
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+  }
+  .book-overlay {
+    position: relative;
+    left: auto;
+    transform: none;
+    box-shadow: none;
+    width: 100% !important;
+  }
+
+  .rentUs {
+    padding-top: 100px !important;
+  }
+
+  .tour-text h2 {
+    width: 80%;
+    margin: 40px;
+    margin: 0 auto;
+  }
+
+  .tour-text p {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 25px;
+    color: white;
   }
 }
