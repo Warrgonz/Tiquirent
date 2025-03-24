@@ -11,18 +11,22 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "date-fns": "^4.1.0",
     "i18next": "^24.2.2",
     "lucide-react": "^0.482.0",
     "react": "^19.0.0",
     "react-country-flag": "^3.1.0",
+    "react-date-range": "^2.0.1",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",
     "react-router-dom": "^7.3.0",
+    "react-spinners": "^0.15.0",
     "react-world-flags": "^1.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
+    "@types/react-date-range": "^1.4.10",
     "@types/react-dom": "^19.0.4",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-world-flags": "^1.6.0",

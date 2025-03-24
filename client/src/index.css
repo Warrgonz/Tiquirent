@@ -135,9 +135,71 @@ ul li a {
 
 /*= HERO CTA TITLE = */
 
-.hero-title {
-  font-size: 200px !important;
+.hero-title h2 {
+  font-size: 70px;
+  font-weight: 900;
   color: white;
+}
+
+/* = SERVICES =*/
+
+.services-brand {
+  font-weight: 900;
+}
+
+.bg-blue {
+  background-color: #0d6efd;
+}
+
+.count-text h1 {
+  font-size: 55px;
+  font-weight: bolder;
+}
+
+.count-text p {
+  font-size: 20px;
+}
+
+/* = Step by step de reserva = */
+
+.step-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.step-circle span {
+  margin-top: 5px;
+}
+
+.step-circle.active {
+  color: white;
+  background: blue;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-circle.completed {
+  color: white;
+  background: green;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.required {
+  color: red;
 }
 /* == Media Queries  == */
 
