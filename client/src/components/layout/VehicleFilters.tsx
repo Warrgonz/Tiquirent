@@ -1,10 +1,12 @@
 import { useVehicleFilters } from "../../hooks/useVehicleFilters";
 import { VehicleFiltersProps, VehicleFiltersState } from "../../interface";
+import { useTranslation } from "react-i18next"; 
 
 const VehicleFilters: React.FC<VehicleFiltersProps> = ({
   categories,
   onFilterChange,
 }) => {
+  const { t } = useTranslation();
   const { selectedFilters, handleCheckboxChange, isOptionSelected } =
     useVehicleFilters(
       categories.reduce((acc, category) => {
@@ -20,7 +22,7 @@ const VehicleFilters: React.FC<VehicleFiltersProps> = ({
           className="card-title mb-2"
           style={{ color: "#000", fontWeight: "bold" }}
         >
-          Filtrar vehículos por:
+          {t("vehicleFilters.filterby")}
         </h5>
         <hr
           className="mt-2 mb-4"

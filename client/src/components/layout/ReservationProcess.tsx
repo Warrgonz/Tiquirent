@@ -1,4 +1,5 @@
 import { JSX, useState } from "react";
+import { useTranslation } from "react-i18next"; 
 import ReservationSteps from "../../components/layout/ReservationSteps";
 import {
   StepOne,
@@ -10,15 +11,16 @@ import {
 } from "../../constants/ReservationViews";
 
 const ReservationProcess = () => {
+  const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
 
   const steps = [
-    { title: "Pickup" },
-    { title: "Tus Datos" },
-    { title: "Select Vehicle" },
-    { title: "Review & Book" },
-    { title: "Check Email" },
-    { title: "Confirmation" },
+    { title: t("reservationProcess.pickup") }, // Título del paso 1
+    { title: t("reservationProcess.personalData") }, // Título del paso 2
+    { title: t("reservationProcess.selectVehicle") }, // Título del paso 3
+    { title: t("reservationProcess.reviewBook") }, // Título del paso 4
+    { title: t("reservationProcess.checkEmail") }, // Título del paso 5
+    { title: t("reservationProcess.confirmation") }, // Título del paso 6
   ];
 
   const handleStepClick = (stepIndex: number) => {
@@ -55,14 +57,14 @@ const ReservationProcess = () => {
           onClick={() => setCurrentStep(currentStep - 1)}
           disabled={currentStep === 0}
         >
-          Previous
+          {t("reservationProcess.previous")} {/* Botón de "Previous" */}
         </button>
         <button
           className="btn btn-primary"
           onClick={() => setCurrentStep(currentStep + 1)}
           disabled={currentStep === steps.length - 1}
         >
-          Next
+         {t("reservationProcess.next")} {/* Botón de "Next" */}
         </button>
       </div>
     </div>

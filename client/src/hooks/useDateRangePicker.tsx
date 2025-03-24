@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDateRange } from "../hooks/useDateRange";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
@@ -7,7 +8,7 @@ import "react-date-range/dist/theme/default.css";
 const DateRangePicker: React.FC = () => {
   const { range, handleSelect } = useDateRange();
   const [showCalendar, setShowCalendar] = useState(false);
-
+ const { t } = useTranslation();
   return (
     <div className="position-relative">
       <input
@@ -33,7 +34,7 @@ const DateRangePicker: React.FC = () => {
             className="btn btn-primary mt-2"
             onClick={() => setShowCalendar(false)}
           >
-            Confirmar Fechas
+           {t("useDateRangePicker.confirmdate")}
           </button>
         </div>
       )}
