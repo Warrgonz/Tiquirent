@@ -1,6 +1,7 @@
 import React from "react";
 import { VehicleCardProps } from "../../interface";
 import { User, DoorOpen, Settings, Gauge } from "lucide-react";
+import { useTranslation } from "react-i18next"; 
 
 const VehicleCard: React.FC<VehicleCardProps> = ({
   vehicleName,
@@ -13,6 +14,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
   transmission,
   onSelect,
 }) => {
+  const { t } = useTranslation();
   const formatPrice = () => {
     const priceStr = price.toFixed(2);
     const [dollars, cents] = priceStr.split(".");
@@ -51,11 +53,11 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                 <span className="text-success fs-4 fw-bold">
                   {formatPrice()}
                 </span>
-                <span className="text-success"> total</span>
+                <span className="text-success"> {t("vehicleCard.total")}</span>
               </div>
 
               <button className="btn btn-success w-100 mb-2" onClick={onSelect}>
-                Seleccionar
+              {t("vehicleCard.select")}
               </button>
 
               <a
@@ -63,7 +65,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
                 className="text-decoration-none small text-primary"
                 onClick={(e) => e.preventDefault()}
               >
-                Ver cargos obligatorios <span>&rsaquo;</span>
+                {t("vehicleCard.viewCharges")} <span>&rsaquo;</span>
               </a>
             </div>
           </div>
@@ -73,19 +75,19 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
             <div className="d-flex flex-column">
               <div className="d-flex align-items-center mb-2">
                 <User size={18} className="me-2 text-secondary" />
-                <span>{seats} asientos</span>
+                <span>{seats} {t("vehicleCard.seats")}</span>
               </div>
               <div className="d-flex align-items-center mb-2">
                 <DoorOpen size={18} className="me-2 text-secondary" />
-                <span>{doors} puertas</span>
+                <span>{doors} {t("vehicleCard.doors")}</span>
               </div>
               <div className="d-flex align-items-center mb-2">
                 <Settings size={18} className="me-2 text-secondary" />
-                <span>{traction}</span>
+                <span>{t(`vehicleCard.traction.${traction}`)}</span>
               </div>
               <div className="d-flex align-items-center">
                 <Gauge size={18} className="me-2 text-secondary" />
-                <span>{transmission}</span>
+                <span>{t(`vehicleCard.transmission.${transmission}`)}</span>
               </div>
             </div>
           </div>

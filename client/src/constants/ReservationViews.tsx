@@ -1,166 +1,112 @@
+import { useTranslation } from "react-i18next";
 import VehicleFilters from "../components/layout/VehicleFilters";
 import DateRangePicker from "../hooks/useDateRangePicker";
 import { filterCategories } from "../constants/filterCategories";
+
 import { Images } from "../constants/Images";
 import VehicleCard from "../components/common/VehicleCard";
 
-export const StepOne = () => (
-  <div>
-    <h1>Selecciona las fechas de tu viaje</h1>
-    <form className="d-flex flex-column">
-      <div className="d-flex flex-column pt-2 pb-2">
-        <label className="form-label">Pick-up location</label>
-        <select name="" className="form-select" id="">
-          <option value="">
-            <p> Aeropuerto Internacional Juan Santa María (SJO)</p>
-          </option>
-          <option value="">
-            Aeropuerto Internacional Tobías Bolaños (SYQ)
-          </option>
-          <option value="">Aeropuerto Internacional Daniel Oduber (LIR)</option>
-        </select>
-      </div>
-      <div className="d-flex flex-column pt-2 pb-3">
-        <label className="form-label">Pick-up location</label>
-        <select name="" className="form-select" id="">
-          <option value="">
-            <p> Aeropuerto Internacional Juan Santa María (SJO)</p>
-          </option>
-          <option value="">
-            Aeropuerto Internacional Tobías Bolaños (SYQ)
-          </option>
-          <option value="">Aeropuerto Internacional Daniel Oduber (LIR)</option>
-        </select>
-      </div>
-      <div className="">
-        <label className="form-label">Pick-up location</label>
-        <DateRangePicker />
-      </div>
-    </form>
-  </div>
-);
-
-export const StepTwo = () => (
-  <div>
-    <form className="container mb-4">
-      {/* Datos personales */}
-      <fieldset className="border p-3 mb-3">
-        <legend className="w-auto px-2">Datos Personales</legend>
-        <div className="row">
-          <div className="col-sm-12 col-md-6 pb-2">
-            <label className="form-label">
-              Nombre completo <span className="required">*</span>
-            </label>
-            <input type="text" className="form-control" />
-          </div>
-          <div className="col-sm-12 col-md-6 pb-2">
-            <label className="form-label">
-              Nacionalidad <span className="required">*</span>
-            </label>
-            <input type="text" className="form-control" />
-          </div>
-          <div className="col-sm-12 col-md-6 pb-2">
-            <label className="form-label">
-              Tipo de identificación <span className="required">*</span>
-            </label>
-            <select className="form-select">
-              <option value="">Nacional</option>
-              <option value="">DIMEX</option>
-              <option value="">Pasaporte</option>
-            </select>
-          </div>
-          <div className="col-sm-12 col-md-6 pb-2">
-            <label className="form-label">
-              Número de identificación <span className="required">*</span>
-            </label>
-            <input type="text" className="form-control" />
-          </div>
+export const StepOne = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <h1>{t("stepOne.title")}</h1>
+      <form className="d-flex flex-column">
+        <div className="d-flex flex-column pt-2 pb-2">
+          <label className="form-label">{t("stepOne.pickupLocation")}</label>
+          <select name="" className="form-select">
+            <option value="">{t("locations.sjo")}</option>
+            <option value="">{t("locations.syq")}</option>
+            <option value="">{t("locations.lir")}</option>
+          </select>
         </div>
-      </fieldset>
-
-      {/* Datos de contacto */}
-      <fieldset className="border p-3 mb-3">
-        <legend className="w-auto px-2">Datos de Contacto</legend>
-        <div className="row">
-          <div className="col-sm-12 col-md-6 pb-2">
-            <label className="form-label">
-              Correo electrónico <span className="required">*</span>
-            </label>
-            <input type="email" className="form-control" />
-          </div>
-          <div className="col-sm-12 col-md-6 pb-2">
-            <label className="form-label">
-              Número de teléfono <span className="required">*</span>
-            </label>
-            <input type="tel" className="form-control" />
-          </div>
+        <div className="d-flex flex-column pt-2 pb-3">
+          <label className="form-label">{t("stepOne.dropoffLocation")}</label>
+          <select name="" className="form-select">
+            <option value="">{t("locations.sjo")}</option>
+            <option value="">{t("locations.syq")}</option>
+            <option value="">{t("locations.lir")}</option>
+          </select>
         </div>
-      </fieldset>
-
-      {/* Datos del conductor */}
-      <fieldset className="border p-3 mb-3">
-        <legend className="w-auto px-2">Datos del Conductor</legend>
-        <div className="row">
-          <div className="col-sm-12 col-md-6 pb-2">
-            <label className="form-label">
-              Número de licencia <span className="required">*</span>
-            </label>
-            <input type="text" className="form-control" />
-          </div>
+        <div className="">
+          <label className="form-label">{t("stepOne.dateRange")}</label>
+          <DateRangePicker />
         </div>
-      </fieldset>
-    </form>
-  </div>
-);
+      </form>
+    </div>
+  );
+};
 
-export const StepThree = () => (
-  <div>
-    <div className="row">
-      <div className="col-md-4">
-        <VehicleFilters categories={filterCategories} />
-      </div>
-      <div className="col-md-8">
+export const StepTwo = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <form className="container mb-4">
+        {/* Datos personales */}
         <fieldset className="border p-3 mb-3">
-          <legend className="w-auto px-2">Vehículos disponibles</legend>
-          <VehicleCard
-            vehicleName="Suzuki Swift Dzire ST or similar"
-            price={112.2}
-            imageUrl={Images.CAR_SAMPLE}
-            seats="2"
-            doors="4"
-            traction="4X2"
-            transmission="Manual"
-          />
-          <VehicleCard
-            vehicleName="Suzuki Swift Dzire ST or similar"
-            price={112.2}
-            imageUrl={Images.CAR_SAMPLE}
-            seats="2"
-            doors="4"
-            traction="4X2"
-            transmission="Manual"
-          />
-          <VehicleCard
-            vehicleName="Suzuki Swift Dzire ST or similar"
-            price={112.2}
-            imageUrl={Images.CAR_SAMPLE}
-            seats="2"
-            doors="4"
-            traction="4X2"
-            transmission="Manual"
-          />
+          <legend className="w-auto px-2">{t("stepTwo.personalInfo")}</legend>
+          <div className="row">
+            <div className="col-sm-12 col-md-6 pb-2">
+              <label className="form-label">{t("stepTwo.fullName")}</label>
+              <input type="text" className="form-control" />
+            </div>
+            <div className="col-sm-12 col-md-6 pb-2">
+              <label className="form-label">{t("stepTwo.nationality")}</label>
+              <input type="text" className="form-control" />
+            </div>
+            <div className="col-sm-12 col-md-6 pb-2">
+              <label className="form-label">{t("stepTwo.idType")}</label>
+              <select className="form-select">
+                <option value="">{t("idTypes.national")}</option>
+                <option value="">{t("idTypes.dimex")}</option>
+                <option value="">{t("idTypes.passport")}</option>
+              </select>
+            </div>
+            <div className="col-sm-12 col-md-6 pb-2">
+              <label className="form-label">{t("stepTwo.idNumber")}</label>
+              <input type="text" className="form-control" />
+            </div>
+          </div>
         </fieldset>
+      </form>
+    </div>
+  );
+};
+
+export const StepThree = () => {
+  const { t } = useTranslation();
+  const categories = filterCategories(); 
+  return (
+    <div>
+      <div className="row">
+        <div className="col-md-4">
+          <VehicleFilters categories={categories} />
+        </div>
+        <div className="col-md-8">
+          <fieldset className="border p-3 mb-3">
+            <legend className="w-auto px-2">{t("stepThree.availableVehicles")}</legend>
+            <VehicleCard
+              vehicleName="Suzuki Swift Dzire ST or similar"
+              price={112.2}
+              imageUrl={Images.CAR_SAMPLE}
+              seats="2"
+              doors="4"
+              traction="4X2"
+              transmission="Manual"
+            />
+          </fieldset>
+        </div>
       </div>
     </div>
-  </div>
-);
-
+  );
+};
 // Esto lo estoy usando para ejemplificar como seria la visualización final de una reserva
 
 import { useState } from "react";
 import Loader from "../components/common/Spinner";
 
 export const StepFour = () => {
+  const { t } = useTranslation();
   const [reservationData] = useState({
     fullName: "Juan Pérez",
     nationality: "Costarricense",
@@ -187,53 +133,53 @@ export const StepFour = () => {
 
   return (
     <div className="container">
-      <h2 className="mb-3">Resumen de la Reserva</h2>
+      <h2 className="mb-3">{t("stepFour.reservationSummary")}</h2>
 
       {/* Información del Cliente */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">Datos Personales</h4>
+        <h4 className="mb-2">{t("stepFour.personalData")}</h4>
         <p>
-          <strong>Nombre:</strong> {reservationData.fullName}
+          <strong>{t("stepFour.name")}:</strong> {reservationData.fullName}
         </p>
         <p>
-          <strong>Nacionalidad:</strong> {reservationData.nationality}
+          <strong>{t("stepFour.nationality")}:</strong> {reservationData.nationality}
         </p>
         <p>
-          <strong>Tipo de ID:</strong> {reservationData.idType}
+          <strong>{t("stepFour.idType")}:</strong> {reservationData.idType}
         </p>
         <p>
-          <strong>No. Identificación:</strong> {reservationData.idNumber}
+          <strong>{t("stepFour.idNumber")}:</strong> {reservationData.idNumber}
         </p>
         <p>
-          <strong>Email:</strong> {reservationData.email}
+          <strong>{t("stepFour.email")}:</strong> {reservationData.email}
         </p>
         <p>
-          <strong>Teléfono:</strong> {reservationData.phone}
+          <strong>{t("stepFour.phone")}:</strong> {reservationData.phone}
         </p>
         <p>
-          <strong>No. Licencia:</strong> {reservationData.licenseNumber}
+          <strong>{t("stepFour.licenseNumber")}:</strong> {reservationData.licenseNumber}
         </p>
       </div>
 
       {/* Información del Viaje */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">Detalles del Viaje</h4>
+        <h4 className="mb-2">{t("stepFour.tripDetails")}</h4>
         <p>
-          <strong>Ubicación de Recogida:</strong>{" "}
+          <strong>{t("stepFour.pickUpLocation")}:</strong>{" "}
           {reservationData.pickUpLocation}
         </p>
         <p>
-          <strong>Ubicación de Entrega:</strong>{" "}
+          <strong>{t("stepFour.dropOffLocation")}:</strong>{" "}
           {reservationData.dropOffLocation}
         </p>
         <p>
-          <strong>Fechas de Reserva:</strong> {reservationData.dateRange}
+          <strong>{t("stepFour.reservationDates")}:</strong> {reservationData.dateRange}
         </p>
       </div>
 
       {/* Información del Vehículo Seleccionado */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">Vehículo Seleccionado</h4>
+        <h4 className="mb-2">{t("stepFour.selectedVehicle")}</h4>
         <div className="d-flex align-items-center">
           <img
             src={reservationData.vehicle.imageUrl}
@@ -243,23 +189,23 @@ export const StepFour = () => {
           />
           <div>
             <p>
-              <strong>Modelo:</strong> {reservationData.vehicle.name}
+              <strong>{t("stepFour.model")}:</strong> {reservationData.vehicle.name}
             </p>
             <p>
-              <strong>Asientos:</strong> {reservationData.vehicle.seats}
+              <strong>{t("stepFour.seats")}:</strong> {reservationData.vehicle.seats}
             </p>
             <p>
-              <strong>Puertas:</strong> {reservationData.vehicle.doors}
+              <strong>{t("stepFour.doors")}:</strong> {reservationData.vehicle.doors}
             </p>
             <p>
-              <strong>Tracción:</strong> {reservationData.vehicle.traction}
+              <strong>{t("stepFour.traction")}:</strong> {reservationData.vehicle.traction}
             </p>
             <p>
-              <strong>Transmisión:</strong>{" "}
+              <strong>{t("stepFour.transmission")}:</strong>{" "}
               {reservationData.vehicle.transmission}
             </p>
             <p>
-              <strong>Precio:</strong> {reservationData.vehicle.currency}
+              <strong>{t("stepFour.price")}:</strong> {reservationData.vehicle.currency}
               {reservationData.vehicle.price.toFixed(2)}
             </p>
           </div>
@@ -269,26 +215,31 @@ export const StepFour = () => {
       {/* Botón de Confirmación */}
       <button
         className="btn btn-primary w-100 mt-3"
-        onClick={() => alert("Reserva completada!")}
+        onClick={() => alert(t("stepFour.confirmationMessage"))}
       >
-        Completar Reserva
+        {t("stepFour.completeReservation")}
       </button>
     </div>
   );
 };
 
-export const StepFive = () => (
-  <div className="d-flex flex-column text-center flex-wrap">
-    <h1>Confirmacion de tu reserva</h1>
-    <p className="p-2">
-      ¡Hemos enviado un correo electrónico para confirmar tu reserva! Aprueba la
-      reserva para completar el proceso.
-    </p>
-    <Loader />
-  </div>
-);
+export const StepFive = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="d-flex flex-column text-center flex-wrap">
+      <h1>{t("stepFive.reservationConfirmation")}</h1>
+      <p className="p-2">
+        {t("stepFive.reservationConfirmationMessage")}
+      </p>
+      <Loader />
+    </div>
+  );
+};
+
 
 export const StepSix = () => {
+  const { t } = useTranslation();
   const [reservationData] = useState({
     fullName: "Juan Pérez",
     nationality: "Costarricense",
@@ -315,36 +266,36 @@ export const StepSix = () => {
 
   return (
     <div className="container">
-      <h2 className="mb-3">¡Tu reserva ha sido creada con éxito!</h2>
+      <h2 className="mb-3">{t("stepSix.reservationSuccess")}</h2>
       <h2 className="mb-3">
-        <strong>Código de reserva #</strong> T51236421
+        <strong>{t("stepSix.reservationCode")}</strong> T51236421
       </h2>
 
       {/* Información del Cliente */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">Datos Personales</h4>
+        <h4 className="mb-2">{t("stepSix.personalData")}</h4>
         <div className="row">
           <div className="col-md-6">
             <p>
-              <strong>Nombre:</strong> {reservationData.fullName}
+              <strong>{t("stepSix.name")}:</strong> {reservationData.fullName}
             </p>
             <p>
-              <strong>Nacionalidad:</strong> {reservationData.nationality}
+              <strong>{t("stepSix.nationality")}:</strong> {reservationData.nationality}
             </p>
             <p>
-              <strong>Tipo de ID:</strong> {reservationData.idType}
+              <strong>{t("stepSix.idType")}:</strong> {reservationData.idType}
             </p>
             <p>
-              <strong>No. Identificación:</strong> {reservationData.idNumber}
+              <strong>{t("stepSix.idNumber")}</strong> {reservationData.idNumber}
             </p>
             <p>
-              <strong>Email:</strong> {reservationData.email}
+              <strong>{t("stepSix.email")}:</strong> {reservationData.email}
             </p>
             <p>
-              <strong>Teléfono:</strong> {reservationData.phone}
+              <strong>{t("stepSix.phone")}:</strong> {reservationData.phone}
             </p>
             <p>
-              <strong>No. Licencia:</strong> {reservationData.licenseNumber}
+              <strong>{t("stepSix.licenseNumber")}</strong> {reservationData.licenseNumber}
             </p>
           </div>
           <div className="col-md-6">
@@ -355,23 +306,23 @@ export const StepSix = () => {
 
       {/* Información del Viaje */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">Detalles del Viaje</h4>
+        <h4 className="mb-2">{t("stepSix.tripDetails")}</h4>
         <p>
-          <strong>Ubicación de Recogida:</strong>{" "}
+          <strong>{t("stepSix.pickUpLocation")}:</strong>{" "}
           {reservationData.pickUpLocation}
         </p>
         <p>
-          <strong>Ubicación de Entrega:</strong>{" "}
+          <strong>{t("stepSix.dropOffLocation")}:</strong>{" "}
           {reservationData.dropOffLocation}
         </p>
         <p>
-          <strong>Fechas de Reserva:</strong> {reservationData.dateRange}
+          <strong>{t("stepSix.reservationDates")}:</strong> {reservationData.dateRange}
         </p>
       </div>
 
       {/* Información del Vehículo Seleccionado */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">Vehículo Seleccionado</h4>
+        <h4 className="mb-2">{t("stepSix.selectedVehicle")}</h4>
         <div className="d-flex align-items-center">
           <img
             src={reservationData.vehicle.imageUrl}
@@ -381,23 +332,23 @@ export const StepSix = () => {
           />
           <div>
             <p>
-              <strong>Modelo:</strong> {reservationData.vehicle.name}
+              <strong>{t("stepSix.model")}:</strong> {reservationData.vehicle.name}
             </p>
             <p>
-              <strong>Asientos:</strong> {reservationData.vehicle.seats}
+              <strong>{t("stepSix.seats")}:</strong> {reservationData.vehicle.seats}
             </p>
             <p>
-              <strong>Puertas:</strong> {reservationData.vehicle.doors}
+              <strong>{t("stepSix.doors")}:</strong> {reservationData.vehicle.doors}
             </p>
             <p>
-              <strong>Tracción:</strong> {reservationData.vehicle.traction}
+              <strong>{t("stepSix.traction")}:</strong> {reservationData.vehicle.traction}
             </p>
             <p>
-              <strong>Transmisión:</strong>{" "}
+              <strong>{t("stepSix.transmission")}:</strong>{" "}
               {reservationData.vehicle.transmission}
             </p>
             <p>
-              <strong>Precio:</strong> {reservationData.vehicle.currency}
+              <strong>{t("stepSix.price")}:</strong> {reservationData.vehicle.currency}
               {reservationData.vehicle.price.toFixed(2)}
             </p>
           </div>
