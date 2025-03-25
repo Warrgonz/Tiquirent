@@ -1,2 +1,122 @@
-{% extends "layout.html" %} {% block title %}Login - Tiquirent{% endblock %} {%
-block content %} {% endblock %}
+{% extends "layout.html" %} 
+{% block title %}Vehículos - Tiquirent{% endblock %} 
+{% block content %}
+<div>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Vehículos</h1>
+    </div>
+  </div>
+</div>
+
+<table class="table text-nowrap mb-0 align-middle">
+  <thead class="text-dark fs-4">
+    <tr>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Imagen</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Marca y Modelo</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Placa</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Color</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Precio Diario</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Transmisión</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Acciones</h6>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-center">
+        <img src="../static/images/cars/toyota-yaris.png" alt="Toyota Yaris 2022" width="200" height="125" class="rounded">
+      </td>
+      <td class="text-center">Toyota Yaris 2022</td>
+      <td class="text-center">ABC-123</td>
+      <td class="text-center">Rojo</td>
+      <td class="text-center">$40.00</td>
+      <td class="text-center">Automática</td>
+      <td>
+        <div class="dropdown dropstart text-center">
+          <a
+            href="javascript:void(0)"
+            class="text-muted"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="ti ti-dots-vertical fs-6"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+                <i class="fs-4 ti ti-eye"></i>Ver detalles
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+                <i class="fs-4 ti ti-edit"></i>Editar
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+                <i class="fs-4 ti ti-trash"></i>Eliminar
+              </a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="text-center">
+        <img src="../static/images/cars/kia-rio.png" alt="Kia Rio 2021" width="200" height="125" class="rounded">
+      </td>
+      <td class="text-center">Kia Rio 2021</td>
+      <td class="text-center">XYZ-789</td>
+      <td class="text-center">Azul</td>
+      <td class="text-center">$45.00</td>
+      <td class="text-center">Manual</td>
+      <td>
+        <div class="dropdown dropstart text-center">
+          <a
+            href="javascript:void(0)"
+            class="text-muted"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="ti ti-dots-vertical fs-6"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+                <i class="fs-4 ti ti-eye"></i>Ver detalles
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+                <i class="fs-4 ti ti-edit"></i>Editar
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+                <i class="fs-4 ti ti-trash"></i>Eliminar
+              </a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
