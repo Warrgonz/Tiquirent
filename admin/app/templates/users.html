@@ -1,0 +1,154 @@
+{% extends "layout.html" %} {% block title %}Login - Tiquirent{% endblock %} {%
+block content %}
+<div>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Usuarios</h1>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button type="button" class="btn btn-success positioning-head">
+        <a href="">Agregar</a>
+      </button>
+    </div>
+  </div>
+</div>
+<table class="table text-nowrap mb-0 align-middle">
+  <thead class="text-dark fs-4">
+    <tr>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Nombre</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Cédula</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Correo electrónico</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Rol</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Estado</h6>
+      </th>
+      <th>
+        <h6 class="fs-4 fw-semibold mb-0 text-center">Acciones</h6>
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+            src="../static/images/profile/serio.png"
+            class="rounded-circle"
+            width="40"
+            height="40"
+          />
+          <div class="ms-3">
+            <h6 class="fs-4 fw-semibold mb-0">Warren González Reyes</h6>
+          </div>
+        </div>
+      </td>
+      <td>
+        <p class="mb-0 fw-normal">118290631</p>
+      </td>
+      <td>
+        <p class="mb-0 fw-normal">Warren0419@outlook.com</p>
+      </td>
+      <td>
+        <p class="mb-0 fw-normal">Administrador</p>
+      </td>
+      <td>
+        <span class="badge bg-success-subtle text-success">Activo</span>
+      </td>
+      <td>
+        <div class="dropdown dropstart text-center">
+          <a
+            href="javascript:void(0)"
+            class="text-muted"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="ti ti-dots-vertical fs-6"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+                ><i class="fs-4 ti ti-edit"></i>Editar</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+                ><i class="fs-4 ti ti-trash"></i>Desabilitar</a
+              >
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+            src="../static/images/profile/feliz.png"
+            class="rounded-circle"
+            width="40"
+            height="40"
+          />
+          <div class="ms-3">
+            <h6 class="fs-4 fw-semibold mb-0">Alejandro Castro García</h6>
+          </div>
+        </div>
+      </td>
+      <td>
+        <p class="mb-0 fw-normal">118440720</p>
+      </td>
+      <td>
+        <p class="mb-0 fw-normal">acastrog38@gmail.com</p>
+      </td>
+      <td>
+        <p class="mb-0 fw-normal">Colaborador</p>
+      </td>
+      <td>
+        <span class="badge bg-danger-subtle text-danger">Inactivo</span>
+      </td>
+      <td>
+        <div class="dropdown dropstart text-center">
+          <a
+            href="javascript:void(0)"
+            class="text-muted"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="ti ti-dots-vertical fs-6"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+                ><i class="fs-4 ti ti-edit"></i>Editar</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+                ><i class="fs-4 ti ti-trash"></i>Desabilitar</a
+              >
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
