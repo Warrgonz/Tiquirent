@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import BookMenu from "./components/layout/Book";
+import { StepOne, StepThree } from "./constants/ReservationViews";
 
 const resources = {
   "en-US": {
@@ -37,6 +38,13 @@ const resources = {
         reserveButton: "Reserve Your Perfect Car",
 
       },
+      rentUs: {
+        title: "Why rent with us?",
+        iconBrands: "Comprehensive service at an affordable price",
+        iconInsurance: "We offer the most complete insurance available on the market",
+        iconPrice: "Rentals for a day, weekend, week, month, year, or long term",
+        iconRent: "We have the best brands such as Hyundai, Chevrolet, Suzuki, Geely, Mitsubishi, and Ford."
+      },
       faq: {
         title: "Frequently Asked Questions",
         description: "Here you can find answers to common questions.",
@@ -56,6 +64,136 @@ const resources = {
         },
 
       },
+      reservationProcess: {
+        pickup: "Pickup",
+        personalData: "Your Data",
+        selectVehicle: "Select Vehicle",
+        reviewBook: "Review & Book",
+        checkEmail: "Check Email confirmation",
+        confirmation: "Confirmation",
+        previous: "Back",
+        next: "Next"
+      },
+      stepOne:{
+        "title": "Select Your Travel Dates",
+        "pickupLocation": "Pick-up Location",
+        "dropoffLocation": "Drop-off Location",
+        "dateRange": "Date Range"
+
+      },
+      locations:{
+        "sjo": "San José",
+        "syq": "San Isidro",
+        "lir": "Liberia"
+      },
+      useDateRangePicker:{
+        confirmdate:"Confirm Dates",
+
+      },
+      stepTwo:{
+        personalInfo: "Personal Information",
+        fullName: "Full Name",
+        nationality: "Nationality",
+        idType: "ID Type",
+        idNumber: "ID Number",
+
+      },
+      idTypes: {
+        national: "National ID",
+        dimex: "DIMEX",
+        passport: "Passport",
+      },
+      stepThree:{
+        availableVehicles:"Available Vehicles",
+      },
+      filterCategories: {
+        capacity: "Capacity",
+        transmission: "Transmission",
+        traction: "Traction",
+        options: {
+          seats1_4: "1-4 seats",
+          seats5_6: "5-6 seats",
+          seats7plus: "7 or more seats",
+          manual: "Manual",
+          automatic: "Automatic",
+          traction4wd: "4WD",
+          traction2wd: "2WD",
+        },
+      },
+      vehicleFilters:{
+        filterby: "Filter by",
+      },
+      vehicleCard:{
+        total: "total",
+        select: "Select",
+        viewCharges: "View mandatory charges",
+        seats: "seats",
+        doors: "doors",
+        traction:{
+          "4X2": "4X2",
+          "4X4": "4X4",
+        },
+        transmission:{
+          manual: "Manual",
+          automatic: "Automatic",
+        },
+
+
+      },
+      stepFour: {
+        reservationSummary: "Reservation Summary",
+        personalData: "Personal Data",
+        name: "Name",
+        nationality: "Nationality",
+        idType: "ID Type",
+        idNumber: "ID Number",
+        email: "Email",
+        phone: "Phone",
+        licenseNumber: "License Number",
+        tripDetails: "Trip Details",
+        pickUpLocation: "Pick-up Location",
+        dropOffLocation: "Drop-off Location",
+        reservationDates: "Reservation Dates",
+        selectedVehicle: "Selected Vehicle",
+        model: "Model",
+        seats: "Seats",
+        doors: "Doors",
+        traction: "Traction",
+        transmission: "Transmission",
+        price: "Price",
+        confirmationMessage: "Reservation Completed!",
+        completeReservation: "Complete Reservation",
+      },
+      stepFive: {
+        reservationConfirmation: "Reservation Confirmation",
+        reservationConfirmationMessage: "We have sent you an email to confirm your reservation! Please approve the reservation to complete the process."
+      },
+      stepSix: {
+        reservationSuccess: "Your reservation has been successfully created!",
+        reservationCode:"Reservation Code",
+        personalData: "Personal Data",
+        name:  "Name",
+        nationality:"Nationality",
+        idType: "ID Type",
+        idNumber:"ID Number",
+        email: "Email",
+        phone: "Phone",
+        licenseNumber: "License Number",
+        tripDetails:"Trip Details",
+        pickUpLocation: "Pick-up Location",
+        dropOffLocation: "Drop-off Location",
+        reservationDates: "Reservation Dates",
+        selectedVehicle: "Selected Vehicle",
+        model:  "Model",
+        seats: "Seats",
+        doors: "Doors",
+        traction: "Traction",
+        transmission: "Transmission",
+        price: "Price",
+
+
+      },
+
       footer: {
         description: "At Tiquirent, we provide reliable and affordable car rental services in Costa Rica. Whether you're here for business or leisure, we ensure a smooth and comfortable journey with our modern fleet and excellent customer service.",
         information: "Information",
@@ -108,6 +246,14 @@ const resources = {
         reserveStep: "Reserva tu coche de alquiler",
         reserveButton: "Reserva tu auto perfecto",
       },
+      rentUs: {
+        title: "¿Por qué rentar con nosotros?",
+        iconBrands: "Servicio muy completo a un precio accesible",
+        iconInsurance: "Tenemos los seguros más completos disponibles en el mercado",
+        iconPrice: "Rentas por un día, un fin de semana, una semana, un mes, un año o a largo plazo",
+        iconRent: "Tenemos las mejores marcas tales como Hyundai, Chevrolet, Suzuki, Geely, Mitsubishi, y Ford.",
+      },
+
       faq: {
         title: "Preguntas Frecuentes",
         description: "Aquí puedes encontrar respuestas a las preguntas más comunes.",
@@ -127,6 +273,135 @@ const resources = {
         },
         
       },
+      reservationProcess: {
+        pickup: "Recogida",
+        personalData: "Tus Datos",
+        selectVehicle: "Selecionar Vehículo",
+        reviewBook: "Revisar & Reservar",
+        checkEmail: "Revisar correo electrónico",
+        confirmation: "Confirmación",
+        previous: "Anterior",
+        next: "Siguiente"
+      },
+      stepOne:{
+        title: "Selecciona las fechas de tu viaje",
+        pickupLocation: "Ubicación de recogida",
+        dropoffLocation: "Ubicación de entrega",
+        dateRange: "Rango de fechas",
+      },
+      locations:{
+        sjo: "San José",
+        syq: "San Isidro",
+        lir: "Liberia",
+      },
+      useDateRangePicker:{
+        confirmdate:"Confirmar Fechas",
+
+      },
+      stepTwo:{
+        personalInfo: "Información Personal",
+        fullName: "Nombre Completo",
+        nationality: "Nacionalidad",
+        idType: "Tipo de Documento de Identidad",
+        idNumber: "Número de Documento",
+
+      },
+      idTypes: {
+        national: "Cédula de Identidad",
+        dimex: "DIMEX",
+        passport: "Pasaporte",
+      },
+      
+      stepThree:{
+        availableVehicles:"Vehículos Disponibles",
+      },
+      filterCategories: {
+        capacity: "Capacidad",
+        transmission: "Transmisión",
+        traction: "Tracción",
+        options: {
+          seats1_4: "1-4 asientos",
+          seats5_6: "5-6 asientos",
+          seats7plus: "7 o más asientos",
+          manual: "Manual",
+          automatic: "Automático",
+          traction4wd: "4WD",
+          traction2wd: "2WD",
+        },
+      },
+      vehicleFilters:{
+        filterby: "Filtrado por",
+      },
+      vehicleCard:{
+        total: "total",
+        select: "Selecionar",
+        viewCharges: "Ver cargos obligatorios",
+        seats: "asientos",
+        doors: "puertas",
+        traction:{
+          "4X2": "4X2",
+          "4X4": "4X4",
+        },
+        transmission:{
+          manual: "Manual",
+          automatic: "Automático",
+        },
+      },
+      stepFour: {
+        reservationSummary: "Resumen de Reserva",
+        personalData: "Información Personal",
+        name: "Nombre",
+        nationality: "Nacionalidad",
+        idType: "Tipo de ID",
+        idNumber:"No. Identificación",
+        email:"Email",
+        phone: "Teléfono",
+        licenseNumber: "No. Licencia",
+        tripDetails:"Detalles del Viaje",
+        pickUpLocation: "Ubicación de Recogida",
+        dropOffLocation: "Ubicación de Entrega",
+        reservationDates: "Fechas de Reserva",
+        selectedVehicle: "Vehículo Seleccionado",
+        model: "Modelo",
+        seats: "Asientos",
+        doors: "Puertas",
+        traction: "Tracción",
+        transmission: "Transmisión",
+        price: "Precio",
+        confirmationMessage: "Reservación Completada!",
+        completeReservation: "Confirmar Reservación",
+      },
+      stepFive: {
+        reservationConfirmation: "Confirmación de Reserva",
+        reservationConfirmationMessage: "Hemos enviado un correo electronico para confirmar su reservación. Por favor apruebe su reservación para completar el proceso."
+      },
+
+      stepSix: {
+        reservationSuccess: "¡Tu reserva ha sido creada con éxito!",
+        reservationCode:"Código de reserva",
+        personalData: "Datos Personales",
+        name: "Nombre",
+        nationality:"Nacionalidad",
+        idType: "Tipo de ID",
+        idNumber:"No. Identificación",
+        email:"Email",
+        phone: "Teléfono",
+        licenseNumber: "No. Licencia",
+        tripDetails:"Detalles del Viaje",
+        pickUpLocation: "Ubicación de Recogida",
+        dropOffLocation: "Ubicación de Entrega",
+        reservationDates: "Fechas de Reserva",
+        selectedVehicle: "Vehículo Seleccionado",
+        model: "Modelo",
+        seats: "Asientos",
+        doors: "Puertas",
+        traction: "Tracción",
+        transmission: "Transmisión",
+        price: "Precio",
+
+      },
+
+
       footer: {
         description:
           "En Tiquirent, ofrecemos servicios de alquiler de autos confiables y accesibles en Costa Rica. Ya sea que estés aquí por negocios o por placer, garantizamos un viaje cómodo y sin complicaciones con nuestra moderna flota y un excelente servicio al cliente.",

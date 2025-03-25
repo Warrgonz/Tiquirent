@@ -6,3 +6,5 @@ __pycache__/
 env/
 venv/
 .env
+
+/node_modules

@@ -1,0 +1,16 @@
+{
+  "es": {
+    "dashboard": "Inicio",
+    "menu": "Menú",
+    "usuarios": "Usuarios",
+    "reservaciones": "Reservaciones",
+    "vehiculos": "Vehículos"
+  },
+  "us": {
+    "dashboard": "Dashboard",
+    "menu": "Menu",
+    "usuarios": "Users",
+    "reservaciones": "Schedules",
+    "vehiculos": "Vehicles"
+  }
+}
