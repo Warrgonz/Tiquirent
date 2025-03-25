@@ -13,7 +13,24 @@
     "p_status": "Estado",
     "p_image":"Foto de perfil",
     "p_modify": "Modificar",
-    "p_resetpw": "Cambiar contraseña"
+    "p_resetpw": "Cambiar contraseña",
+    "availablevehicles": "Vehículos disponibles",
+    "reservations":"Reservas",
+    "greeting":"¡Hola Warren, bienvenido a Tiquirent!",
+    "home":"Inicio",
+    "myprofile":"Mi Perfil",
+    "signout":"Cerrar Sesión",
+    "spanish":"Español",
+    "english":"Inglés",
+    "users":"Usuarios",
+    "btnadd": "Agregar",
+    "actions": "Acciones",
+    "admin": "Administrador",
+    "active": "Activo",
+    "btnedit":"Editar",
+    "btndisable":"Deshabilitar",
+    "employee": "Colaborador",
+    "inactive":"Inactivo"
   },
   "us": {
     "dashboard": "Dashboard",
@@ -29,7 +46,24 @@
      "p_status":"Status",
      "p_image":"Profile pic",
      "p_modify": "Modify",
-     "p_resetpw": "Reset password"
+     "p_resetpw": "Reset password",
+     "availablevehicles": "Available vehicles",
+     "reservations":"Reservations",
+     "greeting":"Hello Warren, Welcome to Tiquirent!",
+    "home":"Home",
+    "myprofile":"My Profile",
+    "signout":"Sign out",
+    "spanish":"Spanish",
+    "english":"English",
+    "users":"Users",
+    "btnadd": "Add",
+    "actions": "Actions",
+    "admin": "Admin",
+    "active": "Active",
+    "btnedit":"Edit",
+     "btndisable":"Disable",
+     "employee": "Employee",
+     "inactive":"Inactive"
 
   }
 }
