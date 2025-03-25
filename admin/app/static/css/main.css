@@ -44,3 +44,22 @@ a {
 #exampleInputPassword1 {
   padding-right: 40px;
 }
+
+.dashboard-head {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../images/background/banner.jpg");
+  background-color: #cccccc;
+  height: 300px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
+}
+
+.dashboard-head h1 {
+  color: white;
+}
+
+.icon-tabler-user {
+  transform: scale(2); /* Duplicará el tamaño */
+}

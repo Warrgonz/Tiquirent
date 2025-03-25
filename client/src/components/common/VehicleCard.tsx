@@ -87,7 +87,7 @@ const VehicleCard: React.FC<VehicleCardProps> = ({
               </div>
               <div className="d-flex align-items-center">
                 <Gauge size={18} className="me-2 text-secondary" />
-                <span>{t(`vehicleCard.transmission.${transmission}`)}</span>
+                <span>{t(`vehicleCard.transmission.${transmission.toLowerCase()}}`)}</span>
               </div>
             </div>
           </div>
