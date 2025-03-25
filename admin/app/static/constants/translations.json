@@ -4,13 +4,32 @@
     "menu": "Menú",
     "usuarios": "Usuarios",
     "reservaciones": "Reservaciones",
-    "vehiculos": "Vehículos"
+    "vehiculos": "Vehículos",
+    "p_title": "Perfil de Usuario",
+    "p_id": "Cédula",
+    "p_name":"Nombre",
+    "p_email":"Correo",
+    "p_role":"Rol",
+    "p_status": "Estado",
+    "p_image":"Foto de perfil",
+    "p_modify": "Modificar",
+    "p_resetpw": "Cambiar contraseña"
   },
   "us": {
     "dashboard": "Dashboard",
     "menu": "Menu",
     "usuarios": "Users",
     "reservaciones": "Schedules",
-    "vehiculos": "Vehicles"
+    "vehiculos": "Vehicles",
+    "p_title": "User's Profile",
+    "p_id": " National ID",
+    "p_name":"Full name",
+    "p_email":"Email",
+     "p_role":"Role",
+     "p_status":"Status",
+     "p_image":"Profile pic",
+     "p_modify": "Modify",
+     "p_resetpw": "Reset password"
+
   }
 }

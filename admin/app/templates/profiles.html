@@ -1,2 +1,55 @@
-{% extends "layout.html" %} {% block title %}Tiquirent{% endblock %} {% block
-content %} {% endblock %}
+{% extends "layout.html" %}
+{% block title %}Perfil de Usuario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 data-i18n="p_title"></h1>
+    <div class="mb-3 text-center">
+        <img id="profile-img" src="../static/images/profile/profile-pic.jpg" class="rounded-circle" width="150" height="150">
+    </div>
+    
+    <form>
+        <div class="mb-3">
+            <label for="cedula" class="form-label"data-i18n="p_id"></label>
+            <input type="text" id="cedula" class="form-control" value="118290631" readonly>
+        </div>
+        
+        <div class="mb-3">
+            <label for="nombre" class="form-label"data-i18n="p_name"></label>
+            <input type="text" id="nombre" class="form-control" value="Mario Peréz Martinez" disabled>
+        </div>
+        
+        <div class="mb-3">
+            <label for="correo" class="form-label"data-i18n="p_email">Correo</label>
+            <input type="email" id="correo" class="form-control" value="mperez@outlook.com" readonly>
+        </div>
+        
+        <div class="mb-3">
+            <label for="rol" class="form-label"data-i18n="p_role"></label>
+            <input type="text" id="rol" class="form-control" value="Administrador" readonly>
+        </div>
+        
+        <div class="mb-3">
+            <label for="estado" class="form-label"data-i18n="p_status"></label>
+            <input type="text" id="estado" class="form-control" value="Activo" readonly>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label"data-i18n="p_image"></label>
+            <input type="file" id="imagen" class="form-control mt-2" disabled>
+        </div>
+        
+        <div class="d-flex gap-3 justify-content-center">
+            <button type="button" class="btn btn-primary" id="btnModificar" data-i18n="p_modify"></button>
+            <a href="/resetPassword" class="btn btn-warning" data-i18n="p_resetpw"></a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("btnModificar").addEventListener("click", function() {
+        document.getElementById("nombre").disabled = false;
+        document.getElementById("imagen").disabled = false;
+    });
+</script>
+{% endblock %}
