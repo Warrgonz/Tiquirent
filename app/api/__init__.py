@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 import sentry_sdk
 import os
 from api.router import blueprints
@@ -8,6 +9,8 @@ from .utils.errors import (
     handle_400, handle_403, handle_404, handle_500,
     handle_405, handle_401
 )
+
+from api.seeders import cli_seeders
 
 load_dotenv()
 
@@ -24,6 +27,13 @@ def create_app():
 
     # Inicializar Base de Datos
     init_db(app)
+
+    # Manejo de CORS
+    CORS(app)
+
+    # Registro seeders
+    for command in cli_seeders:
+        app.cli.add_command(command)
 
     # Registrar blueprints
     for blueprint in blueprints:
