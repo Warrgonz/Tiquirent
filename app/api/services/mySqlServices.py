@@ -1,12 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
+# services/mySqlServices.py
+
 from flask import Flask
+from api.extensions import db 
 import sentry_sdk
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
-
-db = SQLAlchemy()
 
 def init_db(app: Flask):
     try:
@@ -17,11 +17,6 @@ def init_db(app: Flask):
         app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
         db.init_app(app)
-
-        # Probar conexión
-        with app.app_context():
-            db.engine.connect()
-            print("✅ Conexión exitosa a MySQL con SQLAlchemy")
 
     except Exception as e:
         sentry_sdk.capture_exception(e)
