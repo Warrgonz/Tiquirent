@@ -1,9 +1,9 @@
-"""
+#api/controller/users.py
+
 def CreateUser():
 
-    info = info.SendTempPassword()
+    info = info.user_exist()
     return "Hola mundo"
 
-def SendTempPassword():
+def user_exist():
     return "yucateco tactico"
-"""

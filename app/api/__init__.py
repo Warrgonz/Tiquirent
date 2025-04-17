@@ -12,7 +12,6 @@ from .utils.errors import (
     handle_400, handle_403, handle_404, handle_500,
     handle_405, handle_401
 )
-from flask_swagger_ui import get_swaggerui_blueprint
 
 load_dotenv()
 

@@ -10,4 +10,8 @@ def create_app():
     app = Flask(__name__)
     init_app(app) 
 
+    app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
+
+
     return app

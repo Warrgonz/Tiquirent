@@ -2,12 +2,12 @@
 
 from flask.views import MethodView
 from flask_smorest import Blueprint
-from flask import abort
+from flask import abort, jsonify
 from api.extensions import db
 from api.models.users import Users
 from api.schemas.user_schema import UserSchema
 from api.decorators.auth import require_api_key
-#from api.controller.users import CreateUser
+from api.controller.users import CreateUser
 
 blp = Blueprint(
     "usuarios",              
@@ -30,12 +30,25 @@ class UsuariosResource(MethodView):
     def post(self, user_data):
         """Crear nuevo usuario"""
 
-        #CreateUser
+        errores = []
 
         if Users.query.filter_by(email=user_data["email"]).first():
-            abort(400, message="Ya existe un usuario con ese email.")
-        
+            errores.append("Ya existe un usuario con ese correo electrónico.")
+
+        if Users.query.filter_by(cedula=user_data["cedula"]).first():
+            errores.append("Ya existe un usuario con esa cédula.")
+
+        if Users.query.filter_by(nombre_usuario=user_data["nombre_usuario"]).first():
+            errores.append("Ya existe un usuario con ese alias.")
+
+        if errores:
+            return jsonify({
+                "errors": errores
+            }), 400
+
         nuevo_usuario = Users(**user_data)
         db.session.add(nuevo_usuario)
         db.session.commit()
+
         return nuevo_usuario
+
