@@ -14,7 +14,6 @@ export const Home = () => (
     <Hero />
     <BookMenu />
     <RentUs />
-    <Tour />
     <Faq />
     <Footer />
   </>

@@ -63,3 +63,7 @@ a {
 .icon-tabler-user {
   transform: scale(2); /* Duplicará el tamaño */
 }
+
+.required {
+  color: red;
+}

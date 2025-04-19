@@ -1,0 +1,128 @@
+{% extends "layout.html" %} {% block title %}Usuarios - Tiquirent{% endblock %}
+{% block content %}
+<div id="flash-container">
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
+  <div
+    class="alert alert-{{ category }} alert-dismissible fade show"
+    role="alert"
+  >
+    {{ message }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+</div>
+
+<div>
+  <div class="row">
+    <div class="col-md-6">
+      <h1 data-i18n="users">Usuarios</h1>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button type="button" class="btn btn-success positioning-head">
+        <a href="/users/add" data-i18n="btnadd">Agregar</a>
+      </button>
+    </div>
+  </div>
+</div>
+
+<table class="table text-nowrap mb-0 align-middle">
+  <thead class="text-dark fs-4">
+    <tr>
+      <th class="text-center">
+        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_name">Nombre</h6>
+      </th>
+      <th class="text-center">
+        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_id">Cédula</h6>
+      </th>
+      <th class="text-center">
+        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_email">Correo</h6>
+      </th>
+      <th class="text-center">
+        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_role">Rol</h6>
+      </th>
+      <th class="text-center">
+        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_status">Estado</h6>
+      </th>
+      <th class="text-center">
+        <h6 class="fs-4 fw-semibold mb-0" data-i18n="actions">Acciones</h6>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td class="text-center">
+        <div class="d-flex justify-content-center align-items-center">
+          <img
+            src="http://192.168.1.16:8080/media/{{ user.ruta_imagen }}"
+            alt="Foto"
+            class="rounded-circle"
+            width="40"
+            height="40"
+          />
+          <div class="ms-3">
+            <h6 class="fs-4 fw-semibold mb-0">{{ user.nombre_usuario }}</h6>
+          </div>
+        </div>
+      </td>
+      <td class="text-center">
+        <p class="mb-0 fw-normal">{{ user.cedula }}</p>
+      </td>
+      <td class="text-center">
+        <p class="mb-0 fw-normal">{{ user.email }}</p>
+      </td>
+      <td class="text-center">
+        <p class="mb-0 fw-normal">
+          {% set rol = roles | selectattr("id", "equalto", user.rol_id | int) |
+          first %} {{ rol.nombre if rol else 'Sin rol' }}
+        </p>
+      </td>
+      <td class="text-center">
+        <span
+          class="badge {{ 'bg-success-subtle text-success' if user.estado_id == 1 else 'bg-danger-subtle text-danger' }}"
+        >
+          {{ 'Activo' if user.estado_id == 1 else 'Inactivo' }}
+        </span>
+      </td>
+      <td class="text-center">
+        <div class="dropdown dropstart">
+          <a
+            href="javascript:void(0)"
+            class="text-muted"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="ti ti-dots-vertical fs-6"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
+                <i class="fs-4 ti ti-edit" data-i18n="btnedit"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
+                <i class="fs-4 ti ti-trash" data-i18n="btndisable"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
