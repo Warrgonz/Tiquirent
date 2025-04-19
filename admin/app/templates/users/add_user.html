@@ -3,23 +3,25 @@
 {% block content %}
 <section>
 
-  {# ✅ Mensajes flash de éxito o error #}
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+  
   <form
     id="userForm"
     method="POST"
     action="{{ url_for('users.add_user') }}"
     novalidate
+    enctype="multipart/form-data"
   >
     <h1 data-i18n="agregar_usuario">Agregar Usuario</h1>
 
@@ -38,10 +40,9 @@
           value="{{ form_data.cedula if form_data and form_data.cedula }}"
         />
       </div>
-
       <div class="mt-3">
         <label for="nombre_usuario" class="form-label">
-          Alias del Usuario <span class="required">*</span>
+          Nombre del Usuario <span class="required">*</span>
         </label>
         <input
           type="text"
@@ -74,7 +75,7 @@
           Seleccione un rol <span class="required">*</span>
         </label>
         <select class="form-select" id="rol_id" name="rol_id" required>
-          <option disabled selected>Seleccione una opción</option>
+          <option value="" disabled selected>Seleccione una opción</option>
           {% for rol in roles %}
           <option value="{{ rol.id }}" {% if form_data and form_data.rol_id == rol.id %}selected{% endif %}>
             {{ rol.nombre }}
@@ -93,7 +94,7 @@
 
     <div class="pt-2">
       <button type="submit" class="btn btn-primary">Agregar</button>
-      <button type="button" class="btn bg-danger-subtle text-danger mx-3">Cancelar</button>
+     <a href="/users"><button type="button" class="btn bg-danger-subtle text-danger mx-3">Cancelar</button></a> 
     </div>
   </form>
 </section>

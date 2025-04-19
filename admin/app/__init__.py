@@ -12,6 +12,4 @@ def create_app():
 
     app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
-
-
     return app

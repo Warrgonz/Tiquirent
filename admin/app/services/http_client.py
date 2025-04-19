@@ -30,56 +30,45 @@ class APIClient:
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
-            #print("💥 HTTPError:", e)
-            #print("📦 Status code:", response.status_code)
-            #print("📨 Response content:", response.text)
             return []
 
-    def post(self, endpoint, data, headers=None):
+    def post(self, endpoint, data=None, json=None, headers=None, files=None):   
         try:
-            response = requests.post(
-                f"{self.base_url}{endpoint}",
-                headers=self._headers(headers),
-                json=data
-            )
+            if files:
+                headers = self._headers(headers, content_type=False)
+                response = requests.post(
+                    f"{self.base_url}{endpoint}",
+                    headers=headers,
+                    data=data,
+                    files=files
+                )
+            elif json:
+                response = requests.post(
+                    f"{self.base_url}{endpoint}",
+                    headers=self._headers(headers),
+                    json=json
+                )
+            else:
+                headers = self._headers(headers, content_type=False)  # ✅ FIX AQUÍ
+                response = requests.post(
+                    f"{self.base_url}{endpoint}",
+                    headers=headers,
+                    data=data
+                )
+
             response.raise_for_status()
             return response.json()
+
         except requests.HTTPError as e:
-            #print("💥 HTTPError:", e)
-            #print("📦 Status code:", response.status_code)
-            #print("📨 Response content:", response.text)
-            try:
-                return response.json()
-            except Exception as json_err:
-                print("❌ Error parseando JSON:", json_err)
-                return {"message": "Error inesperado del servidor"}
-        except requests.RequestException as e:
-            print("❌ POST error:", e)
-        return {"message": "Error de conexión con la API"}
-
-
-
-    def put(self, endpoint, data, headers=None):
+            print("❌ HTTPError:", e)
         try:
-            response = requests.put(
-                f"{self.base_url}{endpoint}",
-                headers=self._headers(headers),
-                json=data
-            )
-            response.raise_for_status()
             return response.json()
+        except ValueError:
+            print("❌ La respuesta no es JSON:")
+            print(response.text)
+            return {"message": "❌ El servidor no devolvió JSON válido"}
         except requests.RequestException as e:
-            print("PUT error:", e)
-            return None
+            print("❌ Error general:", e)
+        return {"message": "❌ Error de conexión con la API"}
 
-    def delete(self, endpoint, headers=None):
-        try:
-            response = requests.delete(
-                f"{self.base_url}{endpoint}",
-                headers=self._headers(headers, content_type=False)
-            )
-            response.raise_for_status()
-            return True
-        except requests.RequestException as e:
-            print("DELETE error:", e)
-            return False
+
