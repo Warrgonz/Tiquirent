@@ -1,6 +1,6 @@
 # app/__init__.py
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from api.extensions import db, api, cors  
 import sentry_sdk
 import os
@@ -65,6 +65,12 @@ def create_app():
     # 🌱 Seeders CLI
     for command in cli_seeders:
         app.cli.add_command(command)
+
+    @app.route('/media/<path:filename>', endpoint='media')
+    def media(filename):
+        # Ruta absoluta hacia la carpeta "database/images"
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database', 'images'))
+        return send_from_directory(base_path, filename)
 
     # 🚨 Manejo de errores global
     app.register_error_handler(400, handle_400)
