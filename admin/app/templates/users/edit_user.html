@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block title %}Editar Usuario - Tiquirent{% endblock %}
+
+{% block content %}
+<section class="container mt-4">
+
+  <!-- Flash Messages -->
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Formulario -->
+  <form
+    id="userForm"
+    method="POST"
+    action="/users/{{ user.id }}/edit"
+    enctype="multipart/form-data"
+    novalidate
+  >
+    <h1 class="mb-4">Editar Usuario</h1>
+
+    <!-- Cédula -->
+    <div class="mb-3">
+      <label for="cedula" class="form-label">Cédula <span class="required">*</span></label>
+      <input
+        type="text"
+        id="cedula"
+        name="cedula"
+        class="form-control"
+        value="{{ form_data.cedula if form_data and form_data.cedula else user.cedula }}"
+        readonly
+      />
+    </div>
+
+    <!-- Nombre -->
+    <div class="mb-3">
+      <label for="nombre_usuario" class="form-label">Nombre del Usuario <span class="required">*</span></label>
+      <input
+        type="text"
+        id="nombre_usuario"
+        name="nombre_usuario"
+        class="form-control"
+        value="{{ form_data.nombre_usuario if form_data and form_data.nombre_usuario else user.nombre_usuario }}"
+        required
+      />
+    </div>
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico <span class="required">*</span></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="form-control"
+        value="{{ form_data.email if form_data and form_data.email else user.email }}"
+        required
+      />
+    </div>
+
+    <!-- Rol -->
+    <div class="mb-3">
+      <label for="rol_id" class="form-label">Seleccione un rol <span class="required">*</span></label>
+      <select class="form-select" id="rol_id" name="rol_id" required>
+        <option value="" disabled>Seleccione una opción</option>
+        {% for rol in roles %}
+          <option value="{{ rol.id }}"
+            {% if (form_data and form_data.rol_id == rol.id) or (user.rol_id == rol.id) %}selected{% endif %}>
+            {{ rol.nombre }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Foto -->
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Cambiar foto de perfil (opcional)</label>
+      <input class="form-control" type="file" id="formFile" name="foto" />
+    </div>
+
+    <!-- Botones -->
+    <div class="pt-3">
+      <button type="submit" class="btn btn-primary">Actualizar</button>
+      <a href="/users" class="btn bg-danger-subtle text-danger ms-3">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -103,19 +103,31 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
+              <form
+                method="POST"
+                action="/users/{{ user.id }}/toggle"
+                style="display: inline"
               >
-                <i class="fs-4 ti ti-edit" data-i18n="btnedit"></i>
-              </a>
+                <input
+                  type="hidden"
+                  name="estado_id"
+                  value="{{ 2 if user.estado_id == 1 else 1 }}"
+                />
+                <button
+                  type="submit"
+                  class="dropdown-item d-flex align-items-center gap-3"
+                >
+                  <i class="fs-4 ti ti-trash"></i>
+                  {{ 'Desactivar' if user.estado_id == 1 else 'Activar' }}
+                </button>
+              </form>
             </li>
             <li>
               <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
+                class="dropdown-item d-flex align-items-center gap-4"
+                href="/users/{{ user.id }}/edit"
               >
-                <i class="fs-4 ti ti-trash" data-i18n="btndisable"></i>
+                <i class="fs-4 ti ti-edit"></i>Editar
               </a>
             </li>
           </ul>
@@ -125,4 +137,10 @@
     {% endfor %}
   </tbody>
 </table>
-{% endblock %}
+
+{% block scripts %}
+<script>
+  const API_BASE_URL = "{{ config['API_BASE_URL'] }}";
+</script>
+<script src="{{ url_for('static', filename='js/validations/users/disable_user.js') }}"></script>
+{% endblock %} {% endblock %}

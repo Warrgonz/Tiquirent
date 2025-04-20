@@ -7,7 +7,7 @@ load_dotenv()
 
 def create_app():
 
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
     init_app(app) 
 
     app.secret_key = os.getenv("FLASK_SECRET_KEY")

@@ -7,9 +7,13 @@
     <link
       rel="shortcut icon"
       type="image/png"
-      href="../static/images/logos/key.png"
+      href="{{ url_for('static', filename='images/logos/key.png') }}"
     />
-    <link rel="stylesheet" href="../static/css/styles.min.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.min.css') }}"
+    />
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css"
@@ -40,7 +44,7 @@
           >
             <a href="./index.html" class="text-nowrap logo-img">
               <img
-                src="../static/images/logos/Tiquirentlogo.png"
+                src="{{ url_for('static', filename='images/logos/Tiquirentlogo.png') }}"
                 width="180"
                 alt=""
               />
@@ -143,7 +147,7 @@
                     aria-expanded="false"
                   >
                     <img
-                      src="../static/images/profile/profile-pic.jpg"
+                      src="{{ url_for('static', filename='images/profile/profile-pic.jpg') }}"
                       alt=""
                       width="35"
                       height="35"
@@ -184,12 +188,18 @@
         </div>
       </div>
     </div>
-    <script src="../static/libs/jquery/dist/jquery.min.js"></script>
-    <script src="../static/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/js/sidebarmenu.js"></script>
-    <script src="../static/js/app.min.js"></script>
-    <script src="../static/libs/simplebar/dist/simplebar.js"></script>
-    <script src="../static/js/i18n.js"></script>
-    <script src="../static/js/validations/users/add_user.js"></script>
+    <!-- Librerías JS base -->
+    <script src="{{ url_for('static', filename='libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='libs/simplebar/dist/simplebar.js') }}"></script>
+
+    <!-- Scripts personalizados -->
+    <script src="{{ url_for('static', filename='js/sidebarmenu.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/validations/users/add_user.js') }}"></script>
+
+    <!-- Librería externa SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

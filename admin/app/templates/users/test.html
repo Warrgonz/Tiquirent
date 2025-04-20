@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}Editar Usuario - Tiquirent{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <form method="POST" action="/users/{{ user.id }}/edit" enctype="multipart/form-data" novalidate>
+    <h1 class="mb-4">Editar Usuario</h1>
+
+    <div class="mb-3">
+      <label for="cedula" class="form-label">Cédula <span class="text-danger">*</span></label>
+      <input type="text" name="cedula" class="form-control" value="{{ form_data.cedula }}" disabled>
+    </div>
+
+    <div class="mb-3">
+      <label for="nombre_usuario" class="form-label">Nombre de Usuario <span class="text-danger">*</span></label>
+      <input type="text" name="nombre_usuario" class="form-control" value="{{ form_data.nombre_usuario }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+      <input type="email" name="email" class="form-control" value="{{ form_data.email }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="rol_id" class="form-label">Rol <span class="text-danger">*</span></label>
+      <select class="form-select" name="rol_id">
+        {% for rol in roles %}
+          <option value="{{ rol.id }}" {% if form_data.rol_id == rol.id %}selected{% endif %}>{{ rol.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="formFile" class="form-label">Cambiar foto de perfil (opcional)</label>
+      <input class="form-control" type="file" id="formFile" name="foto" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="/users" class="btn btn-outline-danger ms-2">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
