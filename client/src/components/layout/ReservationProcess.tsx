@@ -1,5 +1,5 @@
-import { JSX, useState } from "react";
-import { useTranslation } from "react-i18next"; 
+import { JSX, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ReservationSteps from "../../components/layout/ReservationSteps";
 import {
   StepOne,
@@ -9,18 +9,39 @@ import {
   StepFive,
   StepSix,
 } from "../../constants/ReservationViews";
+import { useReservation } from "../../contexts/ReservationContext";
 
 const ReservationProcess = () => {
   const { t } = useTranslation();
+  const { data } = useReservation();
+
   const [currentStep, setCurrentStep] = useState(0);
 
+  useEffect(() => {
+    console.log("🧭 Datos del contexto ReservationContext:", data);
+
+    const isComplete =
+      data.pickupLocation &&
+      data.dropoffLocation &&
+      data.pickupDate &&
+      data.dropoffDate;
+
+    console.log("✅ ¿Datos completos para avanzar?", !!isComplete);
+
+    if (isComplete) {
+      setCurrentStep(1); // Si hay datos, iniciamos en el paso 2
+    } else {
+      setCurrentStep(0); // Si no, iniciamos en el paso 1
+    }
+  }, [data]);
+
   const steps = [
-    { title: t("reservationProcess.pickup") }, // Título del paso 1
-    { title: t("reservationProcess.personalData") }, // Título del paso 2
-    { title: t("reservationProcess.selectVehicle") }, // Título del paso 3
-    { title: t("reservationProcess.reviewBook") }, // Título del paso 4
-    { title: t("reservationProcess.checkEmail") }, // Título del paso 5
-    { title: t("reservationProcess.confirmation") }, // Título del paso 6
+    { title: t("reservationProcess.pickup") },
+    { title: t("reservationProcess.personalData") },
+    { title: t("reservationProcess.selectVehicle") },
+    { title: t("reservationProcess.reviewBook") },
+    { title: t("reservationProcess.checkEmail") },
+    { title: t("reservationProcess.confirmation") },
   ];
 
   const handleStepClick = (stepIndex: number) => {
@@ -40,7 +61,7 @@ const ReservationProcess = () => {
 
   return (
     <div className="container">
-      {/* Navegación entre bolitas */}
+      {/* Navegación de pasos */}
       <ReservationSteps
         currentStep={currentStep}
         steps={steps}
@@ -57,14 +78,14 @@ const ReservationProcess = () => {
           onClick={() => setCurrentStep(currentStep - 1)}
           disabled={currentStep === 0}
         >
-          {t("reservationProcess.previous")} {/* Botón de "Previous" */}
+          {t("reservationProcess.previous")}
         </button>
         <button
           className="btn btn-primary"
           onClick={() => setCurrentStep(currentStep + 1)}
           disabled={currentStep === steps.length - 1}
         >
-         {t("reservationProcess.next")} {/* Botón de "Next" */}
+          {t("reservationProcess.next")}
         </button>
       </div>
     </div>

@@ -145,7 +145,7 @@ class UsuarioToggleEstadoResource(MethodView):
 # RUTA: /usuarios/<id>/edit
 # -------------------------------
 
-@blp.route("/<int:user_id>")
+@blp.route("/<int:user_id>", methods=["GET", "POST"])
 class UsuarioResource(MethodView):
 
     @require_api_key
@@ -165,6 +165,50 @@ class UsuarioResource(MethodView):
             "rol_id": user.rol_id,
             "ruta_imagen": user.ruta_imagen
         })
+
+@blp.route("/<int:user_id>/edit", methods=["POST"])
+class UsuarioUpdateResource(MethodView):
+
+    @require_api_key
+    def post(self, user_id):
+        print(f"🛠️ POST para editar usuario {user_id}")
+        user = Users.query.get(user_id)
+        if not user:
+            print("❌ Usuario no encontrado en DB")
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        form = request.form
+        nuevo_email = form.get("email")
+
+        if nuevo_email and nuevo_email != user.email:
+            if Users.query.filter_by(email=nuevo_email).first():
+                print(f"⚠️ Email {nuevo_email} ya está en uso.")
+                return jsonify({"error": "El correo electrónico ya está registrado"}), 400
+
+        user.nombre_usuario = form.get("nombre_usuario", user.nombre_usuario)
+        user.email = nuevo_email
+        user.rol_id = form.get("rol_id", user.rol_id)
+
+        imagen_file = request.files.get("foto")
+        if imagen_file and imagen_file.filename:
+            try:
+                nueva_ruta = uploadImagePhoto(
+                    file_obj=imagen_file,
+                    tipo="profile-pictures",
+                    identificador=user.cedula
+                )
+                user.ruta_imagen = nueva_ruta
+            except Exception as e:
+                print("⚠️ Error al subir nueva imagen:", str(e))
+                return jsonify({"error": "Error al actualizar la imagen"}), 500
+
+        db.session.commit()
+
+        print("✅ Usuario actualizado correctamente")
+        return jsonify({"message": "Usuario actualizado correctamente"}), 200
+
+
+
 
 
 

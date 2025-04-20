@@ -1,11 +1,14 @@
 import ImgDescription from "../common/ImgDescription";
 import { Images } from "../../constants/Images";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
 
 export const RentUs = () => {
   const { t } = useTranslation();
   return (
-    <section className="container rentUs" style={{ paddingTop: "350px" }}>
+    <section
+      className="container rentUs"
+      style={{ paddingTop: "100px", paddingBottom: "20px" }}
+    >
       <h2 className="text-center">{t("rentUs.title")}</h2>
       <div className="row">
         <div className="col-lg-3">
@@ -21,16 +24,10 @@ export const RentUs = () => {
           />
         </div>
         <div className="col-lg-3">
-          <ImgDescription
-            src={Images.ICON_PRICE}
-            alt={t("rentUs.iconPrice")}
-          />
+          <ImgDescription src={Images.ICON_PRICE} alt={t("rentUs.iconPrice")} />
         </div>
         <div className="col-lg-3">
-          <ImgDescription
-            src={Images.ICON_RENT}
-            alt={t("rentUs.iconRent")}
-          />
+          <ImgDescription src={Images.ICON_RENT} alt={t("rentUs.iconRent")} />
         </div>
       </div>
     </section>

@@ -106,20 +106,28 @@ def edit_user(user_id):
             f"/usuarios/{user_id}/edit", data=form_data, files=files
         )
 
-        if isinstance(response, dict) and response.get("message"):
-            flash("✅ Usuario actualizado correctamente", "success")
+        if isinstance(response, dict):
+            if response.get("message"):
+                flash("✅ Usuario actualizado correctamente", "success")
+            elif response.get("error"):
+                flash(f"❌ {response['error']}", "danger")
+            else:
+                flash("❌ Hubo un problema al actualizar el usuario", "danger")
         else:
-            flash("❌ Hubo un problema al actualizar el usuario", "danger")
+            flash("❌ Error inesperado en la solicitud", "danger")
 
         return redirect("/users")
 
+    # GET
     user = api.get(f"/usuarios/{user_id}")
-    if not user:
+    if not user or user.get("error"):
         flash("❌ Usuario no encontrado", "danger")
         return redirect("/users")
 
     roles = api.get("/roles/")
     return render_template("users/edit_user.html", user=user, roles=roles, form_data=user)
+
+
 
 
 

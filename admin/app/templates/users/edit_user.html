@@ -28,6 +28,20 @@
   >
     <h1 class="mb-4">Editar Usuario</h1>
 
+    {% if user.ruta_imagen %}
+    <div class="mb-3 text-center">
+      <label class="form-label d-block">Foto actual:</label>
+      <img
+        src="http://192.168.1.16:8080/media/{{ user.ruta_imagen }}"
+        alt="Foto actual"
+        class="rounded-5"
+        width="250"
+        height="250"
+        id="foto-preview"
+      />
+    </div>
+    {% endif %}
+
     <!-- Cédula -->
     <div class="mb-3">
       <label for="cedula" class="form-label">Cédula <span class="required">*</span></label>
@@ -83,10 +97,10 @@
 
     <!-- Foto -->
     <div class="mb-3">
-      <label for="formFile" class="form-label">Cambiar foto de perfil (opcional)</label>
-      <input class="form-control" type="file" id="formFile" name="foto" />
+      <label for="formFile" class="form-label">Cambiar foto de perfil</label>
+      <input class="form-control" type="file" id="formFile" name="foto" onchange="previewFoto(this)" />
     </div>
-
+   
     <!-- Botones -->
     <div class="pt-3">
       <button type="submit" class="btn btn-primary">Actualizar</button>
@@ -94,4 +108,19 @@
     </div>
   </form>
 </section>
+{% block scripts %}
+<script>
+  function previewFoto(input) {
+    const preview = document.getElementById('foto-preview');
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+{% endblock %}
+
 {% endblock %}
