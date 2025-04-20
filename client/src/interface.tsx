@@ -109,3 +109,15 @@ export interface VehicleCardProps {
 export interface StepFourProps {
   setCurrentStep: Dispatch<SetStateAction<number>>;
 }
+
+export interface ReservationData {
+  pickupLocation: string;
+  dropoffLocation: string;
+  pickupDate: string;
+  dropoffDate: string;
+}
+
+export interface ReservationContextType {
+  data: ReservationData;
+  update: (fields: Partial<ReservationData>) => void;
+}

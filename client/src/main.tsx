@@ -6,8 +6,13 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./index.css";
 import "./i18n";
 
+// 👇 Importá el Provider
+import { ReservationProvider } from "./contexts/ReservationContext.tsx";
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
+    <ReservationProvider>
+      <App />
+    </ReservationProvider>
   </StrictMode>
 );

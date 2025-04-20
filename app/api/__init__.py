@@ -80,4 +80,8 @@ def create_app():
     app.register_error_handler(405, handle_405)
     app.register_error_handler(401, handle_401)
 
+    @app.context_processor
+    def inject_env():
+        return dict(config={"API_BASE_URL": os.getenv("API_BASE_URL")})
+
     return app

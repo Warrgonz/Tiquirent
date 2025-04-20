@@ -1,14 +1,36 @@
-import { MapPin, Car } from "lucide-react";
+// src/components/layout/BookMenu.tsx
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useReservation } from "../../contexts/ReservationContext";
 
 export const BookMenu = () => {
-  // Internacionalización
   const { t } = useTranslation();
+  const { update } = useReservation();
+
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [dropoffLocation, setDropoffLocation] = useState("");
+  const [pickupDate, setPickupDate] = useState("");
+  const [dropoffDate, setDropoffDate] = useState("");
+
+  const handleSubmit = () => {
+    console.log("📤 Enviando datos desde BookMenu:", {
+      pickupLocation,
+      dropoffLocation,
+      pickupDate,
+      dropoffDate,
+    });
+
+    update({ pickupLocation, dropoffLocation, pickupDate, dropoffDate });
+
+    setTimeout(() => {
+      window.location.href = "/book";
+    }, 100); // Pequeña espera para asegurar persistencia
+  };
+
   return (
     <section>
       <div className="p-0 w-75 book-overlay">
         <div className="row g-0">
-          {/* Left Side - Booking Form */}
           <div className="col-md-6 col-lg-4 bg-primary text-white p-4">
             <div className="py-3">
               <h2 className="mb-4">{t("bookMenu.title")}</h2>
@@ -18,14 +40,39 @@ export const BookMenu = () => {
                   htmlFor="pickupLocation"
                   className="form-label text-uppercase fw-bold small"
                 >
-                {t("bookMenu.pickupLocation")}
+                  {t("bookMenu.pickupLocation")}
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
+                <select
                   id="pickupLocation"
-                  placeholder={t("bookMenu.pickupPlaceholder")}
-                />
+                  className="form-select"
+                  value={pickupLocation}
+                  onChange={(e) => setPickupLocation(e.target.value)}
+                >
+                  <option value="">Selecciona un aeropuerto</option>
+                  <option value="sjo">
+                    Aeropuerto Internacional Juan Santamaría (SJO)
+                  </option>
+                  <option value="lir">
+                    Aeropuerto Internacional Daniel Oduber (LIR)
+                  </option>
+                  <option value="tmu">Aeropuerto de Tambor (TMU)</option>
+                  <option value="nos">Aeropuerto de Nosara (NOS)</option>
+                  <option value="drk">Aeropuerto de Drake Bay (DRK)</option>
+                  <option value="tmz">Aeropuerto de Tamarindo (TMZ)</option>
+                  <option value="pld">
+                    Aeropuerto de Playa Samara / Carrillo (PLD)
+                  </option>
+                  <option value="xqp">
+                    Aeropuerto de Quepos / Manuel Antonio (XQP)
+                  </option>
+                  <option value="ojo">
+                    Aeropuerto de Puerto Jiménez (OJO)
+                  </option>
+                  <option value="bcl">
+                    Aeropuerto de Barra del Colorado (BCL)
+                  </option>
+                  <option value="ttq">Aeropuerto de Tortuguero (TTQ)</option>
+                </select>
               </div>
 
               <div className="mb-3">
@@ -35,12 +82,37 @@ export const BookMenu = () => {
                 >
                   {t("bookMenu.dropoffLocation")}
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
+                <select
                   id="dropoffLocation"
-                  placeholder={t("bookMenu.dropoffPlaceholder")}
-                />
+                  className="form-select"
+                  value={dropoffLocation}
+                  onChange={(e) => setDropoffLocation(e.target.value)}
+                >
+                  <option value="">Selecciona un aeropuerto</option>
+                  <option value="sjo">
+                    Aeropuerto Internacional Juan Santamaría (SJO)
+                  </option>
+                  <option value="lir">
+                    Aeropuerto Internacional Daniel Oduber (LIR)
+                  </option>
+                  <option value="tmu">Aeropuerto de Tambor (TMU)</option>
+                  <option value="nos">Aeropuerto de Nosara (NOS)</option>
+                  <option value="drk">Aeropuerto de Drake Bay (DRK)</option>
+                  <option value="tmz">Aeropuerto de Tamarindo (TMZ)</option>
+                  <option value="pld">
+                    Aeropuerto de Playa Samara / Carrillo (PLD)
+                  </option>
+                  <option value="xqp">
+                    Aeropuerto de Quepos / Manuel Antonio (XQP)
+                  </option>
+                  <option value="ojo">
+                    Aeropuerto de Puerto Jiménez (OJO)
+                  </option>
+                  <option value="bcl">
+                    Aeropuerto de Barra del Colorado (BCL)
+                  </option>
+                  <option value="ttq">Aeropuerto de Tortuguero (TTQ)</option>
+                </select>
               </div>
 
               <div className="row mb-3">
@@ -51,7 +123,13 @@ export const BookMenu = () => {
                   >
                     {t("bookMenu.pickupDate")}
                   </label>
-                  <input type="date" className="form-control" id="pickupDate" />
+                  <input
+                    type="date"
+                    id="pickupDate"
+                    className="form-control"
+                    value={pickupDate}
+                    onChange={(e) => setPickupDate(e.target.value)}
+                  />
                 </div>
                 <div className="col-6">
                   <label
@@ -62,74 +140,28 @@ export const BookMenu = () => {
                   </label>
                   <input
                     type="date"
-                    className="form-control"
                     id="dropoffDate"
+                    className="form-control"
+                    value={dropoffDate}
+                    onChange={(e) => setDropoffDate(e.target.value)}
                   />
                 </div>
               </div>
 
-              <button className="btn btn-success w-100 py-3">
-              {t("bookMenu.rentNow")}
+              <button
+                type="button"
+                className="btn btn-success w-100 py-3"
+                onClick={handleSubmit}
+              >
+                {t("bookMenu.rentNow")}
               </button>
             </div>
           </div>
 
-          {/* Right Side - Information */}
           <div className="col-md-6 col-lg-8 p-5">
             <div className="container py-4">
-              <h1 className="text-center mb-5">
-              {t("bookMenu.title")}
-              </h1>
-
-              <div className="row text-center g-4 mb-5">
-                <div className="col-md-4">
-                  <div className="d-flex justify-content-center mb-3">
-                    <div className="bg-light rounded-circle p-3">
-                      <MapPin size={32} className="text-primary" />
-                    </div>
-                  </div>
-                  <h5>{t("bookMenu.pickupStep")}</h5>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="d-flex justify-content-center mb-3">
-                    <div className="bg-light rounded-circle p-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        className="text-primary"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <h5>{t("bookMenu.selectStep")}</h5>
-                </div>
-
-                <div className="col-md-4">
-                  <div className="d-flex justify-content-center mb-3">
-                    <div className="bg-light rounded-circle p-3">
-                      <Car size={32} className="text-primary" />
-                    </div>
-                  </div>
-                  <h5>{t("bookMenu.reserveStep")}</h5>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <button className="btn btn-primary px-5 py-3">
-                {t("bookMenu.reserveButton")}
-                </button>
-              </div>
+              <h1 className="text-center mb-5">{t("bookMenu.title")}</h1>
+              {/* Aquí podés dejar la info adicional */}
             </div>
           </div>
         </div>

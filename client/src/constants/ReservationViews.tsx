@@ -5,35 +5,25 @@ import { filterCategories } from "../constants/filterCategories";
 
 import { Images } from "../constants/Images";
 import VehicleCard from "../components/common/VehicleCard";
+import { useReservation } from "../contexts/ReservationContext";
 
 export const StepOne = () => {
-  const { t } = useTranslation();
+  const { data } = useReservation();
+
   return (
-    <div>
-      <h1>{t("stepOne.title")}</h1>
-      <form className="d-flex flex-column">
-        <div className="d-flex flex-column pt-2 pb-2">
-          <label className="form-label">{t("stepOne.pickupLocation")}</label>
-          <select name="" className="form-select">
-            <option value="">{t("locations.sjo")}</option>
-            <option value="">{t("locations.syq")}</option>
-            <option value="">{t("locations.lir")}</option>
-          </select>
-        </div>
-        <div className="d-flex flex-column pt-2 pb-3">
-          <label className="form-label">{t("stepOne.dropoffLocation")}</label>
-          <select name="" className="form-select">
-            <option value="">{t("locations.sjo")}</option>
-            <option value="">{t("locations.syq")}</option>
-            <option value="">{t("locations.lir")}</option>
-          </select>
-        </div>
-        <div className="">
-          <label className="form-label">{t("stepOne.dateRange")}</label>
-          <DateRangePicker />
-        </div>
-      </form>
-    </div>
+    <form>
+      <label className="form-label">Ubicación de Recogida</label>
+      <input className="form-control" value={data.pickupLocation} readOnly />
+
+      <label className="form-label">Ubicación de Entrega</label>
+      <input className="form-control" value={data.dropoffLocation} readOnly />
+
+      <label className="form-label">Fecha Recogida</label>
+      <input className="form-control" value={data.pickupDate} readOnly />
+
+      <label className="form-label">Fecha Entrega</label>
+      <input className="form-control" value={data.dropoffDate} readOnly />
+    </form>
   );
 };
 
@@ -75,7 +65,7 @@ export const StepTwo = () => {
 
 export const StepThree = () => {
   const { t } = useTranslation();
-  const categories = filterCategories(); 
+  const categories = filterCategories();
   return (
     <div>
       <div className="row">
@@ -84,7 +74,9 @@ export const StepThree = () => {
         </div>
         <div className="col-md-8">
           <fieldset className="border p-3 mb-3">
-            <legend className="w-auto px-2">{t("stepThree.availableVehicles")}</legend>
+            <legend className="w-auto px-2">
+              {t("stepThree.availableVehicles")}
+            </legend>
             <VehicleCard
               vehicleName="Suzuki Swift Dzire ST or similar"
               price={112.2}
@@ -142,7 +134,8 @@ export const StepFour = () => {
           <strong>{t("stepFour.name")}:</strong> {reservationData.fullName}
         </p>
         <p>
-          <strong>{t("stepFour.nationality")}:</strong> {reservationData.nationality}
+          <strong>{t("stepFour.nationality")}:</strong>{" "}
+          {reservationData.nationality}
         </p>
         <p>
           <strong>{t("stepFour.idType")}:</strong> {reservationData.idType}
@@ -157,7 +150,8 @@ export const StepFour = () => {
           <strong>{t("stepFour.phone")}:</strong> {reservationData.phone}
         </p>
         <p>
-          <strong>{t("stepFour.licenseNumber")}:</strong> {reservationData.licenseNumber}
+          <strong>{t("stepFour.licenseNumber")}:</strong>{" "}
+          {reservationData.licenseNumber}
         </p>
       </div>
 
@@ -173,7 +167,8 @@ export const StepFour = () => {
           {reservationData.dropOffLocation}
         </p>
         <p>
-          <strong>{t("stepFour.reservationDates")}:</strong> {reservationData.dateRange}
+          <strong>{t("stepFour.reservationDates")}:</strong>{" "}
+          {reservationData.dateRange}
         </p>
       </div>
 
@@ -189,23 +184,28 @@ export const StepFour = () => {
           />
           <div>
             <p>
-              <strong>{t("stepFour.model")}:</strong> {reservationData.vehicle.name}
+              <strong>{t("stepFour.model")}:</strong>{" "}
+              {reservationData.vehicle.name}
             </p>
             <p>
-              <strong>{t("stepFour.seats")}:</strong> {reservationData.vehicle.seats}
+              <strong>{t("stepFour.seats")}:</strong>{" "}
+              {reservationData.vehicle.seats}
             </p>
             <p>
-              <strong>{t("stepFour.doors")}:</strong> {reservationData.vehicle.doors}
+              <strong>{t("stepFour.doors")}:</strong>{" "}
+              {reservationData.vehicle.doors}
             </p>
             <p>
-              <strong>{t("stepFour.traction")}:</strong> {reservationData.vehicle.traction}
+              <strong>{t("stepFour.traction")}:</strong>{" "}
+              {reservationData.vehicle.traction}
             </p>
             <p>
               <strong>{t("stepFour.transmission")}:</strong>{" "}
               {reservationData.vehicle.transmission}
             </p>
             <p>
-              <strong>{t("stepFour.price")}:</strong> {reservationData.vehicle.currency}
+              <strong>{t("stepFour.price")}:</strong>{" "}
+              {reservationData.vehicle.currency}
               {reservationData.vehicle.price.toFixed(2)}
             </p>
           </div>
@@ -229,14 +229,11 @@ export const StepFive = () => {
   return (
     <div className="d-flex flex-column text-center flex-wrap">
       <h1>{t("stepFive.reservationConfirmation")}</h1>
-      <p className="p-2">
-        {t("stepFive.reservationConfirmationMessage")}
-      </p>
+      <p className="p-2">{t("stepFive.reservationConfirmationMessage")}</p>
       <Loader />
     </div>
   );
 };
-
 
 export const StepSix = () => {
   const { t } = useTranslation();
@@ -280,13 +277,15 @@ export const StepSix = () => {
               <strong>{t("stepSix.name")}:</strong> {reservationData.fullName}
             </p>
             <p>
-              <strong>{t("stepSix.nationality")}:</strong> {reservationData.nationality}
+              <strong>{t("stepSix.nationality")}:</strong>{" "}
+              {reservationData.nationality}
             </p>
             <p>
               <strong>{t("stepSix.idType")}:</strong> {reservationData.idType}
             </p>
             <p>
-              <strong>{t("stepSix.idNumber")}</strong> {reservationData.idNumber}
+              <strong>{t("stepSix.idNumber")}</strong>{" "}
+              {reservationData.idNumber}
             </p>
             <p>
               <strong>{t("stepSix.email")}:</strong> {reservationData.email}
@@ -295,7 +294,8 @@ export const StepSix = () => {
               <strong>{t("stepSix.phone")}:</strong> {reservationData.phone}
             </p>
             <p>
-              <strong>{t("stepSix.licenseNumber")}</strong> {reservationData.licenseNumber}
+              <strong>{t("stepSix.licenseNumber")}</strong>{" "}
+              {reservationData.licenseNumber}
             </p>
           </div>
           <div className="col-md-6">
@@ -316,7 +316,8 @@ export const StepSix = () => {
           {reservationData.dropOffLocation}
         </p>
         <p>
-          <strong>{t("stepSix.reservationDates")}:</strong> {reservationData.dateRange}
+          <strong>{t("stepSix.reservationDates")}:</strong>{" "}
+          {reservationData.dateRange}
         </p>
       </div>
 
@@ -332,23 +333,28 @@ export const StepSix = () => {
           />
           <div>
             <p>
-              <strong>{t("stepSix.model")}:</strong> {reservationData.vehicle.name}
+              <strong>{t("stepSix.model")}:</strong>{" "}
+              {reservationData.vehicle.name}
             </p>
             <p>
-              <strong>{t("stepSix.seats")}:</strong> {reservationData.vehicle.seats}
+              <strong>{t("stepSix.seats")}:</strong>{" "}
+              {reservationData.vehicle.seats}
             </p>
             <p>
-              <strong>{t("stepSix.doors")}:</strong> {reservationData.vehicle.doors}
+              <strong>{t("stepSix.doors")}:</strong>{" "}
+              {reservationData.vehicle.doors}
             </p>
             <p>
-              <strong>{t("stepSix.traction")}:</strong> {reservationData.vehicle.traction}
+              <strong>{t("stepSix.traction")}:</strong>{" "}
+              {reservationData.vehicle.traction}
             </p>
             <p>
               <strong>{t("stepSix.transmission")}:</strong>{" "}
               {reservationData.vehicle.transmission}
             </p>
             <p>
-              <strong>{t("stepSix.price")}:</strong> {reservationData.vehicle.currency}
+              <strong>{t("stepSix.price")}:</strong>{" "}
+              {reservationData.vehicle.currency}
               {reservationData.vehicle.price.toFixed(2)}
             </p>
           </div>
