@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block title %}Detalles del Vehículo - Tiquirent{% endblock %}
+{% block content %}
+<section>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Detalles del vehículo</h1>
+    </div>
+  </div>
+
+  {% if user.ruta_imagen %}
+  <div class="mb-3 text-center">
+    <label class="form-label d-block">Foto actual:</label>
+    <img
+      src="http://192.168.1.16:8080/media/{{ user.ruta_imagen }}"
+      alt="Foto actual"
+      class="rounded-5"
+      width="350"
+      height="250"
+      id="foto-preview"
+    />
+  </div>
+  {% endif %}
+
+  <form class="row g-3 mt-3" disabled>
+    <!-- ASIN -->
+    <div class="col-md-6">
+      <label for="asin" class="form-label">ASIN</label>
+      <input type="text" class="form-control" id="asin" value="{{ user.asin }}" disabled>
+    </div>
+
+    <!-- Modelo -->
+    <div class="col-md-6">
+      <label for="modelo" class="form-label">Modelo</label>
+      <input type="text" class="form-control" id="modelo" value="{{ user.modelo }}" disabled>
+    </div>
+
+    <!-- Marca -->
+    <div class="col-md-6">
+      <label for="marca_id" class="form-label">Marca</label>
+      <select class="form-select" id="marca_id" disabled>
+        {% for marca in marcas %}
+        <option {% if user.marca == marca.nombre %}selected{% endif %}>{{ marca.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Año -->
+    <div class="col-md-6">
+      <label for="año" class="form-label">Año</label>
+      <input type="number" class="form-control" id="año" value="{{ user.año }}" disabled>
+    </div>
+
+    <!-- Placa -->
+    <div class="col-md-6">
+      <label for="placa" class="form-label">Placa</label>
+      <input type="text" class="form-control" id="placa" value="{{ user.placa }}" disabled>
+    </div>
+
+    <!-- Color -->
+    <div class="col-md-6">
+      <label for="color" class="form-label">Color</label>
+      <input type="text" class="form-control" id="color" value="{{ user.color }}" disabled>
+    </div>
+
+    <!-- Precio Diario -->
+    <div class="col-md-6">
+      <label for="precio_diario" class="form-label">Precio Diario</label>
+      <input type="text" class="form-control" id="precio_diario" value="${{ "%.2f"|format(user.precio_diario|float) }}" disabled>
+    </div>
+
+    <!-- Transmisión -->
+    <div class="col-md-6">
+      <label for="transmision_id" class="form-label">Transmisión</label>
+      <select class="form-select" id="transmision_id" disabled>
+        {% for transmision in transmisiones %}
+        <option {% if user.transmision == transmision.tipo %}selected{% endif %}>{{ transmision.tipo }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Tracción -->
+    <div class="col-md-6">
+      <label for="traccion_id" class="form-label">Tracción</label>
+      <select class="form-select" id="traccion_id" disabled>
+        {% for traccion in tracciones %}
+        <option {% if user.traccion == traccion.tipo %}selected{% endif %}>{{ traccion.tipo }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Puertas -->
+    <div class="col-md-6">
+      <label for="puertas" class="form-label">Número de puertas</label>
+      <input type="number" class="form-control" id="puertas" value="{{ user.puertas }}" disabled>
+    </div>
+
+    <!-- Asientos -->
+    <div class="col-md-6">
+      <label for="numero_asientos" class="form-label">Número de asientos</label>
+      <input type="number" class="form-control" id="numero_asientos" value="{{ user.numero_asientos }}" disabled>
+    </div>
+
+    <!-- Estado -->
+    <div class="col-md-6">
+      <label for="estado_id" class="form-label">Estado</label>
+      <select class="form-select" id="estado_id" disabled>
+        {% for estado in estados %}
+        <option {% if user.estado == estado.estado %}selected{% endif %}>{{ estado.estado }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </form>
+    <a href="/vehicles" class="btn btn-primary mt-3">Regresar</a>
+</section>
+{% endblock %}

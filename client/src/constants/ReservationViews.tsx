@@ -1,218 +1,256 @@
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { useReservation } from "../contexts/ReservationContext";
 import VehicleFilters from "../components/layout/VehicleFilters";
-import DateRangePicker from "../hooks/useDateRangePicker";
+import VehicleCard from "../components/common/VehicleCard";
+import { Images } from "../constants/Images";
 import { filterCategories } from "../constants/filterCategories";
 
-import { Images } from "../constants/Images";
-import VehicleCard from "../components/common/VehicleCard";
-import { useReservation } from "../contexts/ReservationContext";
-
+// 🔹 PASO 1: Ubicación y fechas (solo lectura)
 export const StepOne = () => {
   const { data } = useReservation();
 
   return (
     <form>
       <label className="form-label">Ubicación de Recogida</label>
-      <input className="form-control" value={data.pickupLocation} readOnly />
+      <input
+        className="form-control"
+        value={data.pickupLocation || ""}
+        readOnly
+      />
 
       <label className="form-label">Ubicación de Entrega</label>
-      <input className="form-control" value={data.dropoffLocation} readOnly />
+      <input
+        className="form-control"
+        value={data.dropoffLocation || ""}
+        readOnly
+      />
 
       <label className="form-label">Fecha Recogida</label>
-      <input className="form-control" value={data.pickupDate} readOnly />
+      <input className="form-control" value={data.pickupDate || ""} readOnly />
 
       <label className="form-label">Fecha Entrega</label>
-      <input className="form-control" value={data.dropoffDate} readOnly />
+      <input className="form-control" value={data.dropoffDate || ""} readOnly />
     </form>
   );
 };
 
+// 🔹 PASO 2: Datos personales
 export const StepTwo = () => {
   const { t } = useTranslation();
+  const { data, update } = useReservation();
+
   return (
-    <div>
-      <form className="container mb-4">
-        {/* Datos personales */}
-        <fieldset className="border p-3 mb-3">
-          <legend className="w-auto px-2">{t("stepTwo.personalInfo")}</legend>
-          <div className="row">
-            <div className="col-sm-12 col-md-6 pb-2">
-              <label className="form-label">{t("stepTwo.fullName")}</label>
-              <input type="text" className="form-control" />
-            </div>
-            <div className="col-sm-12 col-md-6 pb-2">
-              <label className="form-label">{t("stepTwo.nationality")}</label>
-              <input type="text" className="form-control" />
-            </div>
-            <div className="col-sm-12 col-md-6 pb-2">
-              <label className="form-label">{t("stepTwo.idType")}</label>
-              <select className="form-select">
-                <option value="">{t("idTypes.national")}</option>
-                <option value="">{t("idTypes.dimex")}</option>
-                <option value="">{t("idTypes.passport")}</option>
-              </select>
-            </div>
-            <div className="col-sm-12 col-md-6 pb-2">
-              <label className="form-label">{t("stepTwo.idNumber")}</label>
-              <input type="text" className="form-control" />
-            </div>
+    <form className="container mb-4">
+      <fieldset className="border p-3 mb-3">
+        <legend className="w-auto px-2">{t("stepTwo.personalInfo")}</legend>
+        <div className="row">
+          <div className="col-md-6 pb-2">
+            <label className="form-label">{t("stepTwo.fullName")}</label>
+            <input
+              type="text"
+              className="form-control"
+              value={data.fullName || ""}
+              onChange={(e) => update({ fullName: e.target.value })}
+            />
           </div>
-        </fieldset>
-      </form>
-    </div>
+          <div className="col-md-6 pb-2">
+            <label className="form-label">{t("stepTwo.nationality")}</label>
+            <input
+              type="text"
+              className="form-control"
+              value={data.nationality || ""}
+              onChange={(e) => update({ nationality: e.target.value })}
+            />
+          </div>
+          <div className="col-md-6 pb-2">
+            <label className="form-label">{t("stepTwo.idType")}</label>
+            <select
+              className="form-select"
+              value={data.idType || ""}
+              onChange={(e) => update({ idType: e.target.value })}
+            >
+              <option value="">{t("stepTwo.selectIdType")}</option>
+              <option value="NACIONAL">{t("idTypes.national")}</option>
+              <option value="DIMEX">{t("idTypes.dimex")}</option>
+              <option value="PASAPORTE">{t("idTypes.passport")}</option>
+            </select>
+          </div>
+          <div className="col-md-6 pb-2">
+            <label className="form-label">{t("stepTwo.idNumber")}</label>
+            <input
+              type="text"
+              className="form-control"
+              value={data.idNumber || ""}
+              onChange={(e) => update({ idNumber: e.target.value })}
+            />
+          </div>
+          <div className="col-md-6 pb-2">
+            <label className="form-label">{t("stepTwo.email")}</label>
+            <input
+              type="email"
+              className="form-control"
+              value={data.email || ""}
+              onChange={(e) => update({ email: e.target.value })}
+            />
+          </div>
+          <div className="col-md-6 pb-2">
+            <label className="form-label">{t("stepTwo.phone")}</label>
+            <input
+              type="text"
+              className="form-control"
+              value={data.phone || ""}
+              onChange={(e) => update({ phone: e.target.value })}
+            />
+          </div>
+          <div className="col-md-6 pb-2">
+            <label className="form-label">{t("stepTwo.licenseNumber")}</label>
+            <input
+              type="text"
+              className="form-control"
+              value={data.licenseNumber || ""}
+              onChange={(e) => update({ licenseNumber: e.target.value })}
+            />
+          </div>
+        </div>
+      </fieldset>
+    </form>
   );
 };
 
+// 🔹 PASO 3: Selección del vehículo
 export const StepThree = () => {
   const { t } = useTranslation();
+  const { update } = useReservation();
   const categories = filterCategories();
+
+  const handleVehicleSelect = () => {
+    update({
+      vehicle: {
+        name: "Suzuki Swift Dzire ST or similar",
+        imageUrl: Images.CAR_SAMPLE,
+        seats: "2",
+        doors: "4",
+        traction: "4X2",
+        transmission: "Manual",
+        price: 112.2,
+        currency: "$",
+      },
+    });
+  };
+
   return (
-    <div>
-      <div className="row">
-        <div className="col-md-4">
-          <VehicleFilters categories={categories} />
-        </div>
-        <div className="col-md-8">
-          <fieldset className="border p-3 mb-3">
-            <legend className="w-auto px-2">
-              {t("stepThree.availableVehicles")}
-            </legend>
-            <VehicleCard
-              vehicleName="Suzuki Swift Dzire ST or similar"
-              price={112.2}
-              imageUrl={Images.CAR_SAMPLE}
-              seats="2"
-              doors="4"
-              traction="4X2"
-              transmission="Manual"
-            />
-          </fieldset>
-        </div>
+    <div className="row">
+      <div className="col-md-4">
+        <VehicleFilters categories={categories} />
+      </div>
+      <div className="col-md-8">
+        <fieldset className="border p-3 mb-3">
+          <legend className="w-auto px-2">
+            {t("stepThree.availableVehicles")}
+          </legend>
+          <VehicleCard
+            vehicleName="Suzuki Swift Dzire ST or similar"
+            price={112.2}
+            imageUrl={Images.CAR_SAMPLE}
+            seats="2"
+            doors="4"
+            traction="4X2"
+            transmission="Manual"
+            onClick={handleVehicleSelect}
+          />
+        </fieldset>
       </div>
     </div>
   );
 };
-// Esto lo estoy usando para ejemplificar como seria la visualización final de una reserva
 
-import { useState } from "react";
-import Loader from "../components/common/Spinner";
-
+// 🔹 PASO 4: Resumen de la reserva
 export const StepFour = () => {
   const { t } = useTranslation();
-  const [reservationData] = useState({
-    fullName: "Juan Pérez",
-    nationality: "Costarricense",
-    idType: "Pasaporte",
-    idNumber: "123456789",
-    email: "juan.perez@example.com",
-    phone: "+506 8888-8888",
-    licenseNumber: "ABCD1234",
-    pickUpLocation: "Aeropuerto Juan Santamaría (SJO)",
-    dropOffLocation: "Aeropuerto Juan Santamaría (SJO)",
-    dateRange: "01/04/2025 - 07/04/2025",
-    vehicle: {
-      name: "Suzuki Swift Dzire ST or similar",
-      imageUrl:
-        "https://media.istockphoto.com/id/1157655660/es/foto/suv-rojo-gen%C3%A9rico-sobre-un-fondo-blanco-vista-lateral.jpg?s=2048x2048&w=is&k=20&c=kBBB4-vZxjxHDvXAWAoe5DYMT8DRxAWoD_TytzhFL5Y=",
-      seats: "2",
-      doors: "4",
-      traction: "4X2",
-      transmission: "Manual",
-      price: 112.2,
-      currency: "$",
-    },
-  });
+  const { data } = useReservation();
 
   return (
     <div className="container">
       <h2 className="mb-3">{t("stepFour.reservationSummary")}</h2>
 
-      {/* Información del Cliente */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">{t("stepFour.personalData")}</h4>
+        <h4>{t("stepFour.personalData")}</h4>
         <p>
-          <strong>{t("stepFour.name")}:</strong> {reservationData.fullName}
+          <strong>{t("stepFour.name")}:</strong> {data.fullName}
         </p>
         <p>
-          <strong>{t("stepFour.nationality")}:</strong>{" "}
-          {reservationData.nationality}
+          <strong>{t("stepFour.nationality")}:</strong> {data.nationality}
         </p>
         <p>
-          <strong>{t("stepFour.idType")}:</strong> {reservationData.idType}
+          <strong>{t("stepFour.idType")}:</strong> {data.idType}
         </p>
         <p>
-          <strong>{t("stepFour.idNumber")}:</strong> {reservationData.idNumber}
+          <strong>{t("stepFour.idNumber")}:</strong> {data.idNumber}
         </p>
         <p>
-          <strong>{t("stepFour.email")}:</strong> {reservationData.email}
+          <strong>{t("stepFour.email")}:</strong> {data.email}
         </p>
         <p>
-          <strong>{t("stepFour.phone")}:</strong> {reservationData.phone}
+          <strong>{t("stepFour.phone")}:</strong> {data.phone}
         </p>
         <p>
-          <strong>{t("stepFour.licenseNumber")}:</strong>{" "}
-          {reservationData.licenseNumber}
+          <strong>{t("stepFour.licenseNumber")}:</strong> {data.licenseNumber}
         </p>
       </div>
 
-      {/* Información del Viaje */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">{t("stepFour.tripDetails")}</h4>
+        <h4>{t("stepFour.tripDetails")}</h4>
         <p>
-          <strong>{t("stepFour.pickUpLocation")}:</strong>{" "}
-          {reservationData.pickUpLocation}
+          <strong>{t("stepFour.pickUpLocation")}:</strong> {data.pickupLocation}
         </p>
         <p>
           <strong>{t("stepFour.dropOffLocation")}:</strong>{" "}
-          {reservationData.dropOffLocation}
+          {data.dropoffLocation}
         </p>
         <p>
-          <strong>{t("stepFour.reservationDates")}:</strong>{" "}
-          {reservationData.dateRange}
+          <strong>{t("stepFour.reservationDates")}:</strong> {data.pickupDate} -{" "}
+          {data.dropoffDate}
         </p>
       </div>
 
-      {/* Información del Vehículo Seleccionado */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">{t("stepFour.selectedVehicle")}</h4>
-        <div className="d-flex align-items-center">
-          <img
-            src={reservationData.vehicle.imageUrl}
-            alt={reservationData.vehicle.name}
-            className="img-fluid me-3"
-            style={{ width: "300px", height: "auto" }}
-          />
-          <div>
-            <p>
-              <strong>{t("stepFour.model")}:</strong>{" "}
-              {reservationData.vehicle.name}
-            </p>
-            <p>
-              <strong>{t("stepFour.seats")}:</strong>{" "}
-              {reservationData.vehicle.seats}
-            </p>
-            <p>
-              <strong>{t("stepFour.doors")}:</strong>{" "}
-              {reservationData.vehicle.doors}
-            </p>
-            <p>
-              <strong>{t("stepFour.traction")}:</strong>{" "}
-              {reservationData.vehicle.traction}
-            </p>
-            <p>
-              <strong>{t("stepFour.transmission")}:</strong>{" "}
-              {reservationData.vehicle.transmission}
-            </p>
-            <p>
-              <strong>{t("stepFour.price")}:</strong>{" "}
-              {reservationData.vehicle.currency}
-              {reservationData.vehicle.price.toFixed(2)}
-            </p>
+        <h4>{t("stepFour.selectedVehicle")}</h4>
+        {data.vehicle && (
+          <div className="d-flex align-items-center">
+            <img
+              src={data.vehicle.imageUrl}
+              alt={data.vehicle.name}
+              className="img-fluid me-3"
+              style={{ width: "300px", height: "auto" }}
+            />
+            <div>
+              <p>
+                <strong>{t("stepFour.model")}:</strong> {data.vehicle.name}
+              </p>
+              <p>
+                <strong>{t("stepFour.seats")}:</strong> {data.vehicle.seats}
+              </p>
+              <p>
+                <strong>{t("stepFour.doors")}:</strong> {data.vehicle.doors}
+              </p>
+              <p>
+                <strong>{t("stepFour.traction")}:</strong>{" "}
+                {data.vehicle.traction}
+              </p>
+              <p>
+                <strong>{t("stepFour.transmission")}:</strong>{" "}
+                {data.vehicle.transmission}
+              </p>
+              <p>
+                <strong>{t("stepFour.price")}:</strong> {data.vehicle.currency}
+                {data.vehicle.price?.toFixed(2)}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Botón de Confirmación */}
       <button
         className="btn btn-primary w-100 mt-3"
         onClick={() => alert(t("stepFour.confirmationMessage"))}
@@ -223,143 +261,94 @@ export const StepFour = () => {
   );
 };
 
+// 🔹 PASO 5: Confirmación final
 export const StepFive = () => {
   const { t } = useTranslation();
-
-  return (
-    <div className="d-flex flex-column text-center flex-wrap">
-      <h1>{t("stepFive.reservationConfirmation")}</h1>
-      <p className="p-2">{t("stepFive.reservationConfirmationMessage")}</p>
-      <Loader />
-    </div>
-  );
-};
-
-export const StepSix = () => {
-  const { t } = useTranslation();
-  const [reservationData] = useState({
-    fullName: "Juan Pérez",
-    nationality: "Costarricense",
-    idType: "Pasaporte",
-    idNumber: "123456789",
-    email: "juan.perez@example.com",
-    phone: "+506 8888-8888",
-    licenseNumber: "ABCD1234",
-    pickUpLocation: "Aeropuerto Juan Santamaría (SJO)",
-    dropOffLocation: "Aeropuerto Juan Santamaría (SJO)",
-    dateRange: "01/04/2025 - 07/04/2025",
-    vehicle: {
-      name: "Suzuki Swift Dzire ST or similar",
-      imageUrl:
-        "https://media.istockphoto.com/id/1157655660/es/foto/suv-rojo-gen%C3%A9rico-sobre-un-fondo-blanco-vista-lateral.jpg?s=2048x2048&w=is&k=20&c=kBBB4-vZxjxHDvXAWAoe5DYMT8DRxAWoD_TytzhFL5Y=",
-      seats: "2",
-      doors: "4",
-      traction: "4X2",
-      transmission: "Manual",
-      price: 112.2,
-      currency: "$",
-    },
-  });
+  const { data } = useReservation();
 
   return (
     <div className="container">
-      <h2 className="mb-3">{t("stepSix.reservationSuccess")}</h2>
-      <h2 className="mb-3">
-        <strong>{t("stepSix.reservationCode")}</strong> T51236421
-      </h2>
+      <h2 className="mb-3">{t("stepFive.reservationSuccess")}</h2>
+      <h4 className="mb-4">
+        <strong>{t("stepFive.reservationCode")}</strong> T51236421
+      </h4>
 
-      {/* Información del Cliente */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">{t("stepSix.personalData")}</h4>
-        <div className="row">
-          <div className="col-md-6">
-            <p>
-              <strong>{t("stepSix.name")}:</strong> {reservationData.fullName}
-            </p>
-            <p>
-              <strong>{t("stepSix.nationality")}:</strong>{" "}
-              {reservationData.nationality}
-            </p>
-            <p>
-              <strong>{t("stepSix.idType")}:</strong> {reservationData.idType}
-            </p>
-            <p>
-              <strong>{t("stepSix.idNumber")}</strong>{" "}
-              {reservationData.idNumber}
-            </p>
-            <p>
-              <strong>{t("stepSix.email")}:</strong> {reservationData.email}
-            </p>
-            <p>
-              <strong>{t("stepSix.phone")}:</strong> {reservationData.phone}
-            </p>
-            <p>
-              <strong>{t("stepSix.licenseNumber")}</strong>{" "}
-              {reservationData.licenseNumber}
-            </p>
-          </div>
-          <div className="col-md-6">
-            <img src={Images.CAR_QR_SAMPLE} alt="" />
-          </div>
-        </div>
-      </div>
-
-      {/* Información del Viaje */}
-      <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">{t("stepSix.tripDetails")}</h4>
+        <h4>{t("stepFive.personalData")}</h4>
         <p>
-          <strong>{t("stepSix.pickUpLocation")}:</strong>{" "}
-          {reservationData.pickUpLocation}
+          <strong>{t("stepFive.name")}:</strong> {data.fullName}
         </p>
         <p>
-          <strong>{t("stepSix.dropOffLocation")}:</strong>{" "}
-          {reservationData.dropOffLocation}
+          <strong>{t("stepFive.nationality")}:</strong> {data.nationality}
         </p>
         <p>
-          <strong>{t("stepSix.reservationDates")}:</strong>{" "}
-          {reservationData.dateRange}
+          <strong>{t("stepFive.idType")}:</strong> {data.idType}
+        </p>
+        <p>
+          <strong>{t("stepFive.idNumber")}:</strong> {data.idNumber}
+        </p>
+        <p>
+          <strong>{t("stepFive.email")}:</strong> {data.email}
+        </p>
+        <p>
+          <strong>{t("stepFive.phone")}:</strong> {data.phone}
+        </p>
+        <p>
+          <strong>{t("stepFive.licenseNumber")}:</strong> {data.licenseNumber}
         </p>
       </div>
 
-      {/* Información del Vehículo Seleccionado */}
       <div className="border p-3 mb-3 rounded shadow-sm">
-        <h4 className="mb-2">{t("stepSix.selectedVehicle")}</h4>
-        <div className="d-flex align-items-center">
-          <img
-            src={reservationData.vehicle.imageUrl}
-            alt={reservationData.vehicle.name}
-            className="img-fluid me-3"
-            style={{ width: "300px", height: "auto" }}
-          />
-          <div>
-            <p>
-              <strong>{t("stepSix.model")}:</strong>{" "}
-              {reservationData.vehicle.name}
-            </p>
-            <p>
-              <strong>{t("stepSix.seats")}:</strong>{" "}
-              {reservationData.vehicle.seats}
-            </p>
-            <p>
-              <strong>{t("stepSix.doors")}:</strong>{" "}
-              {reservationData.vehicle.doors}
-            </p>
-            <p>
-              <strong>{t("stepSix.traction")}:</strong>{" "}
-              {reservationData.vehicle.traction}
-            </p>
-            <p>
-              <strong>{t("stepSix.transmission")}:</strong>{" "}
-              {reservationData.vehicle.transmission}
-            </p>
-            <p>
-              <strong>{t("stepSix.price")}:</strong>{" "}
-              {reservationData.vehicle.currency}
-              {reservationData.vehicle.price.toFixed(2)}
-            </p>
+        <h4>{t("stepFive.tripDetails")}</h4>
+        <p>
+          <strong>{t("stepFive.pickUpLocation")}:</strong> {data.pickupLocation}
+        </p>
+        <p>
+          <strong>{t("stepFive.dropOffLocation")}:</strong>{" "}
+          {data.dropoffLocation}
+        </p>
+        <p>
+          <strong>{t("stepFive.reservationDates")}:</strong> {data.pickupDate} -{" "}
+          {data.dropoffDate}
+        </p>
+      </div>
+
+      {data.vehicle && (
+        <div className="border p-3 mb-3 rounded shadow-sm">
+          <h4>{t("stepFive.selectedVehicle")}</h4>
+          <div className="d-flex align-items-center">
+            <img
+              src={data.vehicle.imageUrl}
+              alt={data.vehicle.name}
+              className="img-fluid me-3"
+              style={{ width: "300px", height: "auto" }}
+            />
+            <div>
+              <p>
+                <strong>{t("stepFive.model")}:</strong> {data.vehicle.name}
+              </p>
+              <p>
+                <strong>{t("stepFive.seats")}:</strong> {data.vehicle.seats}
+              </p>
+              <p>
+                <strong>{t("stepFive.doors")}:</strong> {data.vehicle.doors}
+              </p>
+              <p>
+                <strong>{t("stepFive.traction")}:</strong>{" "}
+                {data.vehicle.traction}
+              </p>
+              <p>
+                <strong>{t("stepFive.transmission")}:</strong>{" "}
+                {data.vehicle.transmission}
+              </p>
+              <p>
+                <strong>{t("stepFive.price")}:</strong> {data.vehicle.currency}
+                {data.vehicle.price?.toFixed(2)}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+{% block title %}Editar Vehículo - Tiquirent{% endblock %}
+{% block content %}
+<section>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Editar vehículo</h1>
+    </div>
+  </div>
+
+  {% if user.ruta_imagen %}
+  <div class="mb-3 text-center">
+    <label class="form-label d-block">Foto actual:</label>
+    <img
+      src="http://192.168.1.16:8080/media/{{ user.ruta_imagen }}"
+      alt="Foto actual"
+      class="rounded-5"
+      width="350"
+      height="250"
+      id="foto-preview"
+    />
+  </div>
+  {% endif %}
+
+  <form class="row g-3 mt-3" id="vehicleForm" method="POST" enctype="multipart/form-data">
+    <!-- ASIN -->
+    <div class="col-md-6">
+      <label for="asin" class="form-label">ASIN</label>
+      <input type="text" class="form-control" id="asin" name="asin" value="{{ user.asin }}">
+    </div>
+
+    <!-- Modelo -->
+    <div class="col-md-6">
+      <label for="modelo" class="form-label">Modelo</label>
+      <input type="text" class="form-control" id="modelo" name="modelo" value="{{ user.modelo }}">
+    </div>
+
+    <!-- Marca -->
+    <div class="col-md-6">
+      <label for="marca_id" class="form-label">Marca</label>
+      <select class="form-select" id="marca_id" name="marca_id">
+        {% for marca in marcas %}
+        <option value="{{ marca.id }}" {% if user.marca == marca.nombre %}selected{% endif %}>{{ marca.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Año -->
+    <div class="col-md-6">
+      <label for="año" class="form-label">Año</label>
+      <input type="number" class="form-control" id="año" name="año" value="{{ user.año }}">
+    </div>
+
+    <!-- Placa -->
+    <div class="col-md-6">
+      <label for="placa" class="form-label">Placa</label>
+      <input type="text" class="form-control" id="placa" name="placa" value="{{ user.placa }}">
+    </div>
+
+    <!-- Color -->
+    <div class="col-md-6">
+      <label for="color" class="form-label">Color</label>
+      <input type="text" class="form-control" id="color" name="color" value="{{ user.color }}">
+    </div>
+
+    <!-- Precio Diario -->
+    <div class="col-md-6">
+      <label for="precio_diario" class="form-label">Precio Diario</label>
+      <input type="number" step="0.01" class="form-control" id="precio_diario" name="precio_diario" value="{{ user.precio_diario }}">
+    </div>
+
+    <!-- Transmisión -->
+    <div class="col-md-6">
+      <label for="transmision_id" class="form-label">Transmisión</label>
+      <select class="form-select" id="transmision_id" name="transmision_id">
+        {% for transmision in transmisiones %}
+        <option value="{{ transmision.id }}" {% if user.transmision == transmision.tipo %}selected{% endif %}>{{ transmision.tipo }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Tracción -->
+    <div class="col-md-6">
+      <label for="traccion_id" class="form-label">Tracción</label>
+      <select class="form-select" id="traccion_id" name="traccion_id">
+        {% for traccion in tracciones %}
+        <option value="{{ traccion.id }}" {% if user.traccion == traccion.tipo %}selected{% endif %}>{{ traccion.tipo }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Puertas -->
+    <div class="col-md-6">
+      <label for="puertas" class="form-label">Número de puertas</label>
+      <input type="number" class="form-control" id="puertas" name="puertas" value="{{ user.puertas }}">
+    </div>
+
+    <!-- Asientos -->
+    <div class="col-md-6">
+      <label for="numero_asientos" class="form-label">Número de asientos</label>
+      <input type="number" class="form-control" id="numero_asientos" name="numero_asientos" value="{{ user.numero_asientos }}">
+    </div>
+
+    <!-- Estado -->
+    <div class="col-md-6">
+      <label for="estado_id" class="form-label">Estado</label>
+      <select class="form-select" id="estado_id" name="estado_id">
+        {% for estado in estados %}
+        <option value="{{ estado.id }}" {% if user.estado == estado.estado %}selected{% endif %}>{{ estado.estado }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Nueva Imagen -->
+    <div class="col-md-6">
+      <label for="ruta_imagen" class="form-label">Cambiar imagen</label>
+      <input class="form-control" type="file" id="ruta_imagen" name="ruta_imagen">
+    </div>
+
+    <!-- Botones -->
+    <div class="mt-4">
+      <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      <a href="/vehicles" class="btn btn-danger ms-3">Cancelar</a>
+    </div>
+  </form>
+</section>
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/validations/vehicles/edit_vehicles.js') }}"></script>
+{% endblock %}
+{% endblock %}

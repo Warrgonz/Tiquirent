@@ -1,4 +1,4 @@
-# api/models/estado.py
+# api/models/status.py
 from api.extensions import db
 
 class Status(db.Model):

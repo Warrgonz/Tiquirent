@@ -1,4 +1,3 @@
-import BookMenu from "../components/layout/Book";
 import Faq from "../components/layout/Faq";
 import Footer from "../components/layout/Footer";
 import Header from "../components/layout/Header";

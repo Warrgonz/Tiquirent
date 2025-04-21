@@ -70,5 +70,26 @@ class APIClient:
         except requests.RequestException as e:
             print("❌ Error general:", e)
         return {"message": "❌ Error de conexión con la API"}
+    
+    def delete(self, endpoint, headers=None):
+        try:
+            response = requests.delete(
+                f"{self.base_url}{endpoint}",
+                headers=self._headers(headers, content_type=False)
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.HTTPError as e:
+            print("❌ HTTPError en DELETE:", e)
+            try:
+                return response.json()
+            except ValueError:
+                print("❌ La respuesta no es JSON:")
+                print(response.text)
+                return {"message": "❌ El servidor no devolvió JSON válido"}
+        except requests.RequestException as e:
+            print("❌ Error general en DELETE:", e)
+            return {"message": "❌ Error de conexión con la API"}
+
 
 

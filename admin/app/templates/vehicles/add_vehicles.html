@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+{% block title %}Agregar Vehículo - Tiquirent{% endblock %}
+{% block content %}
+<section>
+
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <form
+    id="vehicleForm"
+    method="POST"
+    enctype="multipart/form-data"
+    novalidate
+  >
+    <h1>Agregar Vehículo</h1>
+
+    <div class="row g-3 mb-4">
+      <!-- ASIN -->
+      <div class="col-md-6">
+        <label for="asin" class="form-label">ASIN <span class="required">*</span></label>
+        <input type="text" id="asin" name="asin" class="form-control" required
+               value="{{ form_data.asin if form_data and form_data.asin }}" />
+      </div>
+
+      <!-- Modelo -->
+      <div class="col-md-6">
+        <label for="modelo" class="form-label">Modelo <span class="required">*</span></label>
+        <input type="text" id="modelo" name="modelo" class="form-control" required
+               value="{{ form_data.modelo if form_data and form_data.modelo }}" />
+      </div>
+
+      <!-- Marca -->
+      <div class="col-md-6">
+        <label for="marca_id" class="form-label">Marca <span class="required">*</span></label>
+        <select class="form-select" id="marca_id" name="marca_id" required>
+          <option value="" disabled selected>Seleccione una marca</option>
+          {% for marca in marcas %}
+            <option value="{{ marca.id }}" {% if form_data and form_data.marca_id == marca.id %}selected{% endif %}>
+              {{ marca.nombre }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Año -->
+      <div class="col-md-6">
+        <label for="año" class="form-label">Año <span class="required">*</span></label>
+        <input type="number" id="año" name="año" class="form-control" required
+               value="{{ form_data.año if form_data and form_data.año }}" />
+      </div>
+
+      <!-- Placa -->
+      <div class="col-md-6">
+        <label for="placa" class="form-label">Placa <span class="required">*</span></label>
+        <input type="text" id="placa" name="placa" class="form-control" required
+               value="{{ form_data.placa if form_data and form_data.placa }}" />
+      </div>
+
+      <!-- Color -->
+      <div class="col-md-6">
+        <label for="color" class="form-label">Color <span class="required">*</span></label>
+        <input type="text" id="color" name="color" class="form-control" required
+               value="{{ form_data.color if form_data and form_data.color }}" />
+      </div>
+
+      <!-- Precio Diario -->
+      <div class="col-md-6">
+        <label for="precio_diario" class="form-label">Precio Diario <span class="required">*</span></label>
+        <input type="number" step="0.01" id="precio_diario" name="precio_diario" class="form-control" required
+               value="{{ form_data.precio_diario if form_data and form_data.precio_diario }}" />
+      </div>
+
+      <!-- Transmisión -->
+      <div class="col-md-6">
+        <label for="transmision_id" class="form-label">Transmisión <span class="required">*</span></label>
+        <select class="form-select" id="transmision_id" name="transmision_id" required>
+          <option value="" disabled selected>Seleccione transmisión</option>
+          {% for transmision in transmisiones %}
+            <option value="{{ transmision.id }}" {% if form_data and form_data.transmision_id == transmision.id %}selected{% endif %}>
+              {{ transmision.tipo }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Tracción -->
+      <div class="col-md-6">
+        <label for="traccion_id" class="form-label">Tracción <span class="required">*</span></label>
+        <select class="form-select" id="traccion_id" name="traccion_id" required>
+          <option value="" disabled selected>Seleccione tracción</option>
+          {% for traccion in tracciones %}
+            <option value="{{ traccion.id }}" {% if form_data and form_data.traccion_id == traccion.id %}selected{% endif %}>
+              {{ traccion.tipo }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Puertas -->
+      <div class="col-md-6">
+        <label for="puertas" class="form-label">Número de puertas <span class="required">*</span></label>
+        <input type="number" id="puertas" name="puertas" class="form-control" required
+               value="{{ form_data.puertas if form_data and form_data.puertas }}" />
+      </div>
+
+      <!-- Asientos -->
+      <div class="col-md-6">
+        <label for="numero_asientos" class="form-label">Número de asientos <span class="required">*</span></label>
+        <input type="number" id="numero_asientos" name="numero_asientos" class="form-control" required
+               value="{{ form_data.numero_asientos if form_data and form_data.numero_asientos }}" />
+      </div>
+
+      <!-- Estado -->
+      <div class="col-md-6">
+        <label for="estado_id" class="form-label">Estado <span class="required">*</span></label>
+        <select class="form-select" id="estado_id" name="estado_id" required>
+          <option value="" disabled selected>Seleccione un estado</option>
+          {% for estado in estados %}
+            <option value="{{ estado.id }}" {% if form_data and form_data.estado_id == estado.id %}selected{% endif %}>
+              {{ estado.estado }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Imagen -->
+      <div class="col-md-6">
+        <label for="ruta_imagen" class="form-label">Imagen del vehículo <span class="required">*</span></label>
+        <input class="form-control" type="file" id="ruta_imagen" name="ruta_imagen" required />
+      </div>
+    </div>
+
+    <div class="pt-2">
+      <button type="submit" class="btn btn-primary">Agregar</button>
+      <a href="/vehicles"><button type="button" class="btn bg-danger-subtle text-danger mx-3">Cancelar</button></a>
+    </div>
+  </form>
+</section>
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/validations/vehicles/add_vehicles.js') }}"></script>
+{% endblock %}
+{% endblock %}

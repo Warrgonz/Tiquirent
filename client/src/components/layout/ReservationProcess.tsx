@@ -7,7 +7,6 @@ import {
   StepThree,
   StepFour,
   StepFive,
-  StepSix,
 } from "../../constants/ReservationViews";
 import { useReservation } from "../../contexts/ReservationContext";
 
@@ -40,7 +39,6 @@ const ReservationProcess = () => {
     { title: t("reservationProcess.personalData") },
     { title: t("reservationProcess.selectVehicle") },
     { title: t("reservationProcess.reviewBook") },
-    { title: t("reservationProcess.checkEmail") },
     { title: t("reservationProcess.confirmation") },
   ];
 
@@ -56,7 +54,6 @@ const ReservationProcess = () => {
     2: <StepThree />,
     3: <StepFour />,
     4: <StepFive />,
-    5: <StepSix />,
   };
 
   return (

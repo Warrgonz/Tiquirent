@@ -115,9 +115,21 @@ export interface ReservationData {
   dropoffLocation: string;
   pickupDate: string;
   dropoffDate: string;
-}
-
-export interface ReservationContextType {
-  data: ReservationData;
-  update: (fields: Partial<ReservationData>) => void;
+  fullName?: string;
+  nationality?: string;
+  idType?: string;
+  idNumber?: string;
+  email?: string;
+  phone?: string;
+  licenseNumber?: string;
+  vehicle?: {
+    name: string;
+    imageUrl: string;
+    seats: string;
+    doors: string;
+    traction: string;
+    transmission: string;
+    price: number;
+    currency: string;
+  };
 }

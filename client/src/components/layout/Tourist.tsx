@@ -1,9 +1,7 @@
-import { useTranslation } from "react-i18next";
 import { Images } from "../../constants/Images";
 import Button from "../common/Button";
 
 export const Tour = () => {
-  const { t } = useTranslation();
   return (
     <section
       className="position-relative container-fluid d-flex justify-content-center align-items-center text-center"
