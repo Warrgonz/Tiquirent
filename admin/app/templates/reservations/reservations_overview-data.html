@@ -1,0 +1,167 @@
+{% extends "layout.html" %} {% block title %}Agregar Usuario - Tiquirent{%
+endblock %} {% block content %}
+<section>
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div
+      class="alert alert-{{ category }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+
+  {% block styles %}
+  <!-- Litepicker CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css"
+    rel="stylesheet"
+  />
+  {% endblock %}
+
+  <form class="row g-3 mt-3">
+    <section>
+      <div class="row">
+        <div class="col-12">
+          <h1>Resumen de la Reserva</h1>
+          <p class="text-muted">
+            Revise los datos antes de confirmar su reserva.
+          </p>
+        </div>
+      </div>
+      <div class="mb-3 text-center">
+        <label class="form-label d-block">Vehículo seleccionado:</label>
+        <img
+          src="http://127.0.0.1:8080/media/{{ vehiculo.ruta_imagen }}"
+          alt="Foto
+        del vehículo"
+          class="rounded-5"
+          width="350"
+          height="270"
+          id="foto-preview"
+        />
+      </div>
+
+      <div>
+        <h4>🚗 Datos del vehículo</h4>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Marca y Modelo:</strong> {{ vehiculo.marca }} {{
+            vehiculo.modelo }}
+          </li>
+          <li class="list-group-item">
+            <strong>Placa:</strong> {{ vehiculo.placa }}
+          </li>
+          <li class="list-group-item">
+            <strong>Color:</strong> {{ vehiculo.color }}
+          </li>
+          <li class="list-group-item">
+            <strong>Transmisión:</strong> {{ vehiculo.transmision }}
+          </li>
+          <li class="list-group-item">
+            <strong>Tracción:</strong> {{ vehiculo.traccion }}
+          </li>
+          <li class="list-group-item">
+            <strong>Asientos:</strong> {{ vehiculo.numero_asientos }}
+          </li>
+          <li class="list-group-item">
+            <strong>Precio diario:</strong> ${{
+            "%.2f"|format(vehiculo.precio_diario) }}
+          </li>
+          <li class="list-group-item">
+            <strong>Total a pagar:</strong> {{ dias }} días × ${{
+            "%.2f"|format(vehiculo.precio_diario) }} =
+            <strong>${{ "%.2f"|format(total) }}</strong>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row mt-4">
+        <!-- Usuario -->
+        <div class="col-md-6">
+          <h4>🧑 Datos del Usuario</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Nombre:</strong> {{
+              session['reserva']['usuario']['nombre'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Cédula:</strong> {{
+              session['reserva']['usuario']['cedula'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Email:</strong> {{ session['reserva']['usuario']['email']
+              }}
+            </li>
+            <li class="list-group-item">
+              <strong>Teléfono:</strong> {{
+              session['reserva']['usuario']['telefono'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Licencia:</strong> {{
+              session['reserva']['usuario']['licencia'] }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Detalles -->
+        <div class="col-md-6">
+          <h4>📍 Detalles de la Reserva</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Entrega:</strong>
+              {{
+              ubicaciones_dict[session['reserva']['detalles']['ubicacion_entrega']
+              | int] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Regreso:</strong>
+              {{
+              ubicaciones_dict[session['reserva']['detalles']['ubicacion_regreso']
+              | int] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Inicio:</strong> {{
+              session['reserva']['detalles']['start_date'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Fin:</strong> {{
+              session['reserva']['detalles']['end_date'] }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <a
+          href="/reservations/create/vehiculo"
+          class="btn btn-outline-secondary"
+          >Cambiar vehículo</a
+        >
+        <a href="/reservations/create/details" class="btn btn-outline-secondary"
+          >Editar detalles</a
+        >
+        <a
+          href="/reservations/create/user-data"
+          class="btn btn-outline-secondary"
+          >Editar usuario</a
+        >
+
+        <form method="POST" action="/reservations/complete" class="d-inline">
+          <button type="submit" class="btn btn-primary">
+            ✅ Confirmar Reserva
+          </button>
+        </form>
+      </div>
+    </section>
+  </form>
+</section>
+{% endblock %}

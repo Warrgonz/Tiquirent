@@ -18,9 +18,30 @@ blp = Blueprint(
 class VehiculosResource(MethodView):
 
     @require_api_key
-    @blp.response(200, VehiculoSchema(many=True))
     def get(self):
-        return Vehiculo.query.all()
+        query = request.args.get("q", "").strip().lower()
+
+        # Obtener todos los vehículos
+        vehiculos = Vehiculo.query.all()
+
+        # Filtrar si hay término de búsqueda
+        if query:
+            vehiculos = [
+                v for v in vehiculos if
+                query in v.modelo.lower()
+                or query in v.placa.lower()
+                or query in v.color.lower()
+                or query in v.marca.nombre.lower()
+                or query in v.transmision.tipo.lower()
+            ]
+
+        # Serializar y enviar
+        schema = VehiculoSchema(many=True)
+        return jsonify({
+            "vehiculos": schema.dump(vehiculos),
+            "current_page": 1,
+            "total_pages": 1
+        })
 
     @require_api_key
     @blp.response(201, VehiculoSchema)

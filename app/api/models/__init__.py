@@ -6,5 +6,21 @@ from .vehicles import Vehiculo
 from .marca import Marca
 from .transmision import Transmision
 from .traccion import Traccion
+from .estado_reserva import EstadoReserva
+from .nacionalidad import Nacionalidad
+from .tipo_cedula import TipoCedula
+from .ubicaciones import Ubicaciones
 
-__all__ = ["Role", "Status", "Users", "Role", "Vehiculo", "Marca", "Transmision", "Traccion"]
+__all__ = [
+    "Role", 
+    "Status", 
+    "Users", 
+    "Role", 
+    "Vehiculo", 
+    "Marca", 
+    "Transmision", 
+    "Traccion", 
+    "EstadoReserva", 
+    "Nacionalidad", 
+    "TipoCedula", 
+    "Ubicaciones"]

@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block title %}Detalles de la Reserva - Tiquirent{% endblock %}
+{% block content %}
+<section>
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  {% block styles %}
+  <link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet" />
+  {% endblock %}
+
+  <form class="row g-3 mt-3" method="POST">
+    <h1>Detalles de la reserva</h1>
+
+    <!-- Entrega -->
+    <div class="col-md-6">
+      <label for="ubicacion_entrega" class="form-label">Ubicación de Entrega</label>
+      <select class="form-select" id="ubicacion_entrega" name="ubicacion_entrega">
+        <option value="">Seleccione una ubicación</option>
+        {% for u in ubicaciones %}
+        <option value="{{ u.id }}"
+          {% if session.get('reserva') and session['reserva'].get('detalles', {}).get('ubicacion_entrega') == u.id|string %}selected{% endif %}>
+          {{ u.ubicacion }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Regreso -->
+    <div class="col-md-6">
+      <label for="ubicacion_regreso" class="form-label">Ubicación de Regreso</label>
+      <select class="form-select" id="ubicacion_regreso" name="ubicacion_regreso">
+        <option value="">Seleccione una ubicación</option>
+        {% for u in ubicaciones %}
+        <option value="{{ u.id }}"
+          {% if session.get('reserva') and session['reserva'].get('detalles', {}).get('ubicacion_regreso') == u.id|string %}selected{% endif %}>
+          {{ u.ubicacion }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Fechas -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="start_date" class="form-label">Fecha de inicio</label>
+        <input type="text" class="form-control" id="start_date" name="start_date"
+          value="{{ session['reserva'].detalles.start_date if session.get('reserva') and session['reserva'].get('detalles') else '' }}" />
+      </div>
+      <div class="col-md-6">
+        <label for="end_date" class="form-label">Fecha de finalización</label>
+        <input type="text" class="form-control" id="end_date" name="end_date"
+          value="{{ session['reserva'].detalles.end_date if session.get('reserva') and session['reserva'].get('detalles') else '' }}" />
+      </div>
+    </div>
+
+    <div class="pt-2">
+      <a href="/reservations/create/user-data" class="btn btn-danger">Regresar</a>
+      <button type="submit" class="btn btn-primary">Siguiente</button>
+    </div>
+  </form>
+</section>
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script>
+<script src="{{ url_for('static', filename='js/validations/reservations/activar_rango_fecha.js') }}"></script>
+<script src="{{ url_for('static', filename='js/validations/reservations/validar_fecha_rango.js') }}"></script>
+{% endblock %}
+{% endblock %}

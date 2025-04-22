@@ -1,14 +1,17 @@
-{% extends "layout.html" %} 
-{% block title %}Reservaciones - Tiquirent{% endblock %} 
-{% block content %}
+{% extends "layout.html" %} {% block title %}Reservaciones - Tiquirent{%
+endblock %} {% block content %}
 <div>
   <div class="row">
     <div class="col-md-6">
       <h1>Reservaciones</h1>
     </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button type="button" class="btn btn-success positioning-head">
+        <a href="/reservations/create/user-data">Agregar</a>
+      </button>
+    </div>
   </div>
 </div>
-
 <table class="table text-nowrap mb-0 align-middle">
   <thead class="text-dark fs-4">
     <tr>
@@ -41,7 +44,13 @@
   <tbody>
     <tr>
       <td class="text-center">
-        <img src="../static/images/cars/toyota-yaris.png" alt="Toyota Yaris 2022" width="80" height="50" class="rounded">
+        <img
+          src="../static/images/cars/toyota-yaris.png"
+          alt="Toyota Yaris 2022"
+          width="80"
+          height="50"
+          class="rounded"
+        />
       </td>
       <td class="text-center">1</td>
       <td class="text-center">Toyota Yaris 2022</td>
@@ -64,17 +73,26 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
-                <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
-                  <i class="fs-4 ti ti-eye"></i>Ver detalles
-                </a>
-              </li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
+                <i class="fs-4 ti ti-eye"></i>Ver detalles
+              </a>
+            </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
                 <i class="fs-4 ti ti-edit"></i>Editar
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
                 <i class="fs-4 ti ti-trash"></i>Cancelar
               </a>
             </li>
@@ -85,7 +103,13 @@
 
     <tr>
       <td class="text-center">
-        <img src="../static/images/cars/kia-rio.png" alt="Kia Rio 2021" width="80" height="50" class="rounded">
+        <img
+          src="../static/images/cars/kia-rio.png"
+          alt="Kia Rio 2021"
+          width="80"
+          height="50"
+          class="rounded"
+        />
       </td>
       <td class="text-center">2</td>
       <td class="text-center">Kia Rio 2021</td>
@@ -108,18 +132,27 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
-                <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
-                  <i class="fs-4 ti ti-eye"></i>Ver detalles
-                </a>
-              </li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
+                <i class="fs-4 ti ti-eye"></i>Ver detalles
+              </a>
+            </li>
+            <li></li>
             <li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
                 <i class="fs-4 ti ti-edit"></i>Editar
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center gap-3" href="javascript:void(0)">
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="javascript:void(0)"
+              >
                 <i class="fs-4 ti ti-trash"></i>Cancelar
               </a>
             </li>

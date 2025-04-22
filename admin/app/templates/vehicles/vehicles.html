@@ -51,7 +51,7 @@
     <tr>
       <td class="text-center">
         <img
-          src="http://192.168.1.16:8080/media/{{ v.ruta_imagen }}"
+          src="http://127.0.0.1:8080/media/{{ v.ruta_imagen }}"
           alt="{{ v.modelo }}"
           width="200"
           height="150"
@@ -112,5 +112,68 @@
     {% endfor %}
   </tbody>
 </table>
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center mt-4">
+    <!-- Primera página -->
+    <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+      <a
+        class="page-link"
+        href="{{ url_for('vehicles.listar_vehiculos', page=1) }}"
+      >
+        <i class="ti ti-chevrons-left fs-4"></i>
+      </a>
+    </li>
 
-{% endblock %}
+    <!-- Página 1 siempre visible -->
+    {% if current_page > 4 %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="{{ url_for('vehicles.listar_vehiculos', page=1) }}"
+        >1</a
+      >
+    </li>
+    <li class="page-item disabled"><span class="page-link">...</span></li>
+    {% endif %}
+
+    <!-- Páginas alrededor de la actual -->
+    {% for page_num in range(current_page - 2, current_page + 3) %} {% if 1 <
+    page_num <= total_pages %}
+    <li class="page-item {% if current_page == page_num %}active{% endif %}">
+      <a
+        class="page-link"
+        href="{{ url_for('vehicles.listar_vehiculos', page=page_num) }}"
+        >{{ page_num }}</a
+      >
+    </li>
+    {% endif %} {% endfor %}
+
+    <!-- Última página -->
+    {% if current_page < total_pages - 3 %}
+    <li class="page-item disabled"><span class="page-link">...</span></li>
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="{{ url_for('vehicles.listar_vehiculos', page=total_pages) }}"
+        >{{ total_pages }}</a
+      >
+    </li>
+    {% endif %}
+
+    <!-- Última página flecha -->
+    <li
+      class="page-item {% if current_page == total_pages %}disabled{% endif %}"
+    >
+      <a
+        class="page-link"
+        href="{{ url_for('vehicles.listar_vehiculos', page=total_pages) }}"
+      >
+        <i class="ti ti-chevrons-right fs-4"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/validations/vehicles/sort_vehicles.js') }}"></script>
+{% endblock %} {% endblock %}
