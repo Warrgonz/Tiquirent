@@ -142,7 +142,13 @@ def edit_user(user_id):
         return redirect("/users")
 
     roles = api.get("/roles/")
-    return render_template("users/edit_user.html", user=user, roles=roles, form_data=user)
+    return render_template(
+        "users/edit_user.html",
+        user=user,
+        roles=roles,
+        form_data=user,
+        config={"API_BASE_URL": os.getenv("API_BASE_URL")}
+    )
 
 
 

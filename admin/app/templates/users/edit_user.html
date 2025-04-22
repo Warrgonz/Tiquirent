@@ -28,11 +28,14 @@
   >
     <h1 class="mb-4">Editar Usuario</h1>
 
-    {% if user.ruta_imagen %}
     <div class="mb-3 text-center">
       <label class="form-label d-block">Foto actual:</label>
       <img
-        src="http://192.168.1.16:8080/media/{{ user.ruta_imagen }}"
+        src="{% if user.ruta_imagen %}
+                 {{ config['API_BASE_URL'] }}/media/{{ user.ruta_imagen }}
+             {% else %}
+                 {{ url_for('static', filename='images/profile/profile-pic.jpg') }}
+             {% endif %}"
         alt="Foto actual"
         class="rounded-5"
         width="250"
@@ -40,7 +43,6 @@
         id="foto-preview"
       />
     </div>
-    {% endif %}
 
     <!-- Cédula -->
     <div class="mb-3">

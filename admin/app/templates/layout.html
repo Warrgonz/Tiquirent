@@ -42,7 +42,7 @@
           <div
             class="brand-logo d-flex align-items-center justify-content-between"
           >
-            <a href="./index.html" class="text-nowrap logo-img">
+            <a href="{{ url_for('dashboard.dashboard') }}" class="text-nowrap logo-img">
               <img
                 src="{{ url_for('static', filename='images/logos/Tiquirentlogo.png') }}"
                 width="180"
@@ -146,13 +146,17 @@
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <img
-                      src="{{ url_for('static', filename='images/profile/profile-pic.jpg') }}"
-                      alt=""
-                      width="35"
-                      height="35"
-                      class="rounded-circle"
-                    />
+                  <img
+                        src="{% if session['user_data']['ruta_imagen'] %}
+                                http://127.0.0.1:8080/media/{{ session['user_data']['ruta_imagen'] }}
+                            {% else %}
+                                {{ url_for('static', filename='images/profile/profile-pic.jpg') }}
+                            {% endif %}"
+                        alt="Foto de perfil"
+                        width="35"
+                        height="35"
+                        class="rounded-circle"
+                      />
                   </a>
                   <div
                     class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"

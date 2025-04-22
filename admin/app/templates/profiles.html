@@ -15,58 +15,56 @@
         </div>
       {% endif %}
     {% endwith %}
+
     <h1>¡Hola {{ user.nombre_usuario }}, este es tu perfil!</h1>
 
     <div class="mb-3 text-center">
         <img id="profile-img"
-             src="{{ url_for('static', filename=user.ruta_imagen or 'images/profile/profile-pic.jpg') }}"
+             src="{% if user.ruta_imagen %}
+                      http://127.0.0.1:8080/media/{{ user.ruta_imagen }}
+                  {% else %}
+                      {{ url_for('static', filename='images/profile/profile-pic.jpg') }}
+                  {% endif %}"
              class="rounded-circle"
              width="150"
              height="150">
     </div>
-    
+
     <form>
         <div class="mb-3">
             <label for="cedula" class="form-label" data-i18n="p_id">Cédula</label>
             <input type="text" id="cedula" class="form-control" value="{{ user.cedula }}" readonly>
         </div>
-        
+
         <div class="mb-3">
             <label for="nombre" class="form-label" data-i18n="p_name">Nombre</label>
             <input type="text" id="nombre" class="form-control" value="{{ user.nombre_usuario }}" disabled>
         </div>
-        
+
         <div class="mb-3">
             <label for="correo" class="form-label" data-i18n="p_email">Correo</label>
             <input type="email" id="correo" class="form-control" value="{{ user.email }}" readonly>
         </div>
-        
+
         <div class="mb-3">
             <label for="rol" class="form-label" data-i18n="p_role">Rol</label>
             <input type="text" id="rol" class="form-control" value="{{ user['rol']['nombre'] }}" readonly>
         </div>
-        
+
         <div class="mb-3">
             <label for="estado" class="form-label" data-i18n="p_status">Estado</label>
             <input type="text" id="estado" class="form-control" value="{{ user['estado']['estado'] }}" readonly>
         </div>
-        
+
         <div class="mb-3">
             <label class="form-label" data-i18n="p_image">Imagen de perfil</label>
             <input type="file" id="imagen" class="form-control mt-2" disabled>
         </div>
-        
+
         <div class="d-flex gap-3 justify-content-center">
             <a href="/profiles/edit" class="btn btn-primary" data-i18n="p_modify">Modificar</a>
             <a href="/profiles/change-password" class="btn btn-warning" data-i18n="p_resetpw">Cambiar Contraseña</a>
         </div>
     </form>
 </div>
-
-<script>
-    document.getElementById("btnModificar").addEventListener("click", function() {
-        document.getElementById("nombre").disabled = false;
-        document.getElementById("imagen").disabled = false;
-    });
-</script>
 {% endblock %}

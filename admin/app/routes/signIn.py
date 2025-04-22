@@ -24,6 +24,7 @@ def inicio():
             user = User(res)
 
             session["user_data"] = user.to_dict()
+            print("🧠 Datos guardados en session:", session["user_data"])
             remember = bool(request.form.get("remember"))
             login_user(user, remember=remember, fresh=True)
 
