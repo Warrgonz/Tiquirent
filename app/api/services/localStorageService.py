@@ -20,6 +20,12 @@ def uploadImagePhoto(file_obj, tipo, identificador):
     if not file_obj or not getattr(file_obj, "filename", ""):
         print("⚠️ No se recibió archivo. Usando imagen por defecto.")
         return DEFAULT_IMAGE_PATH  # Ya se asumirá que se resuelve con /media/
+    
+        # 🐞 Depuración: revisar datos del archivo
+    print("🧪 Nombre del archivo:", file_obj.filename)
+    print("🧪 ¿Tiene extensión válida?:", is_allowed_file(file_obj.filename))
+    print("🧪 ¿Tamaño válido?:", is_allowed_size(file_obj))
+
 
     if not is_allowed_file(file_obj.filename):
         raise ValueError("Archivo no permitido. Solo se permiten imágenes PNG, JPG, JPEG o WEBP.")

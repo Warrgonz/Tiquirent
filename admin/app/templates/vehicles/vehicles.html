@@ -1,0 +1,116 @@
+{% extends "layout.html" %} {% block title %}Vehículos - Tiquirent{% endblock %}
+{% block content %}
+
+<div>
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div
+      class="alert alert-{{ category }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Vehículos</h1>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button type="button" class="btn btn-success positioning-head">
+        <a href="/vehicles/add" class="text-white text-decoration-none"
+          >Agregar</a
+        >
+      </button>
+    </div>
+  </div>
+</div>
+
+<table class="table text-nowrap mb-0 align-middle mt-4">
+  <thead class="text-dark fs-4">
+    <tr>
+      <th><h6 class="fs-4 fw-semibold mb-0 text-center">Imagen</h6></th>
+      <th><h6 class="fs-4 fw-semibold mb-0 text-center">Marca y Modelo</h6></th>
+      <th><h6 class="fs-4 fw-semibold mb-0 text-center">Placa</h6></th>
+      <th><h6 class="fs-4 fw-semibold mb-0 text-center">Color</h6></th>
+      <th><h6 class="fs-4 fw-semibold mb-0 text-center">Precio Diario</h6></th>
+      <th><h6 class="fs-4 fw-semibold mb-0 text-center">Transmisión</h6></th>
+      <th><h6 class="fs-4 fw-semibold mb-0 text-center">Acciones</h6></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v in vehiculos %}
+    <tr>
+      <td class="text-center">
+        <img
+          src="http://192.168.1.16:8080/media/{{ v.ruta_imagen }}"
+          alt="{{ v.modelo }}"
+          width="200"
+          height="150"
+          class="rounded"
+        />
+      </td>
+      <td class="text-center">{{ v.marca }} {{ v.modelo }}</td>
+      <td class="text-center">{{ v.placa }}</td>
+      <td class="text-center">{{ v.color }}</td>
+      <td class="text-center">${{ "%.2f"|format(v.precio_diario) }}</td>
+      <td class="text-center">{{ v.transmision }}</td>
+      <td>
+        <div class="dropdown dropstart text-center">
+          <a
+            href="javascript:void(0)"
+            class="text-muted"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="ti ti-dots-vertical fs-6"></i>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="/vehicles/view/{{ v.id }}"
+              >
+                <i class="fs-4 ti ti-eye"></i>Ver detalles
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item d-flex align-items-center gap-3"
+                href="/vehicles/edit/{{ v.id }}"
+              >
+                <i class="fs-4 ti ti-edit"></i>Editar
+              </a>
+            </li>
+            <li>
+              <form method="POST" action="/vehicles/delete/{{ v.id }}">
+                <button
+                  type="submit"
+                  class="dropdown-item d-flex align-items-center gap-3 text-danger"
+                >
+                  <i class="fs-4 ti ti-trash"></i>Eliminar
+                </button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="7" class="text-center">No hay vehículos registrados.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
