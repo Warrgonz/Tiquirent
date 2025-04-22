@@ -1,0 +1,258 @@
+{% extends "layout.html" %} {% block title %}Agregar Usuario - Tiquirent{%
+endblock %} {% block content %} {% block styles %}
+<style>
+  .filter-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+    margin-bottom: 20px;
+  }
+  .filter-section {
+    margin-bottom: 25px;
+  }
+  .filter-section-title {
+    color: #0d6efd;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .vehicle-card {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  .vehicle-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  .price {
+    color: #198754;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  .price-superscript {
+    font-size: 0.8rem;
+    vertical-align: super;
+  }
+  .price-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  .select-btn {
+    background-color: #198754;
+    border-color: #198754;
+    width: 100%;
+  }
+  .vehicle-features {
+    color: #6c757d;
+  }
+  .charges-link {
+    color: #0d6efd;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .charges-link:hover {
+    text-decoration: underline;
+  }
+  .form-check-input {
+    margin-right: 8px;
+  }
+</style>
+{% endblock %}
+
+<section>
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div
+      class="alert alert-{{ category }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+
+  <div>
+    <div class="row">
+      <div class="col-md-6">
+        <h1>Seleccione un vehículo</h1>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end">
+        <button type="button" class="btn btn-success positioning-head">
+          <a
+            href="/reservations/create/details"
+            class="text-white text-decoration-none"
+            >Regresar</a
+          >
+        </button>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="row">
+        <!-- Left Column - Filters -->
+        <div class="col-12 col-md-4">
+          <div class="filter-title">Filtrado por</div>
+          <!-- Capacity Filter -->
+          <div class="filter-section">
+            <div class="filter-section-title">Capacidad</div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="capacity1" />
+              <label class="form-check-label" for="capacity1"
+                >1-4 asientos</label
+              >
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="capacity2" />
+              <label class="form-check-label" for="capacity2"
+                >5-6 asientos</label
+              >
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="capacity3" />
+              <label class="form-check-label" for="capacity3"
+                >7 o más asientos</label
+              >
+            </div>
+          </div>
+
+          <!-- Transmission Filter -->
+          <div class="filter-section">
+            <div class="filter-section-title">Transmisión</div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="transmission1"
+              />
+              <label class="form-check-label" for="transmission1">Manual</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="transmission2"
+              />
+              <label class="form-check-label" for="transmission2"
+                >Automático</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="transmission2"
+              />
+              <label class="form-check-label" for="transmission2"
+                >Semi-Automática</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="transmission2"
+              />
+              <label class="form-check-label" for="transmission2">CVT</label>
+            </div>
+          </div>
+
+          <!-- Traction Filter -->
+          <div class="filter-section">
+            <div class="filter-section-title">Tracción</div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="traction1" />
+              <label class="form-check-label" for="traction1">4x2</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="traction2" />
+              <label class="form-check-label" for="traction2">4x4</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="traction2" />
+              <label class="form-check-label" for="traction2">AWD</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="traction2" />
+              <label class="form-check-label" for="traction2">FWD</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="traction2" />
+              <label class="form-check-label" for="traction2">RWD</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Vehicles -->
+        <div class="col-12 col-md-8">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h2 class="mb-0">Opciones Disponibles</h2>
+            </div>
+            <div class="card-body">
+              <!-- Vehicle Card -->
+              <div class="vehicle-card">
+                <div class="row">
+                  <div class="col-12 vehicle-title">
+                    Suzuki Swift Dzire ST or similar
+                  </div>
+                </div>
+                <div class="row">
+                  <!-- Vehicle Image -->
+                  <div class="col-md-4 mb-3 mb-md-0">
+                    <img
+                      src="{{ url_for('static', filename='images/cars/toyota-yaris.png') }}"
+                      alt="Toyota Yaris"
+                      class="img-fluid"
+                    />
+                  </div>
+
+                  <!-- Vehicle Price -->
+                  <div
+                    class="col-md-4 mb-3 mb-md-0 d-flex flex-column justify-content-center align-items-center"
+                  >
+                    <div class="price">
+                      $112<span class="price-superscript">20</span>
+                    </div>
+                    <div class="price-text">total</div>
+                    <a href="/reservations/create/overview">
+                    <button class="btn btn-success select-btn mt-3">
+                      Seleccionar
+                    </button>
+                  </a>
+                  </div>
+
+                  <!-- Vehicle Features -->
+                  <div class="col-md-4 vehicle-features">
+                    <div class="mb-2">
+                      <i class="fas fa-user me-2"></i> 2 asientos
+                    </div>
+                    <div class="mb-2">
+                      <i class="fas fa-car-side me-2"></i> 4 puertas
+                    </div>
+                    <div class="mb-2"><i class="fas fa-cog me-2"></i> 4X2</div>
+                    <div class="mb-2">
+                      <i class="fas fa-cogs me-2"></i>
+                      otra wea
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

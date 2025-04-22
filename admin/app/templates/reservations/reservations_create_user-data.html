@@ -1,0 +1,94 @@
+{% extends "layout.html" %} {% block title %}Agregar Usuario - Tiquirent{%
+endblock %} {% block content %}
+<section>
+  <div id="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div
+      class="alert alert-{{ category }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
+  </div>
+
+  <form class="row g-3 mt-3">
+    <h1 data-i18n="agregar_usuario">Datos del usuario</h1>
+    <!-- nombre -->
+    <div class="col-md-6">
+      <label for="nombre" class="form-label">Nombre del Usuario</label>
+      <input type="text" class="form-control" id="nombre" />
+    </div>
+
+    <!-- Nacionalidad -->
+    <div class="col-md-6">
+      <label for="nacionalidad" class="form-label">Nacionalidad</label>
+      <select class="form-select" id="nacionalidad" name="nacionalidad">
+        <option value="">Seleccione una opción</option>
+        {% for n in nacionalidades %}
+        <option value="{{ n.id }}">{{ n.pais }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Tipo de cédula -->
+    <div class="col-md-6">
+      <label for="tipo_cedula" class="form-label">Tipo de Cédula</label>
+      <select class="form-select" id="tipo_cedula" name="tipo_cedula">
+        <option value="">Seleccione una opción</option>
+        {% for t in tipos_cedula %}
+        <option value="{{ t.id }}">{{ t.tipo }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Cédula -->
+    <div class="col-md-6">
+      <label for="cedula" class="form-label">Cédula del Usuario</label>
+      <input type="text" class="form-control" id="cedula" name="cedula" />
+    </div>
+
+    <!-- email -->
+    <div class="col-md-6">
+      <label for="email" class="form-label">Correo electrónico</label>
+      <input type="email" class="form-control" id="email" />
+    </div>
+
+    <!-- Teléfono -->
+    <div class="col-md-6">
+      <label for="telefono" class="form-label">Teléfono</label>
+      <input type="number" class="form-control" id="telefono" />
+    </div>
+
+    <!-- Puertas -->
+    <div class="col-md-6">
+      <label for="licencia" class="form-label">Número de Licencia</label>
+      <input type="number" class="form-control" id="licencia" />
+    </div>
+    <div class="pt-2">
+      <a href="/users"
+        ><button type="button" class="btn bg-danger-subtle text-danger">
+          Cancelar
+        </button></a
+      >
+      <a
+        class="btn btn-primary mx-2"
+        href="/reservations/create/details"
+        id="siguiente"
+        >Siguiente</a
+      >
+    </div>
+  </form>
+</section>
+
+{% block scripts %}
+<!--<script src="{{ url_for('static', filename='js/validations/users/validaciones_usuario.js') }}"></script>-->
+
+{% endblock %} {% endblock %}
