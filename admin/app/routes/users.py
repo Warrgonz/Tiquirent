@@ -10,9 +10,26 @@ users_bp = Blueprint('users', __name__)
 
 @users_bp.route('/users')
 def users():
+    import time
+    print("⏱️ Iniciando carga de /users")
+
+    start_roles = time.time()
     roles = api.get('/roles/')
+    print(f"✅ roles OK - {time.time() - start_roles:.2f}s")
+
+    start_users = time.time()
     users = api.get('/usuarios/')
-    return render_template('users/users.html', users=users, roles=roles,config={"API_BASE_URL": os.getenv("API_BASE_URL")})
+    print(f"✅ usuarios OK - {time.time() - start_users:.2f}s")
+    print("📦 Tipo de users:", type(users))
+    print("📦 Contenido de users:", users)
+
+    return render_template(
+        'users/users.html',
+        users=users,
+        roles=roles,
+        config={"API_BASE_URL": os.getenv("API_BASE_URL")}
+    )
+
 
 @users_bp.route('/users/add', methods=['GET', 'POST'])
 def add_user():

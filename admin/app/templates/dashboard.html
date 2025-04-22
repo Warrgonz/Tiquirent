@@ -3,7 +3,7 @@ block content %}
 <div
   class="dashboard-head d-flex justify-content-center text-center align-items-center"
 >
-  <h1 data-i18n="greeting"></h1>
+  <h1>¡Hola {{ session['user_data']['nombre_usuario'] }}, bienvenido a Tiquirent!</h1>
 </div>
 
 <section class="row">
@@ -60,5 +60,12 @@ block content %}
     </div>
   </div>
 </section>
+
+<h2>Datos de sesión del usuario</h2>
+<p>ID: {{ session['user_data']['id'] }}</p>
+<p>Nombre de Usuario: {{ session['user_data']['nombre_usuario'] }}</p>
+<p>Email: {{ session['user_data']['email'] }}</p>
+<p>Rol ID: {{ session['user_data']['rol_id'] }}</p>
+<p>¿Requiere cambio de contraseña?: {{ session['user_data']['requiere_cambio'] }}</p>
 
 {% endblock %}

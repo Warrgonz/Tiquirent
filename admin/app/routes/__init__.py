@@ -4,6 +4,7 @@ from app.routes.dashboard import dashboard_bp
 from app.routes.reservations import reservations_bp
 from app.routes.vehicles import vehicles_bp
 from app.routes.profiles import profiles_bp
+from app.routes.signOut import signOut_bp
 
 blueprints = [
     signIn_bp,
@@ -11,7 +12,8 @@ blueprints = [
     dashboard_bp,
     reservations_bp,
     vehicles_bp,
-    profiles_bp
+    profiles_bp,
+    signOut_bp
 ]
     
 def init_app(app):
