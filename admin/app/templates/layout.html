@@ -167,10 +167,12 @@
                         <p class="mb-0 fs-3" data-i18n="myprofile"></p>
                       </a>
                       <a
-                        href="./authentication-login.html"
+                        href="{{ url_for('signIn.logout') }}"
                         class="btn btn-outline-primary mx-3 mt-2 d-block"
                         data-i18n="signout"
-                      ></a>
+                      >
+                        Cerrar sesión
+                      </a>
                     </div>
                   </div>
                 </li>

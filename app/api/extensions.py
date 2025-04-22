@@ -1,4 +1,4 @@
-# api/extensions.py
+# api/utils/extensions.py
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_smorest import Api

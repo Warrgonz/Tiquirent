@@ -1,4 +1,5 @@
-# utils/hashing.py
+# api/utils/hashing.py
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def hash_password(password: str) -> str:
