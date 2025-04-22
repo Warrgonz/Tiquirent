@@ -1,3 +1,5 @@
+#api/routes/users.py
+
 from flask.views import MethodView
 from flask_smorest import Blueprint
 from flask import abort, jsonify, render_template, request
@@ -9,6 +11,8 @@ from api.controller.users import generate_temp_password
 from api.services.localStorageService import uploadImagePhoto
 from api.services.mailServices import send_email_async
 from api.utils.hashing import hash_password
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.attributes import flag_modified
 
 blp = Blueprint(
     "usuarios",
@@ -26,8 +30,12 @@ class UsuariosResource(MethodView):
     @require_api_key
     @blp.response(200, UserSchema(many=True))
     def get(self):
-        """Listar todos los usuarios"""
-        return Users.query.all()
+        """Listar todos los usuarios con estado y rol precargados"""
+        usuarios = Users.query.options(
+            joinedload(Users.estado),
+            joinedload(Users.rol)
+        ).all()
+        return usuarios
 
     @blp.response(201, UserSchema)
     def post(self):
@@ -118,8 +126,14 @@ class UsuarioToggleEstadoResource(MethodView):
         if nuevo_estado not in [1, 2]:
             return jsonify({"error": "Estado inválido"}), 400
 
+        from sqlalchemy.orm.attributes import flag_modified  # Asegurate de tenerlo arriba si querés
+
         user.estado_id = nuevo_estado
-        db.session.commit()
+        db.session.add(user)       # <-- Forzar que SQLAlchemy lo considere para commit
+        db.session.flush()         # <-- Prepara los cambios
+        db.session.commit()        # <-- Hace el commit
+
+        print(f"🧠 DEBUG: Usuario {user.id} ahora tiene estado_id = {user.estado_id}")
 
         estado_legible = "habilitado" if nuevo_estado == 1 else "deshabilitado"
 
@@ -157,14 +171,9 @@ class UsuarioResource(MethodView):
             return jsonify({"error": "Usuario no encontrado"}), 404
 
         print(f"✅ Usuario encontrado: {user.nombre_usuario}")
-        return jsonify({
-            "id": user.id,
-            "cedula": user.cedula,
-            "nombre_usuario": user.nombre_usuario,
-            "email": user.email,
-            "rol_id": user.rol_id,
-            "ruta_imagen": user.ruta_imagen
-        })
+        schema = UserSchema()
+        return schema.dump(user), 200
+
 
 @blp.route("/<int:user_id>/edit", methods=["POST"])
 class UsuarioUpdateResource(MethodView):
@@ -178,16 +187,22 @@ class UsuarioUpdateResource(MethodView):
             return jsonify({"error": "Usuario no encontrado"}), 404
 
         form = request.form
-        nuevo_email = form.get("email")
 
+        nuevo_nombre = form.get("nombre_usuario")
+        if nuevo_nombre:
+            user.nombre_usuario = nuevo_nombre
+
+        nuevo_email = form.get("email")
         if nuevo_email and nuevo_email != user.email:
             if Users.query.filter_by(email=nuevo_email).first():
                 print(f"⚠️ Email {nuevo_email} ya está en uso.")
                 return jsonify({"error": "El correo electrónico ya está registrado"}), 400
+            user.email = nuevo_email
 
-        user.nombre_usuario = form.get("nombre_usuario", user.nombre_usuario)
-        user.email = nuevo_email
-        user.rol_id = form.get("rol_id", user.rol_id)
+        # Solo actualiza rol si se proporciona y es diferente
+        nuevo_rol = form.get("rol_id")
+        if nuevo_rol and int(nuevo_rol) != user.rol_id:
+            user.rol_id = int(nuevo_rol)
 
         imagen_file = request.files.get("foto")
         if imagen_file and imagen_file.filename:
@@ -209,6 +224,43 @@ class UsuarioUpdateResource(MethodView):
 
 
 
+@blp.route("/forgot-password", methods=["POST"])
+class ForgotPasswordResource(MethodView):
+    def post(self):
+        data = request.get_json()
+        email = data.get("email")
+
+        if not email:
+            return jsonify({"message": "Correo requerido"}), 400
+
+        user = Users.query.filter_by(email=email).first()
+        if not user:
+            return jsonify({"message": "No hay usuario registrado con ese correo"}), 404
+
+        from api.controller.users import generate_temp_password
+        from api.utils.hashing import hash_password
+        from api.services.mailServices import send_email_async
+
+        temp_password = generate_temp_password()
+        hashed_password = hash_password(temp_password)
+
+        user.contrasena = ""
+        user.contrasena_temp = hashed_password
+        db.session.commit()
+
+        html_content = render_template(
+            'email/temp_password.html',
+            nombre=user.nombre_usuario,
+            contrasena=temp_password
+        )
+
+        send_email_async(
+            receiver_email=user.email,
+            subject="Restablecimiento de contraseña - Tiquirent",
+            body=html_content
+        )
+
+        return jsonify({"message": "Se ha enviado una nueva contraseña temporal a tu correo"}), 200
 
 
 

@@ -1,21 +1,18 @@
-{% extends "layout.html" %} {% block title %}Usuarios - Tiquirent{% endblock %}
+{% extends "layout.html" %}
+{% block title %}Usuarios - Tiquirent{% endblock %}
 {% block content %}
+
 <div id="flash-container">
-  {% with messages = get_flashed_messages(with_categories=true) %} {% if
-  messages %} {% for category, message in messages %}
-  <div
-    class="alert alert-{{ category }} alert-dismissible fade show"
-    role="alert"
-  >
-    {{ message }}
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-    ></button>
-  </div>
-  {% endfor %} {% endif %} {% endwith %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 </div>
 
 <div>
@@ -34,24 +31,12 @@
 <table class="table text-nowrap mb-0 align-middle">
   <thead class="text-dark fs-4">
     <tr>
-      <th class="text-center">
-        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_name">Nombre</h6>
-      </th>
-      <th class="text-center">
-        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_id">Cédula</h6>
-      </th>
-      <th class="text-center">
-        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_email">Correo</h6>
-      </th>
-      <th class="text-center">
-        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_role">Rol</h6>
-      </th>
-      <th class="text-center">
-        <h6 class="fs-4 fw-semibold mb-0" data-i18n="p_status">Estado</h6>
-      </th>
-      <th class="text-center">
-        <h6 class="fs-4 fw-semibold mb-0" data-i18n="actions">Acciones</h6>
-      </th>
+      <th class="text-center"><h6 class="fs-4 fw-semibold mb-0" data-i18n="p_name">Nombre</h6></th>
+      <th class="text-center"><h6 class="fs-4 fw-semibold mb-0" data-i18n="p_id">Cédula</h6></th>
+      <th class="text-center"><h6 class="fs-4 fw-semibold mb-0" data-i18n="p_email">Correo</h6></th>
+      <th class="text-center"><h6 class="fs-4 fw-semibold mb-0" data-i18n="p_role">Rol</h6></th>
+      <th class="text-center"><h6 class="fs-4 fw-semibold mb-0" data-i18n="p_status">Estado</h6></th>
+      <th class="text-center"><h6 class="fs-4 fw-semibold mb-0" data-i18n="actions">Acciones</h6></th>
     </tr>
   </thead>
   <tbody>
@@ -71,62 +56,31 @@
           </div>
         </div>
       </td>
+      <td class="text-center"><p class="mb-0 fw-normal">{{ user.cedula }}</p></td>
+      <td class="text-center"><p class="mb-0 fw-normal">{{ user.email }}</p></td>
+      <td class="text-center"><p class="mb-0 fw-normal">{{ user.rol.nombre }}</p></td>
       <td class="text-center">
-        <p class="mb-0 fw-normal">{{ user.cedula }}</p>
-      </td>
-      <td class="text-center">
-        <p class="mb-0 fw-normal">{{ user.email }}</p>
-      </td>
-      <td class="text-center">
-        <p class="mb-0 fw-normal">
-          {% set rol = roles | selectattr("id", "equalto", user.rol_id | int) |
-          first %} {{ rol.nombre if rol else 'Sin rol' }}
-        </p>
-      </td>
-      <td class="text-center">
-        <span
-          class="badge {{ 'bg-success-subtle text-success' if user.estado_id == 1 else 'bg-danger-subtle text-danger' }}"
-        >
-          {{ 'Activo' if user.estado_id == 1 else 'Inactivo' }}
+        <span class="badge {{ 'bg-success-subtle text-success' if user.estado.estado|lower == 'activo' else 'bg-danger-subtle text-danger' }}">
+          {{ user.estado.estado|capitalize }}
         </span>
       </td>
       <td class="text-center">
         <div class="dropdown dropstart">
-          <a
-            href="javascript:void(0)"
-            class="text-muted"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
+          <a href="javascript:void(0)" class="text-muted" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="ti ti-dots-vertical fs-6"></i>
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li>
-              <form
-                method="POST"
-                action="/users/{{ user.id }}/toggle"
-                style="display: inline"
-              >
-                <input
-                  type="hidden"
-                  name="estado_id"
-                  value="{{ 2 if user.estado_id == 1 else 1 }}"
-                />
-                <button
-                  type="submit"
-                  class="dropdown-item d-flex align-items-center gap-3"
-                >
+              <form method="POST" action="/users/{{ user.id }}/toggle" style="display: inline">
+                <input type="hidden" name="estado_id" value="{{ 2 if user.estado.id == 1 else 1 }}" />
+                <button type="submit" class="dropdown-item d-flex align-items-center gap-3">
                   <i class="fs-4 ti ti-trash"></i>
-                  {{ 'Desactivar' if user.estado_id == 1 else 'Activar' }}
+                  {{ 'Desactivar' if user.estado.id == 1 else 'Activar' }}
                 </button>
               </form>
             </li>
             <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-4"
-                href="/users/{{ user.id }}/edit"
-              >
+              <a class="dropdown-item d-flex align-items-center gap-4" href="/users/{{ user.id }}/edit">
                 <i class="fs-4 ti ti-edit"></i>Editar
               </a>
             </li>
@@ -143,4 +97,5 @@
   const API_BASE_URL = "{{ config['API_BASE_URL'] }}";
 </script>
 <script src="{{ url_for('static', filename='js/validations/users/disable_user.js') }}"></script>
-{% endblock %} {% endblock %}
+{% endblock %}
+{% endblock %}

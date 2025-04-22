@@ -11,7 +11,7 @@ from api.routes.catalogo import blp as vehicles_catalog_blp
 all_blueprints = [
     usuarios_blp,
     roles_blp,
-    login_blp
+    login_blp,
     vehicles_blp,
     vehicles_catalog_blp
 ]

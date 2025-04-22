@@ -62,10 +62,14 @@ block content %}
 </section>
 
 <h2>Datos de sesión del usuario</h2>
-<p>ID: {{ session['user_data']['id'] }}</p>
-<p>Nombre de Usuario: {{ session['user_data']['nombre_usuario'] }}</p>
-<p>Email: {{ session['user_data']['email'] }}</p>
-<p>Rol ID: {{ session['user_data']['rol_id'] }}</p>
-<p>¿Requiere cambio de contraseña?: {{ session['user_data']['requiere_cambio'] }}</p>
+<p><strong>ID:</strong> {{ session['user_data']['id'] }}</p>
+<p><strong>Cédula:</strong> {{ session['user_data']['cedula'] }}</p>
+<p><strong>Nombre de Usuario:</strong> {{ session['user_data']['nombre_usuario'] }}</p>
+<p><strong>Email:</strong> {{ session['user_data']['email'] }}</p>
+<p><strong>Rol:</strong> {{ session['user_data']['rol']['nombre'] }}</p>
+<p><strong>Estado:</strong> {{ session['user_data']['estado']['estado'] }}</p>
+<p><strong>Fecha de Creación:</strong> {{ session['user_data']['fecha_creacion'] }}</p>
+<p><strong>¿Requiere cambio de contraseña?:</strong> {{ session['user_data']['requiere_cambio'] }}</p>
+
 
 {% endblock %}

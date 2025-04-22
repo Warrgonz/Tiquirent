@@ -32,7 +32,7 @@ class APIClient:
         except requests.RequestException as e:
             return []
 
-    def post(self, endpoint, data=None, json=None, headers=None, files=None):   
+    def post(self, endpoint, data=None, json=None, headers=None, files=None):
         try:
             if files:
                 headers = self._headers(headers, content_type=False)
@@ -48,12 +48,19 @@ class APIClient:
                     headers=self._headers(headers),
                     json=json
                 )
-            else:
-                headers = self._headers(headers, content_type=False)  # ✅ FIX AQUÍ
+            elif data:
+                headers = self._headers(headers, content_type=False)
+                headers["Content-Type"] = "application/x-www-form-urlencoded"
                 response = requests.post(
                     f"{self.base_url}{endpoint}",
                     headers=headers,
                     data=data
+                )
+            else:
+                headers = self._headers(headers)
+                response = requests.post(
+                    f"{self.base_url}{endpoint}",
+                    headers=headers
                 )
 
             response.raise_for_status()
@@ -70,6 +77,7 @@ class APIClient:
         except requests.RequestException as e:
             print("❌ Error general:", e)
         return {"message": "❌ Error de conexión con la API"}
+
     
     def delete(self, endpoint, headers=None):
         try:
