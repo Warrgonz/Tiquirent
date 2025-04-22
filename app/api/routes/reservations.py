@@ -10,6 +10,7 @@ from api.services.mailServices import send_email_async
 from api.models.tipo_cedula import TipoCedula
 from api.models.nacionalidad import Nacionalidad
 from api.models.ubicaciones import Ubicaciones
+from api.models.vehicles import Vehiculo
 
 
 blp = Blueprint(
@@ -46,3 +47,39 @@ class CatalogoReservasResource(MethodView):
         return {
             "ubicaciones": [{"id": u.id, "ubicacion": u.ubicacion} for u in ubicaciones]    
         }
+    
+    # api/routes/vehicles.py
+
+@blp.route("/catalogo/vehiculos")
+class CatalogoVehiculosResource(MethodView):
+
+    @require_api_key
+    def get(self):
+        try:
+            vehiculos = Vehiculo.query.all()
+
+            return {
+                "vehiculos": [
+                    {
+                        "id": v.id,
+                        "modelo": v.modelo,
+                        "año": v.año,
+                        "placa": v.placa,
+                        "color": v.color,
+                        "ruta_imagen": v.ruta_imagen,
+                        "precio_diario": float(v.precio_diario or 0),
+                        "puertas": v.puertas,
+                        "numero_asientos": v.numero_asientos,
+                        "marca": v.marca.nombre if v.marca else None,          
+                        "transmision": v.transmision.tipo if v.transmision else None,  
+                        "traccion": v.traccion.tipo if v.traccion else None,          
+                        "estado": v.estado.estado if v.estado else None              
+                    }
+                    for v in vehiculos
+                ]
+            }
+
+        except Exception as e:
+            print("❌ Error en /catalogo/vehiculos:", e)
+            return {"vehiculos": []}, 500
+

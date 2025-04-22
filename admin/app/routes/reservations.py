@@ -33,11 +33,22 @@ def reservations_details_data():
         ubicaciones=catalogo.get("ubicaciones", [])
     )
 
-
-
 @reservations_bp.route('/reservations/create/vehiculo')
 def reservations_vehiculo_data():
-    return render_template('reservations/reservations_vehiculo-data.html')
+    api = APIClient()
+    catalogo = api.get("/Reservaciones/catalogo/vehiculos")
+
+    if not isinstance(catalogo, dict) or "vehiculos" not in catalogo:
+        flash("❌ Error al cargar los vehículos disponibles.", "danger")
+        catalogo = {"vehiculos": []}
+
+    print(f"🔍 Vehículos recibidos del API: {len(catalogo['vehiculos'])}")
+    return render_template(
+        "reservations/reservations_vehiculo-data.html",
+        vehiculos=catalogo.get("vehiculos", [])
+    )
+
+
 
 @reservations_bp.route('/reservations/create/overview')
 def reservations_overview_data():

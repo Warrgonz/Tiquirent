@@ -48,14 +48,6 @@ endblock %} {% block content %} {% block styles %}
   .vehicle-features {
     color: #6c757d;
   }
-  .charges-link {
-    color: #0d6efd;
-    text-decoration: none;
-    font-size: 0.9rem;
-  }
-  .charges-link:hover {
-    text-decoration: underline;
-  }
   .form-check-input {
     margin-right: 8px;
   }
@@ -87,45 +79,51 @@ endblock %} {% block content %} {% block styles %}
         <h1>Seleccione un vehículo</h1>
       </div>
       <div class="col-md-6 d-flex justify-content-end">
-        <button type="button" class="btn btn-success positioning-head">
-          <a
-            href="/reservations/create/details"
-            class="text-white text-decoration-none"
-            >Regresar</a
-          >
-        </button>
+        <a href="/reservations/create/details" class="btn btn-success"
+          >Regresar</a
+        >
       </div>
     </div>
 
     <div class="container mt-4">
       <div class="row">
-        <!-- Left Column - Filters -->
+        <!-- Filtros -->
         <div class="col-12 col-md-4">
           <div class="filter-title">Filtrado por</div>
-          <!-- Capacity Filter -->
+
+          <!-- Capacidad -->
           <div class="filter-section">
             <div class="filter-section-title">Capacidad</div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="capacity1" />
-              <label class="form-check-label" for="capacity1"
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="capacity1"
+              /><label class="form-check-label" for="capacity1"
                 >1-4 asientos</label
               >
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="capacity2" />
-              <label class="form-check-label" for="capacity2"
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="capacity2"
+              /><label class="form-check-label" for="capacity2"
                 >5-6 asientos</label
               >
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="capacity3" />
-              <label class="form-check-label" for="capacity3"
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="capacity3"
+              /><label class="form-check-label" for="capacity3"
                 >7 o más asientos</label
               >
             </div>
           </div>
 
-          <!-- Transmission Filter -->
+          <!-- Transmisión -->
           <div class="filter-section">
             <div class="filter-section-title">Transmisión</div>
             <div class="form-check">
@@ -133,16 +131,16 @@ endblock %} {% block content %} {% block styles %}
                 class="form-check-input"
                 type="checkbox"
                 id="transmission1"
-              />
-              <label class="form-check-label" for="transmission1">Manual</label>
+              /><label class="form-check-label" for="transmission1"
+                >Manual</label
+              >
             </div>
             <div class="form-check">
               <input
                 class="form-check-input"
                 type="checkbox"
                 id="transmission2"
-              />
-              <label class="form-check-label" for="transmission2"
+              /><label class="form-check-label" for="transmission2"
                 >Automático</label
               >
             </div>
@@ -150,9 +148,8 @@ endblock %} {% block content %} {% block styles %}
               <input
                 class="form-check-input"
                 type="checkbox"
-                id="transmission2"
-              />
-              <label class="form-check-label" for="transmission2"
+                id="transmission3"
+              /><label class="form-check-label" for="transmission3"
                 >Semi-Automática</label
               >
             </div>
@@ -160,94 +157,109 @@ endblock %} {% block content %} {% block styles %}
               <input
                 class="form-check-input"
                 type="checkbox"
-                id="transmission2"
-              />
-              <label class="form-check-label" for="transmission2">CVT</label>
+                id="transmission4"
+              /><label class="form-check-label" for="transmission4">CVT</label>
             </div>
           </div>
 
-          <!-- Traction Filter -->
+          <!-- Tracción -->
           <div class="filter-section">
             <div class="filter-section-title">Tracción</div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="traction1" />
-              <label class="form-check-label" for="traction1">4x2</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="traction1"
+              /><label class="form-check-label" for="traction1">4x2</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="traction2" />
-              <label class="form-check-label" for="traction2">4x4</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="traction2"
+              /><label class="form-check-label" for="traction2">4x4</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="traction2" />
-              <label class="form-check-label" for="traction2">AWD</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="traction3"
+              /><label class="form-check-label" for="traction3">AWD</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="traction2" />
-              <label class="form-check-label" for="traction2">FWD</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="traction4"
+              /><label class="form-check-label" for="traction4">FWD</label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="traction2" />
-              <label class="form-check-label" for="traction2">RWD</label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="traction5"
+              /><label class="form-check-label" for="traction5">RWD</label>
             </div>
           </div>
         </div>
 
-        <!-- Right Column - Vehicles -->
+        <!-- Cards de Vehículos -->
         <div class="col-12 col-md-8">
           <div class="card mb-4">
             <div class="card-header">
               <h2 class="mb-0">Opciones Disponibles</h2>
             </div>
             <div class="card-body">
-              <!-- Vehicle Card -->
+              {% for v in vehiculos %}
               <div class="vehicle-card">
                 <div class="row">
                   <div class="col-12 vehicle-title">
-                    Suzuki Swift Dzire ST or similar
+                    {{ v.marca }} {{ v.modelo }}
                   </div>
                 </div>
                 <div class="row">
-                  <!-- Vehicle Image -->
+                  <!-- Imagen -->
                   <div class="col-md-4 mb-3 mb-md-0">
                     <img
-                      src="{{ url_for('static', filename='images/cars/toyota-yaris.png') }}"
-                      alt="Toyota Yaris"
+                      src="http://127.0.0.1:8080/media/{{ v.ruta_imagen }}"
+                      alt="{{ v.modelo }}"
                       class="img-fluid"
                     />
                   </div>
 
-                  <!-- Vehicle Price -->
+                  <!-- Precio -->
                   <div
                     class="col-md-4 mb-3 mb-md-0 d-flex flex-column justify-content-center align-items-center"
                   >
-                    <div class="price">
-                      $112<span class="price-superscript">20</span>
-                    </div>
-                    <div class="price-text">total</div>
+                    <div class="price">${{ v.precio_diario }}</div>
+                    <div class="price-text">por día</div>
                     <a href="/reservations/create/overview">
-                    <button class="btn btn-success select-btn mt-3">
-                      Seleccionar
-                    </button>
-                  </a>
+                      <button class="btn btn-success select-btn mt-3">
+                        Seleccionar
+                      </button>
+                    </a>
                   </div>
 
-                  <!-- Vehicle Features -->
+                  <!-- Características -->
                   <div class="col-md-4 vehicle-features">
                     <div class="mb-2">
-                      <i class="fas fa-user me-2"></i> 2 asientos
+                      <i class="fas fa-user me-2"></i> {{ v.numero_asientos }}
+                      asientos
                     </div>
                     <div class="mb-2">
-                      <i class="fas fa-car-side me-2"></i> 4 puertas
+                      <i class="fas fa-car-side me-2"></i> {{ v.puertas }}
+                      puertas
                     </div>
-                    <div class="mb-2"><i class="fas fa-cog me-2"></i> 4X2</div>
                     <div class="mb-2">
-                      <i class="fas fa-cogs me-2"></i>
-                      otra wea
+                      <i class="fas fa-cog me-2"></i> {{ v.traccion }}
+                    </div>
+                    <div class="mb-2">
+                      <i class="fas fa-cogs me-2"></i> {{ v.transmision }}
                     </div>
                   </div>
                 </div>
               </div>
-              </div>
+              {% endfor %}
             </div>
           </div>
         </div>

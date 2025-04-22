@@ -7,6 +7,7 @@ from .seeder_nacionalidades import seed_nacionalidades
 from .seeder_tipo_cedula import seed_tipos_cedula
 from .seeder_ubicaciones import seed_ubicaciones
 from .seeder_estado_reserva import seed_estados_reserva
+from .seeder_vehiculos import seed_vehiculos
 
 
 cli_seeders = [
@@ -18,5 +19,6 @@ cli_seeders = [
     seed_nacionalidades,
     seed_tipos_cedula,
     seed_ubicaciones,
-    seed_estados_reserva
+    seed_estados_reserva,
+    seed_vehiculos
 ]

@@ -12,7 +12,7 @@ from api.routes.reservations import blp as reservations_blp
 all_blueprints = [
     usuarios_blp,
     roles_blp,
-    login_blp
+    login_blp,
     vehicles_blp,
     vehicles_catalog_blp,
     reservations_blp
