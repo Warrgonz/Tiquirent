@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "danger"
       );
     } else {
-      window.location.href = "/reservations/create/details";
+      document.querySelector("form").submit();
     }
   });
 

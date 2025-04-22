@@ -88,123 +88,6 @@ endblock %} {% block content %} {% block styles %}
     <div class="container mt-4">
       <div class="row">
         <!-- Filtros -->
-        <div class="col-12 col-md-4">
-          <div class="filter-title">Filtrado por</div>
-
-          <!-- Capacidad -->
-          <div class="filter-section">
-            <div class="filter-section-title">Capacidad</div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="capacity1"
-              /><label class="form-check-label" for="capacity1"
-                >1-4 asientos</label
-              >
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="capacity2"
-              /><label class="form-check-label" for="capacity2"
-                >5-6 asientos</label
-              >
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="capacity3"
-              /><label class="form-check-label" for="capacity3"
-                >7 o más asientos</label
-              >
-            </div>
-          </div>
-
-          <!-- Transmisión -->
-          <div class="filter-section">
-            <div class="filter-section-title">Transmisión</div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="transmission1"
-              /><label class="form-check-label" for="transmission1"
-                >Manual</label
-              >
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="transmission2"
-              /><label class="form-check-label" for="transmission2"
-                >Automático</label
-              >
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="transmission3"
-              /><label class="form-check-label" for="transmission3"
-                >Semi-Automática</label
-              >
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="transmission4"
-              /><label class="form-check-label" for="transmission4">CVT</label>
-            </div>
-          </div>
-
-          <!-- Tracción -->
-          <div class="filter-section">
-            <div class="filter-section-title">Tracción</div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="traction1"
-              /><label class="form-check-label" for="traction1">4x2</label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="traction2"
-              /><label class="form-check-label" for="traction2">4x4</label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="traction3"
-              /><label class="form-check-label" for="traction3">AWD</label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="traction4"
-              /><label class="form-check-label" for="traction4">FWD</label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                id="traction5"
-              /><label class="form-check-label" for="traction5">RWD</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cards de Vehículos -->
-        <div class="col-12 col-md-8">
           <div class="card mb-4">
             <div class="card-header">
               <h2 class="mb-0">Opciones Disponibles</h2>
@@ -213,9 +96,7 @@ endblock %} {% block content %} {% block styles %}
               {% for v in vehiculos %}
               <div class="vehicle-card">
                 <div class="row">
-                  <div class="col-12 vehicle-title">
-                    {{ v.marca }} {{ v.modelo }}
-                  </div>
+                  <div class="col-12 vehicle-title">{{ v.marca }} {{ v.modelo }}</div>
                 </div>
                 <div class="row">
                   <!-- Imagen -->
@@ -226,29 +107,34 @@ endblock %} {% block content %} {% block styles %}
                       class="img-fluid"
                     />
                   </div>
-
+            
                   <!-- Precio -->
                   <div
-                    class="col-md-4 mb-3 mb-md-0 d-flex flex-column justify-content-center align-items-center"
-                  >
-                    <div class="price">${{ v.precio_diario }}</div>
-                    <div class="price-text">por día</div>
-                    <a href="/reservations/create/overview">
-                      <button class="btn btn-success select-btn mt-3">
-                        Seleccionar
-                      </button>
-                    </a>
-                  </div>
-
+                  class="col-md-4 mb-3 mb-md-0 d-flex flex-column justify-content-center align-items-center"
+                >
+                  <div class="price">${{ v.precio_diario }}</div>
+                  <div class="price-text">por día</div>
+                
+                  {% if session.get('reserva') and session['reserva'].get('vehiculo') == v.id %}
+                    <!-- Vehículo ya seleccionado -->
+                    <button class="btn btn-secondary mt-3" disabled>Seleccionado</button>
+                  {% else %}
+                    <!-- Seleccionar vehículo -->
+                    <form method="POST" action="{{ url_for('reservations.reservations_vehiculo_data') }}">
+                      <input type="hidden" name="vehiculo_id" value="{{ v.id }}">
+                      <button type="submit" class="btn btn-success select-btn mt-3">Seleccionar</button>
+                    </form>                    
+                  {% endif %}
+                </div>
+                
+            
                   <!-- Características -->
                   <div class="col-md-4 vehicle-features">
                     <div class="mb-2">
-                      <i class="fas fa-user me-2"></i> {{ v.numero_asientos }}
-                      asientos
+                      <i class="fas fa-user me-2"></i> {{ v.numero_asientos }} asientos
                     </div>
                     <div class="mb-2">
-                      <i class="fas fa-car-side me-2"></i> {{ v.puertas }}
-                      puertas
+                      <i class="fas fa-car-side me-2"></i> {{ v.puertas }} puertas
                     </div>
                     <div class="mb-2">
                       <i class="fas fa-cog me-2"></i> {{ v.traccion }}
@@ -260,6 +146,8 @@ endblock %} {% block content %} {% block styles %}
                 </div>
               </div>
               {% endfor %}
+            </div>
+            
             </div>
           </div>
         </div>

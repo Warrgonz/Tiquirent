@@ -28,64 +28,140 @@ endblock %} {% block content %}
   {% endblock %}
 
   <form class="row g-3 mt-3">
-    <h1 data-i18n="agregar_usuario">Confirmación de la reserva</h1>
-    <!-- Nacionalidad -->
-    <div class="col-md-6">
-      <label for="nacionalidad" class="form-label">Ubicación de Recogida</label>
-      <select class="form-select" id="nacionalidad">
-        <option></option>
-      </select>
-    </div>
-
-    <!-- Tipo de cedula -->
-    <div class="col-md-6">
-      <label for="nacionalidad" class="form-label">Ubicación de Recogida</label>
-      <select class="form-select" id="nacionalidad">
-        <option></option>
-      </select>
-    </div>
-
-    <!-- Fechas -->
-    <div class="row g-3">
-      <div class="col-md-6">
-        <label for="start_date" class="form-label">Fecha de inicio</label>
-        <input
-          type="text"
-          class="form-control"
-          id="start_date"
-          name="start_date"
+    <section>
+      <div class="row">
+        <div class="col-12">
+          <h1>Resumen de la Reserva</h1>
+          <p class="text-muted">
+            Revise los datos antes de confirmar su reserva.
+          </p>
+        </div>
+      </div>
+      <div class="mb-3 text-center">
+        <label class="form-label d-block">Vehículo seleccionado:</label>
+        <img
+          src="http://127.0.0.1:8080/media/{{ vehiculo.ruta_imagen }}"
+          alt="Foto
+        del vehículo"
+          class="rounded-5"
+          width="350"
+          height="270"
+          id="foto-preview"
         />
       </div>
-      <div class="col-md-6">
-        <label for="end_date" class="form-label">Fecha de finalización</label>
-        <input type="text" class="form-control" id="end_date" name="end_date" />
-      </div>
-    </div>
 
-    <div class="pt-2">
-      <a href="/reservations/create/user-data" class="btn btn-primary mx-2"
-        >Regresar</a
-      >
-      <a href="/reservations/create/vehiculo" class="btn btn-primary mx-2"
-        >Siguiente</a
-      >
-    </div>
+      <div>
+        <h4>🚗 Datos del vehículo</h4>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <strong>Marca y Modelo:</strong> {{ vehiculo.marca }} {{
+            vehiculo.modelo }}
+          </li>
+          <li class="list-group-item">
+            <strong>Placa:</strong> {{ vehiculo.placa }}
+          </li>
+          <li class="list-group-item">
+            <strong>Color:</strong> {{ vehiculo.color }}
+          </li>
+          <li class="list-group-item">
+            <strong>Transmisión:</strong> {{ vehiculo.transmision }}
+          </li>
+          <li class="list-group-item">
+            <strong>Tracción:</strong> {{ vehiculo.traccion }}
+          </li>
+          <li class="list-group-item">
+            <strong>Asientos:</strong> {{ vehiculo.numero_asientos }}
+          </li>
+          <li class="list-group-item">
+            <strong>Precio diario:</strong> ${{
+            "%.2f"|format(vehiculo.precio_diario) }}
+          </li>
+          <li class="list-group-item">
+            <strong>Total a pagar:</strong> {{ dias }} días × ${{
+            "%.2f"|format(vehiculo.precio_diario) }} =
+            <strong>${{ "%.2f"|format(total) }}</strong>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row mt-4">
+        <!-- Usuario -->
+        <div class="col-md-6">
+          <h4>🧑 Datos del Usuario</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Nombre:</strong> {{
+              session['reserva']['usuario']['nombre'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Cédula:</strong> {{
+              session['reserva']['usuario']['cedula'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Email:</strong> {{ session['reserva']['usuario']['email']
+              }}
+            </li>
+            <li class="list-group-item">
+              <strong>Teléfono:</strong> {{
+              session['reserva']['usuario']['telefono'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Licencia:</strong> {{
+              session['reserva']['usuario']['licencia'] }}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Detalles -->
+        <div class="col-md-6">
+          <h4>📍 Detalles de la Reserva</h4>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <strong>Entrega:</strong>
+              {{
+              ubicaciones_dict[session['reserva']['detalles']['ubicacion_entrega']
+              | int] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Regreso:</strong>
+              {{
+              ubicaciones_dict[session['reserva']['detalles']['ubicacion_regreso']
+              | int] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Inicio:</strong> {{
+              session['reserva']['detalles']['start_date'] }}
+            </li>
+            <li class="list-group-item">
+              <strong>Fin:</strong> {{
+              session['reserva']['detalles']['end_date'] }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <a
+          href="/reservations/create/vehiculo"
+          class="btn btn-outline-secondary"
+          >Cambiar vehículo</a
+        >
+        <a href="/reservations/create/details" class="btn btn-outline-secondary"
+          >Editar detalles</a
+        >
+        <a
+          href="/reservations/create/user-data"
+          class="btn btn-outline-secondary"
+          >Editar usuario</a
+        >
+
+        <form method="POST" action="/reservations/complete" class="d-inline">
+          <button type="submit" class="btn btn-primary">
+            ✅ Confirmar Reserva
+          </button>
+        </form>
+      </div>
+    </section>
   </form>
 </section>
-
-{% block scripts %}
-<!-- Litepicker JS -->
-<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/bundle.js"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    new Litepicker({
-      element: document.getElementById("start_date"),
-      elementEnd: document.getElementById("end_date"),
-      singleMode: false,
-      format: "DD/MM/YYYY",
-      lang: "es",
-    });
-  });
-</script>
-{% endblock %} {% endblock %}
+{% endblock %}

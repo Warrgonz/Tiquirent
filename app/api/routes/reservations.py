@@ -2,6 +2,8 @@ from flask.views import MethodView
 from flask_smorest import Blueprint
 from flask import abort, jsonify, render_template, request
 from api.extensions import db
+from api.models.traccion import Traccion
+from api.models.transmision import Transmision
 from api.models.users import Users
 from api.schemas.user_schema import UserSchema
 from api.decorators.auth import require_api_key
@@ -82,4 +84,57 @@ class CatalogoVehiculosResource(MethodView):
         except Exception as e:
             print("❌ Error en /catalogo/vehiculos:", e)
             return {"vehiculos": []}, 500
+
+@blp.route("/catalogo/vehiculos/filtrados")
+class CatalogoVehiculosFiltrados(MethodView):
+
+    @require_api_key
+    def get(self):
+        capacidad = request.args.getlist("capacidad")
+        transmision = request.args.getlist("transmision")
+        traccion = request.args.getlist("traccion")
+
+        query = Vehiculo.query
+
+        if capacidad:
+            rangos = []
+            for r in capacidad:
+                if r == "1-4":
+                    rangos.append((1, 4))
+                elif r == "5-6":
+                    rangos.append((5, 6))
+                elif r == "7+":
+                    rangos.append((7, 99))
+
+            condiciones = [(Vehiculo.numero_asientos >= a) & (Vehiculo.numero_asientos <= b) for (a, b) in rangos]
+            query = query.filter(db.or_(*condiciones))
+
+        if transmision:
+            query = query.join(Vehiculo.transmision).filter(Transmision.tipo.in_(transmision))
+
+        if traccion:
+            query = query.join(Vehiculo.traccion).filter(Traccion.tipo.in_(traccion))
+
+        vehiculos = query.all()
+
+        return {
+            "vehiculos": [
+                {
+                    "id": v.id,
+                    "modelo": v.modelo,
+                    "año": v.año,
+                    "placa": v.placa,
+                    "color": v.color,
+                    "ruta_imagen": v.ruta_imagen,
+                    "precio_diario": float(v.precio_diario or 0),
+                    "puertas": v.puertas,
+                    "numero_asientos": v.numero_asientos,
+                    "marca": v.marca.nombre if v.marca else None,
+                    "transmision": v.transmision.tipo if v.transmision else None,
+                    "traccion": v.traccion.tipo if v.traccion else None,
+                    "estado": v.estado.estado if v.estado else None
+                }
+                for v in vehiculos
+            ]
+        }
 

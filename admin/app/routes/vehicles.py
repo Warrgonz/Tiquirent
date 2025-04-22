@@ -1,6 +1,6 @@
 # app/routes/vehicles.py
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, jsonify, render_template, request, redirect, url_for, flash
 from app.services.http_client import APIClient
 
 vehicles_bp = Blueprint('vehicles', __name__)
@@ -25,14 +25,28 @@ def get_catalogo_data():
         "estados": catalogo.get("estados", [])
     }
 
-@vehicles_bp.route("/vehicles")
-def vehicles():
+@vehicles_bp.route('/vehicles')
+def listar_vehiculos():
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+
     api = APIClient()
-    vehiculos = api.get("/vehiculos/")
+    query = request.args.get("q", "")
+    data = api.get(f"/vehiculos/?q={query}")  # Incluye búsqueda si aplica
+
+    all_vehiculos = data.get("vehiculos", []) if isinstance(data, dict) else []
+    total = len(all_vehiculos)
+    start = (page - 1) * per_page
+    end = start + per_page
+    vehiculos_paginated = all_vehiculos[start:end]
+
+    total_pages = max(1, (total + per_page - 1) // per_page)
 
     return render_template(
-        "vehicles/vehicles.html",
-        vehiculos=vehiculos
+        'vehicles/vehicles.html',
+        vehiculos=vehiculos_paginated,
+        current_page=page,
+        total_pages=total_pages
     )
 
 
@@ -167,6 +181,5 @@ def vehicle_delete(vehiculo_id):
         flash(response.get("error", "❌ No se pudo eliminar el vehículo."), "danger")
 
     return redirect("/vehicles")
-
 
 
