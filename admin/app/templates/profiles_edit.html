@@ -1,22 +1,9 @@
 {% extends "layout.html" %}
-{% block title %}Perfil de Usuario{% endblock %}
+{% block title %}Editar Perfil{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="mt-2">
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-
-    <h1>¡Hola {{ user.nombre_usuario }}, este es tu perfil!</h1>
+    <h1>Editar tu perfil</h1>
 
     <div class="mb-3 text-center">
         <img id="profile-img"
@@ -30,7 +17,7 @@
              height="150">
     </div>
 
-    <form>
+    <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="cedula" class="form-label" data-i18n="p_id">Cédula</label>
             <input type="text" id="cedula" class="form-control" value="{{ user.cedula }}" readonly>
@@ -38,7 +25,7 @@
 
         <div class="mb-3">
             <label for="nombre" class="form-label" data-i18n="p_name">Nombre</label>
-            <input type="text" id="nombre" class="form-control" value="{{ user.nombre_usuario }}" disabled>
+            <input type="text" id="nombre" name="nombre_usuario" class="form-control" value="{{ user.nombre_usuario }}">
         </div>
 
         <div class="mb-3">
@@ -58,12 +45,12 @@
 
         <div class="mb-3">
             <label class="form-label" data-i18n="p_image">Imagen de perfil</label>
-            <input type="file" id="imagen" class="form-control mt-2" disabled>
+            <input type="file" id="imagen" name="foto" class="form-control mt-2">
         </div>
 
         <div class="d-flex gap-3 justify-content-center">
-            <a href="/profiles/edit" class="btn btn-primary" data-i18n="p_modify">Modificar</a>
-            <a href="/profiles/change-password" class="btn btn-warning" data-i18n="p_resetpw">Cambiar Contraseña</a>
+            <button type="submit" class="btn btn-success" data-i18n="save">Guardar cambios</button>
+            <a href="/profiles" class="btn btn-secondary" data-i18n="cancel">Cancelar</a>
         </div>
     </form>
 </div>

@@ -1,3 +1,4 @@
+
 # app/__init__.py
 
 from flask import Flask, send_from_directory
@@ -16,12 +17,15 @@ from .utils.errors import (
 load_dotenv()
 
 def create_app():
-    sentry_sdk.init(
-        dsn=os.getenv('SENTRY_DNS'),
-        send_default_pii=True,
-        traces_sample_rate=1.0,
-        _experiments={"continuous_profiling_auto_start": True},
-    )
+    # Inicializar Sentry solo si hay DSN configurado
+    dsn = os.getenv('SENTRY_DSN')
+    if dsn:
+        sentry_sdk.init(
+            dsn=dsn,
+            send_default_pii=True,
+            traces_sample_rate=1.0,
+            _experiments={"continuous_profiling_auto_start": True},
+        )
 
     app = Flask(__name__)
 
@@ -35,23 +39,21 @@ def create_app():
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
     app.config["API_SPEC_OPTIONS"] = {
-    "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "X-API-Key"
+        "components": {
+            "securitySchemes": {
+                "ApiKeyAuth": {
+                    "type": "apiKey",
+                    "in": "header",
+                    "name": "X-API-Key"
                 }
             }
         },
         "security": [{"ApiKeyAuth": []}]
     }
 
-
     # 🔧 Inicializar extensiones
     init_db(app)
     cors.init_app(app)
-
     api.init_app(app)  
 
     # 🧩 Registrar todos los blueprints antes de iniciar `api`
@@ -68,7 +70,6 @@ def create_app():
 
     @app.route('/media/<path:filename>', endpoint='media')
     def media(filename):
-        # Ruta absoluta hacia la carpeta "database/images"
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database', 'images'))
         return send_from_directory(base_path, filename)
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, make_response
 from flask_login import login_user, current_user, login_required, logout_user
 from app.services.http_client import APIClient
 from app.models.user import User
@@ -24,6 +24,7 @@ def inicio():
             user = User(res)
 
             session["user_data"] = user.to_dict()
+            print("🧠 Datos guardados en session:", session["user_data"])
             remember = bool(request.form.get("remember"))
             login_user(user, remember=remember, fresh=True)
 
@@ -65,7 +66,30 @@ def cambiar_contrasena_opcional():
 @signIn_bp.route('/logout')
 @login_required
 def logout():
-    from flask import session 
     logout_user()
     session.clear()
-    return redirect(url_for('signIn.inicio'))
+
+    response = make_response(redirect(url_for('signIn.inicio')))
+    response.set_cookie('remember_token', '', expires=0)
+
+    return response
+
+
+@signIn_bp.route('/forgot-password', methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        email = request.form.get("email")
+        if not email:
+            flash("❌ Debes ingresar un correo", "danger")
+            return redirect(request.url)
+
+        response = api_client.post("/usuarios/forgot-password", json={"email": email})
+
+        if isinstance(response, dict) and response.get("message"):
+            flash("✅ Se ha enviado una nueva contraseña a tu correo", "success")
+        else:
+            flash(response.get("message", "❌ No se pudo restablecer la contraseña"), "danger")
+
+        return redirect("/")
+
+    return render_template("forgotPassword.html")
