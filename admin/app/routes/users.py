@@ -1,4 +1,5 @@
 from flask import Blueprint, flash, jsonify, redirect, render_template, request
+from flask_login import login_required
 import requests
 from app.services.http_client import APIClient
 import os
@@ -9,6 +10,7 @@ api = APIClient()
 users_bp = Blueprint('users', __name__)
 
 @users_bp.route('/users')
+@login_required 
 def users():
     import time
     print("⏱️ Iniciando carga de /users")
@@ -32,6 +34,7 @@ def users():
 
 
 @users_bp.route('/users/add', methods=['GET', 'POST'])
+@login_required 
 def add_user():
     form_data = {}
 
@@ -75,6 +78,7 @@ def add_user():
     return render_template('users/add_user.html', roles=roles, form_data=form_data)
 
 @users_bp.route("/users/<int:user_id>/toggle", methods=["POST"])
+@login_required 
 def toggle_user_status_web(user_id):
     estado = request.form.get("estado_id")
     if not estado:
@@ -104,6 +108,7 @@ def test():
    return render_template('/users/test.html')
 
 @users_bp.route("/users/<int:user_id>/edit", methods=["GET", "POST"])
+@login_required 
 def edit_user(user_id):
     if request.method == "POST":
         form_data = {

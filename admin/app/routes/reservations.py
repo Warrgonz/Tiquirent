@@ -1,6 +1,8 @@
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, session
 from datetime import datetime, timedelta
 
+from flask_login import login_required
+
 from app.services.http_client import APIClient
 from datetime import datetime, timedelta
 
@@ -9,6 +11,7 @@ reservations_bp = Blueprint('reservations', __name__)
 api = APIClient()
 
 @reservations_bp.route("/reservations")
+@login_required 
 def reservations():
     reservas = api.get("/Reservaciones/reservas/")
 
@@ -21,6 +24,7 @@ def reservations():
     return render_template("reservations/reservations.html", reservas=reservas)
 
 @reservations_bp.route('/reservations/create/user-data', methods=["GET", "POST"])
+@login_required 
 def reservations_create_data():
     if request.method == "POST":
         # Obtener datos del formulario
@@ -63,6 +67,7 @@ def reservations_create_data():
 
 
 @reservations_bp.route('/reservations/create/details', methods=["GET", "POST"])
+@login_required 
 def reservations_details_data():
     api = APIClient()
     catalogo = api.get("/Reservaciones/catalogo/reservas")
@@ -97,6 +102,7 @@ def reservations_details_data():
 
 
 @reservations_bp.route('/reservations/create/vehiculo', methods=['GET', 'POST'])
+@login_required 
 def reservations_vehiculo_data():
     if request.method == 'POST':
         vehiculo_id = request.form.get('vehiculo_id')
@@ -149,6 +155,7 @@ def reservations_vehiculo_data():
 
 
 @reservations_bp.route('/reservations/create/overview')
+@login_required 
 def reservations_overview_data():
     reserva = session.get("reserva", {})
     vehiculo_id = reserva.get("vehiculo")
@@ -204,6 +211,7 @@ def reservations_overview_data():
     )
 
 @reservations_bp.route('/reservations/complete', methods=["POST"])
+@login_required 
 def reservations_complete():
     reserva = session.get("reserva", {})
     inicio_str = reserva.get("inicio_temporizador")

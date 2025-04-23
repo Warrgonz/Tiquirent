@@ -1,6 +1,7 @@
 # app/routes/vehicles.py
 
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for, flash
+from flask_login import login_required
 from app.services.http_client import APIClient
 
 vehicles_bp = Blueprint('vehicles', __name__)
@@ -26,6 +27,7 @@ def get_catalogo_data():
     }
 
 @vehicles_bp.route('/vehicles')
+@login_required
 def listar_vehiculos():
     page = request.args.get('page', 1, type=int)
     per_page = 5
@@ -52,6 +54,7 @@ def listar_vehiculos():
 
 
 @vehicles_bp.route("/vehicles/add")
+@login_required
 def vehicles_add():
     return render_template("vehicles/add_vehicles.html", **get_catalogo_data())
 
@@ -91,7 +94,8 @@ def vehicles_add_post():
     flash("✅ Vehículo agregado correctamente.", "success")
     return redirect(url_for("vehicles.vehicles"))
 
-@vehicles_bp.route("/vehicles/view/<int:vehiculo_id>")
+@vehicles_bp.route("/vehicles/view/<int:vehiculo_id>") 
+@login_required
 def vehicle_view(vehiculo_id):
     api = APIClient()
     vehiculo = api.get(f"/vehiculos/{vehiculo_id}")  
@@ -110,6 +114,7 @@ def vehicle_view(vehiculo_id):
     )
 
 @vehicles_bp.route("/vehicles/edit/<int:vehiculo_id>")
+@login_required
 def vehicle_edit(vehiculo_id):
     api = APIClient()
 
@@ -133,6 +138,7 @@ def vehicle_edit(vehiculo_id):
     )
 
 @vehicles_bp.route("/vehicles/edit/<int:vehiculo_id>", methods=["POST"])
+@login_required
 def vehicle_edit_post(vehiculo_id):
     api = APIClient()
     form_data = request.form.to_dict()
@@ -159,6 +165,7 @@ def vehicle_edit_post(vehiculo_id):
     return redirect(url_for("vehicles.vehicles"))
 
 @vehicles_bp.route("/vehicles/delete/<int:vehiculo_id>", methods=["POST"])
+@login_required
 def delete_vehicle(vehiculo_id):
     api = APIClient()
     response = api.delete(f"/vehiculos/{vehiculo_id}")
@@ -171,6 +178,7 @@ def delete_vehicle(vehiculo_id):
     return redirect(url_for("vehicles.vehicles"))
 
 @vehicles_bp.route("/vehicles/delete/<int:vehiculo_id>", methods=["POST"])
+@login_required
 def vehicle_delete(vehiculo_id):
     api = APIClient()
     response = api.delete(f"/vehiculos/{vehiculo_id}")
