@@ -1,7 +1,9 @@
+from datetime import datetime
 from flask.views import MethodView
 from flask_smorest import Blueprint
 from flask import abort, jsonify, render_template, request
 from api.extensions import db
+from api.models.reservation import Reservation
 from api.models.traccion import Traccion
 from api.models.transmision import Transmision
 from api.models.users import Users
@@ -25,6 +27,89 @@ blp = Blueprint(
 # -------------------------------
 # RUTA: /usuarios/
 # -------------------------------
+
+@blp.route("/reservas")
+class ReservaListResource(MethodView):
+    @require_api_key
+    def get(self):
+        return Reservation.query.all()
+
+
+@blp.route("/crear")
+class CrearReservaResource(MethodView):
+
+    @require_api_key
+    def post(self):
+        try:
+            data = request.get_json()
+
+            fmt = "%d/%m/%Y"
+            fecha_inicio = datetime.strptime(data["fecha_inicio"], fmt).date()
+            fecha_fin = datetime.strptime(data["fecha_fin"], fmt).date()
+
+            nueva_reserva = Reservation(
+                nombre_usuario=data["nombre_usuario"],
+                cedula=data["cedula"],
+                email=data["email"],
+                telefono=data["telefono"],
+                licencia=data["licencia"],
+                tipo_cedula_id=int(data["tipo_cedula_id"]),
+                nacionalidad_id=int(data["nacionalidad_id"]),
+                ubicacion_entrega_id=int(data["ubicacion_entrega_id"]),
+                ubicacion_regreso_id=int(data["ubicacion_regreso_id"]),
+                fecha_inicio=fecha_inicio,
+                fecha_fin=fecha_fin,
+                vehiculo_id=int(data["vehiculo_id"]),
+                estado_id=1  # Estado por defecto: Activa
+            )
+
+            db.session.add(nueva_reserva)
+            db.session.commit()
+
+            # Recuperar relaciones para el correo
+            tipo = TipoCedula.query.get(nueva_reserva.tipo_cedula_id)
+            nacion = Nacionalidad.query.get(nueva_reserva.nacionalidad_id)
+            entrega = Ubicaciones.query.get(nueva_reserva.ubicacion_entrega_id)
+            regreso = Ubicaciones.query.get(nueva_reserva.ubicacion_regreso_id)
+            vehiculo = Vehiculo.query.get(nueva_reserva.vehiculo_id)
+
+            html_content = render_template(
+                "email/reserva_email.html",
+                nombre=nueva_reserva.nombre_usuario,
+                cedula=nueva_reserva.cedula,
+                email=nueva_reserva.email,
+                telefono=nueva_reserva.telefono,
+                licencia=nueva_reserva.licencia,
+                tipo_cedula=tipo.tipo_cedula if tipo else "",
+                nacionalidad=nacion.pais if nacion else "",
+                entrega=entrega.ubicacion if entrega else "",
+                regreso=regreso.ubicacion if regreso else "",
+                fecha_inicio=fecha_inicio.strftime("%d/%m/%Y"),
+                fecha_fin=fecha_fin.strftime("%d/%m/%Y"),
+                vehiculo=f"{vehiculo.marca.nombre} {vehiculo.modelo}" if vehiculo and vehiculo.marca else vehiculo.modelo
+            )
+
+            send_email_async(
+                receiver_email=nueva_reserva.email,
+                subject="📄 Confirmación de tu Reserva en Tiquirent",
+                body=html_content
+            )
+
+            return {
+                "message": "✅ Reserva creada con éxito.",
+                "reserva_id": nueva_reserva.id
+            }, 201
+
+        except Exception as e:
+            print("❌ Error al crear la reserva:", e)
+            db.session.rollback()
+            return {
+                "message": "❌ Error al crear la reserva.",
+                "error": str(e)
+            }, 500
+        
+
+
 @blp.route("/catalogo/usuarios")
 class CatalogoUsuariosResource(MethodView):
 

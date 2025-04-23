@@ -2,6 +2,23 @@
 endblock %} {% block content %}
 <div>
   <div class="row">
+    <div id="flash-container">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
     <div class="col-md-6">
       <h1>Reservaciones</h1>
     </div>
@@ -34,132 +51,48 @@ endblock %} {% block content %}
         <h6 class="fs-4 fw-semibold mb-0 text-center">Fecha</h6>
       </th>
       <th>
-        <h6 class="fs-4 fw-semibold mb-0 text-center">Estado</h6>
-      </th>
-      <th>
         <h6 class="fs-4 fw-semibold mb-0 text-center">Acciones</h6>
       </th>
     </tr>
   </thead>
   <tbody>
+    {% for r in reservas %}
     <tr>
       <td class="text-center">
         <img
-          src="../static/images/cars/toyota-yaris.png"
-          alt="Toyota Yaris 2022"
+          src="{{ config.API_BASE_URL }}/media/{{ r.imagen }}"
+          alt="{{ r.vehiculo }}"
           width="80"
           height="50"
           class="rounded"
         />
       </td>
-      <td class="text-center">1</td>
-      <td class="text-center">Toyota Yaris 2022</td>
-      <td class="text-center">ABC-123</td>
-      <td class="text-center">Juan Pérez</td>
-      <td class="text-center">01/04/2025 - 07/04/2025</td>
-      <td class="text-center">
-        <span class="badge bg-success-subtle text-success">Confirmada</span>
-      </td>
+      <td class="text-center">{{ r.id }}</td>
+      <td class="text-center">{{ r.vehiculo }}</td>
+      <td class="text-center">{{ r.placa }}</td>
+      <td class="text-center">{{ r.nombre_usuario }}</td>
+      <td class="text-center">{{ r.fecha_inicio }} - {{ r.fecha_fin }}</td>
       <td>
         <div class="dropdown dropstart text-center">
-          <a
-            href="javascript:void(0)"
-            class="text-muted"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
+          <a href="#" class="text-muted" data-bs-toggle="dropdown">
             <i class="ti ti-dots-vertical fs-6"></i>
           </a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <ul class="dropdown-menu">
             <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
-              >
-                <i class="fs-4 ti ti-eye"></i>Ver detalles
+              <a class="dropdown-item" href="#">
+                <i class="fs-4 ti ti-eye"></i> Ver detalles
               </a>
             </li>
             <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
-              >
-                <i class="fs-4 ti ti-edit"></i>Editar
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
-              >
-                <i class="fs-4 ti ti-trash"></i>Cancelar
+              <a class="dropdown-item" href="#">
+                <i class="fs-4 ti ti-trash"></i> Cancelar
               </a>
             </li>
           </ul>
         </div>
       </td>
     </tr>
-
-    <tr>
-      <td class="text-center">
-        <img
-          src="../static/images/cars/kia-rio.png"
-          alt="Kia Rio 2021"
-          width="80"
-          height="50"
-          class="rounded"
-        />
-      </td>
-      <td class="text-center">2</td>
-      <td class="text-center">Kia Rio 2021</td>
-      <td class="text-center">XYZ-789</td>
-      <td class="text-center">María Gómez</td>
-      <td class="text-center">10/05/2025 - 15/05/2025</td>
-      <td class="text-center">
-        <span class="badge bg-danger-subtle text-danger">Cancelada</span>
-      </td>
-      <td>
-        <div class="dropdown dropstart text-center">
-          <a
-            href="javascript:void(0)"
-            class="text-muted"
-            id="dropdownMenuButton"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="ti ti-dots-vertical fs-6"></i>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
-              >
-                <i class="fs-4 ti ti-eye"></i>Ver detalles
-              </a>
-            </li>
-            <li></li>
-            <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
-              >
-                <i class="fs-4 ti ti-edit"></i>Editar
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item d-flex align-items-center gap-3"
-                href="javascript:void(0)"
-              >
-                <i class="fs-4 ti ti-trash"></i>Cancelar
-              </a>
-            </li>
-          </ul>
-        </div>
-      </td>
-    </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}

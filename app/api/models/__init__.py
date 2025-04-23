@@ -10,6 +10,7 @@ from .estado_reserva import EstadoReserva
 from .nacionalidad import Nacionalidad
 from .tipo_cedula import TipoCedula
 from .ubicaciones import Ubicaciones
+from .reservation import Reservation
 
 __all__ = [
     "Role", 
@@ -23,4 +24,5 @@ __all__ = [
     "EstadoReserva", 
     "Nacionalidad", 
     "TipoCedula", 
-    "Ubicaciones"]
+    "Ubicaciones",
+    "Reservation"]

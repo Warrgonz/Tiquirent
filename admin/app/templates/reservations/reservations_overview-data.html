@@ -31,7 +31,14 @@ endblock %} {% block content %}
     <section>
       <div class="row">
         <div class="col-12">
-          <h1>Resumen de la Reserva</h1>
+          <div class="row">
+            <div class="col-md-6">
+              <h1>Resumen de la Reserva</h1>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end">
+              <h1 id="countdown" class="text-danger fw-bold">05:00</h1>
+            </div>
+          </div>
           <p class="text-muted">
             Revise los datos antes de confirmar su reserva.
           </p>
@@ -139,29 +146,52 @@ endblock %} {% block content %}
           </ul>
         </div>
       </div>
-
-      <div class="pt-4">
-        <a
-          href="/reservations/create/vehiculo"
-          class="btn btn-outline-secondary"
-          >Cambiar vehículo</a
-        >
-        <a href="/reservations/create/details" class="btn btn-outline-secondary"
-          >Editar detalles</a
-        >
-        <a
-          href="/reservations/create/user-data"
-          class="btn btn-outline-secondary"
-          >Editar usuario</a
-        >
-
-        <form method="POST" action="/reservations/complete" class="d-inline">
-          <button type="submit" class="btn btn-primary">
-            ✅ Confirmar Reserva
-          </button>
-        </form>
-      </div>
     </section>
   </form>
+
+  <div class="pt-4">
+    <a href="/reservations/create/vehiculo" class="btn btn-outline-secondary"
+      >Cambiar vehículo</a
+    >
+    <a href="/reservations/create/details" class="btn btn-outline-secondary"
+      >Editar detalles</a
+    >
+    <a href="/reservations/create/user-data" class="btn btn-outline-secondary"
+      >Editar usuario</a
+    >
+    <form method="POST" action="/reservations/complete" class="d-inline">
+      <button type="submit" class="btn btn-primary">
+        ✅ Confirmar Reserva
+      </button>
+    </form>
+  </div>
 </section>
-{% endblock %}
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const countdown = document.getElementById("countdown");
+    const endTime = new Date(new Date().getTime() + 5 * 60 * 1000); // 5 mins
+
+    function updateTimer() {
+      const now = new Date();
+      const remaining = Math.max(0, endTime - now);
+      const minutes = Math.floor(remaining / 60000)
+        .toString()
+        .padStart(2, "0");
+      const seconds = Math.floor((remaining % 60000) / 1000)
+        .toString()
+        .padStart(2, "0");
+
+      countdown.textContent = `${minutes}:${seconds}`;
+
+      if (remaining <= 0) {
+        window.location.href = "/reservations/create/vehiculo?expired=1";
+      } else {
+        setTimeout(updateTimer, 1000);
+      }
+    }
+
+    updateTimer();
+  });
+</script>
+{% endblock %} {% endblock %}

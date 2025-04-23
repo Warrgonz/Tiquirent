@@ -1,13 +1,24 @@
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, session
+from datetime import datetime, timedelta
 
 from app.services.http_client import APIClient
-from datetime import datetime
+from datetime import datetime, timedelta
 
 reservations_bp = Blueprint('reservations', __name__)
 
-@reservations_bp.route('/reservations')
+api = APIClient()
+
+@reservations_bp.route("/reservations")
 def reservations():
-    return render_template('reservations/reservations.html')
+    reservas = api.get("/Reservaciones/reservas/")
+
+    print(reservas)
+    
+    if isinstance(reservas, dict) and reservas.get("error"):
+        flash("❌ Error al obtener las reservaciones", "danger")
+        reservas = []
+
+    return render_template("reservations/reservations.html", reservas=reservas)
 
 @reservations_bp.route('/reservations/create/user-data', methods=["GET", "POST"])
 def reservations_create_data():
@@ -97,12 +108,31 @@ def reservations_vehiculo_data():
         session['reserva'] = session.get('reserva', {})
         session['reserva']['vehiculo'] = int(vehiculo_id)
 
+        # Guardar inicio de temporizador si aún no existe
+        if not session['reserva'].get("inicio_temporizador"):
+            session['reserva']['inicio_temporizador'] = datetime.now().isoformat()
+
         print("🚗 Vehículo agregado a la sesión:")
         print(session['reserva'])
 
         return redirect("/reservations/create/overview")
 
-    # GET: mostrar vehículos disponibles
+    # GET: Verificación de temporizador antes de cargar vehículos
+    session['reserva'] = session.get("reserva", {})
+    inicio_str = session['reserva'].get("inicio_temporizador")
+
+    if inicio_str:
+        try:
+            inicio_dt = datetime.fromisoformat(inicio_str)
+            if datetime.now() > inicio_dt + timedelta(minutes=5):
+                # ⏰ Tiempo expirado: limpiar datos relacionados al vehículo
+                session['reserva'].pop("vehiculo", None)
+                session['reserva'].pop("inicio_temporizador", None)
+                flash("⏰ El tiempo para confirmar la reserva ha expirado. Seleccione nuevamente un vehículo.", "warning")
+        except Exception as e:
+            print("⚠️ Error al verificar el temporizador:", e)
+
+    # Obtener vehículos
     api = APIClient()
     catalogo = api.get("/Reservaciones/catalogo/vehiculos")
 
@@ -111,10 +141,12 @@ def reservations_vehiculo_data():
         catalogo = {"vehiculos": []}
 
     print(f"🔍 Vehículos recibidos del API: {len(catalogo['vehiculos'])}")
+
     return render_template(
         "reservations/reservations_vehiculo-data.html",
         vehiculos=catalogo.get("vehiculos", [])
     )
+
 
 @reservations_bp.route('/reservations/create/overview')
 def reservations_overview_data():
@@ -126,7 +158,17 @@ def reservations_overview_data():
     catalogo = api.get("/Reservaciones/catalogo/vehiculos")
     ubicaciones_data = api.get("/Reservaciones/catalogo/reservas")
 
-    ubicaciones = {u["id"]: u["ubicacion"] for u in ubicaciones_data.get("ubicaciones", [])}
+    # Solo guardarlo si no existe ya
+    if not session['reserva'].get("inicio_temporizador"):
+        session['reserva']['inicio_temporizador'] = datetime.now().isoformat()
+
+    if isinstance(ubicaciones_data, dict) and "ubicaciones" in ubicaciones_data:
+        ubicaciones = {u["id"]: u["ubicacion"] for u in ubicaciones_data["ubicaciones"]}
+    elif isinstance(ubicaciones_data, list):
+        ubicaciones = {u["id"]: u["ubicacion"] for u in ubicaciones_data}
+    else:
+        ubicaciones = {}
+
 
     vehiculo = None
 
@@ -140,8 +182,6 @@ def reservations_overview_data():
         flash("❌ Vehículo no encontrado.", "danger")
         return redirect("/reservations/create/vehiculo")
 
-    # Calcular total
-    from datetime import datetime
     fmt = "%d/%m/%Y"
     detalles = reserva.get("detalles", {})
     try:
@@ -163,6 +203,58 @@ def reservations_overview_data():
         total=total
     )
 
+@reservations_bp.route('/reservations/complete', methods=["POST"])
+def reservations_complete():
+    reserva = session.get("reserva", {})
+    inicio_str = reserva.get("inicio_temporizador")
 
+    if inicio_str:
+        try:
+            inicio_dt = datetime.fromisoformat(inicio_str)
+            if datetime.now() > inicio_dt + timedelta(minutes=5):
+                flash("⏰ El tiempo para completar la reserva ha expirado.", "warning")
+                session['reserva'].pop("vehiculo", None)
+                session['reserva'].pop("inicio_temporizador", None)
+                return redirect("/reservations/create/vehiculo")
+        except Exception as e:
+            print("⚠️ Error validando el temporizador:", e)
+
+    # Construcción del payload desde session
+    try:
+        detalles = reserva["detalles"]
+        usuario = reserva["usuario"]
+
+        data = {
+            "nombre_usuario": usuario["nombre"],
+            "cedula": usuario["cedula"],
+            "email": usuario["email"],
+            "telefono": usuario["telefono"],
+            "licencia": usuario["licencia"],
+            "tipo_cedula_id": int(usuario["tipo_cedula"]),
+            "nacionalidad_id": int(usuario["nacionalidad"]),
+            "ubicacion_entrega_id": int(detalles["ubicacion_entrega"]),
+            "ubicacion_regreso_id": int(detalles["ubicacion_regreso"]),
+            "fecha_inicio": detalles["start_date"],
+            "fecha_fin": detalles["end_date"],
+            "vehiculo_id": reserva["vehiculo"]
+        }
+
+        # Envío a la API
+        api = APIClient()
+        response = api.post("/Reservaciones/crear", json=data)
+
+        if response and "reserva_id" in response:
+            flash("✅ ¡Reserva completada con éxito!", "success")
+        else:
+            flash("⚠️ La reserva no se pudo registrar correctamente.", "warning")
+
+    except Exception as e:
+        flash("❌ Error interno al completar la reserva.", "danger")
+        print("⚠️ Error en creación de reserva:", e)
+
+    # Limpiar la sesión
+    session.pop("reserva", None)
+
+    return redirect("/reservations")
 
 
